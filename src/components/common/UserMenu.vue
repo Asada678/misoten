@@ -1,14 +1,15 @@
 <template>
   <div class="user-menu-container">
     <nav class="user-menu">
+      <i class="fas fa-chevron-left" @click="back"></i>
       <i class="fab fa-accusoft user-icon" @click="toggleMenu"></i>
     </nav>
     <ul class="user-menu-list">
-      <li v-for="i in 5" :key="i">
-        <a href="#">
-          <i class="fab fa-accusoft"></i>
-          <span>test</span>
-        </a>
+      <li v-for="link in links" :key="link.to">
+        <router-link :to="link.to" exact>
+          <i :class="`fas fa-${link.icon}`"></i>
+          <span>{{ link.text }}</span>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -19,14 +20,25 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      links: [
+        { text: "AIコーチ", icon: "user-graduate", to: "/coach" },
+        { text: "称号", icon: "crown", to: "/title" },
+        { text: "設定", icon: "cog", to: "/config" },
+        { text: "言語", icon: "globe", to: "/language" },
+      ],
+    };
   },
   computed: {},
   methods: {
+    back() {
+      this.$router.go(-1);
+    },
     toggleMenu() {
       const app = document.querySelector("#app");
       app.classList.toggle("user-menu-open");
     },
+
   },
 };
 </script>
@@ -34,10 +46,10 @@ export default {
 <style lang="scss" scoped>
 .user-menu {
   position: fixed;
-  z-index: 1000;
+  z-index: 1200;
   top: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 40px;
@@ -46,7 +58,7 @@ export default {
 }
 .user-menu-open {
   .user-menu-list {
-    z-index: 900;
+    z-index: 1200;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -65,22 +77,43 @@ export default {
   // text-align: right;
 
   li {
-    // height: 30px;
+    height: 50px;
+    width: 100%;
     line-height: 30px;
     list-style: none;
-    padding: 10px;
     // margin: 10px 0;
     border-bottom: 1px solid orange;
-    background-color: rgba(grey, 0.8);
+    background-color: rgba(grey, 0.9);
 
     a {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
       text-decoration: none;
+
+      &.router-link-active {
+        background-color: rgba(orange, 0.3);
+        font-weight: 600;
+      }
       i {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        width: 30px;
         color: #eee;
+        font-size: 20px;
+        text-align: center;
+        transform: translateY(-50%);
       }
 
       span {
+        position: absolute;
+        top: 50%;
+        left: 70px;
         color: #eee;
+        transform: translateY(-50%);
+        font-size: 18px;
       }
     }
   }
@@ -93,6 +126,9 @@ export default {
 }
 
 @media (min-width: 960px) {
+  .user-menu-list {
+    right: 5%;
+  }
 }
 
 @media (min-width: 1200px) {

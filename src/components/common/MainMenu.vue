@@ -71,8 +71,6 @@ export default {
             font-size: 30px;
           }
           span {
-            position: absolute;
-            bottom: 5px;
             line-height: 16px;
             font-size: 16px;
           }
@@ -105,7 +103,7 @@ export default {
 @media (min-width: 960px) {
   .main-menu {
     width: 300px;
-    min-height: 100vh;
+    min-height: calc(100vh - 40px);
     background-color: rgba(orange, 0.4);
 
     ul {

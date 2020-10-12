@@ -4,6 +4,10 @@ import Timeline from '../views/Timeline.vue'
 import Group from '../views/Group.vue'
 import Video from '../views/Video.vue'
 import Calendar from '../views/Calendar.vue'
+import Coach from '../views/user-page/Coach.vue'
+import Title from '../views/user-page/Title.vue'
+import Config from '../views/user-page/Config.vue'
+import Language from '../views/user-page/Language.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +32,26 @@ const routes = [
     path: '/calendar',
     name: 'Calendar',
     component: Calendar
+  },
+  {
+    path: '/coach',
+    name: 'Coach',
+    component: Coach
+  },
+  {
+    path: '/title',
+    name: 'Title',
+    component: Title
+  },
+  {
+    path: '/config',
+    name: 'Config',
+    component: Config
+  },
+  {
+    path: '/language',
+    name: 'Language',
+    component: Language
   },
 ]
 

@@ -31,12 +31,27 @@ export default {
   -webkit-overflow-scrolling: touch;
 }
 
+#global-container {
+  /* position: relative;
+  z-index: auto; */
+}
 #container {
   position: relative;
   width: 90%;
   min-height: 100vh;
   margin: 0 auto;
   padding: 100px 0;
+}
+
+.user-page {
+  position: fixed;
+  z-index: 1100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  padding: 100px 30px;
+  background-color: #eee;
 }
 
 .fade-enter-active,
@@ -58,7 +73,11 @@ export default {
     position: absolute;
     right: 0;
     width: calc(100% - 300px);
-    padding: 100px 5%;
+    padding: 100px 30px;
+  }
+  .user-page {
+    position: absolute;
+    right: 0;
   }
 }
 
