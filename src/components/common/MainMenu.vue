@@ -2,7 +2,7 @@
   <nav class="main-menu">
     <ul>
       <li v-for="link in links" :key="link.text">
-        <router-link :to="link.to">
+        <router-link :to="link.to" exact>
           <i :class="`fas fa-${link.icon}`"></i>
           <span>{{ link.text }}</span>
         </router-link>
@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       links: [
-        { text: "投稿", icon: "comment-dots", to: "/timeline" },
+        { text: "投稿", icon: "comment-dots", to: "/" },
         { text: "グループ", icon: "users", to: "/group" },
         { text: "動画配信", icon: "video", to: "/video" },
         { text: "カレンダー", icon: "calendar-alt", to: "/calendar" },

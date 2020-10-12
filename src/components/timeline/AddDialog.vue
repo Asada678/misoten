@@ -10,13 +10,14 @@
         </div>
       </div>
       <div class="dialog__footer">
-        <button>送信</button>
+        <button @click="submit">送信</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import db from '@/firebase/init.js'
 export default {
   components: {},
   props: {},
@@ -29,6 +30,14 @@ export default {
       const app = document.querySelector("#app");
       app.classList.remove("dialog-open");
     },
+    submit() {
+      console.log('db:', db);
+      db.collection('test').add({
+        text: 'sample text'
+      }).catch(err => {
+        console.log('err:', err);
+      })
+    }
   },
 };
 </script>
