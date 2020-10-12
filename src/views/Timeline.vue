@@ -1,14 +1,20 @@
 <template>
   <div>
     <TimelineContent v-for="i in 10" :key="i"/>
+    <FloatAddBtn />
+    <AddDialog />
   </div>
 </template>
 
 <script>
 import TimelineContent from '@/components/timeline/TimelineContent'
+import FloatAddBtn from "@/components/timeline/FloatAddBtn";
+import AddDialog from "@/components/timeline/AddDialog";
 export default {
   components: {
-    TimelineContent
+    TimelineContent,
+    FloatAddBtn,
+    AddDialog
   },
   props: {},
   data() {

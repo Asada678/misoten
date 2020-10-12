@@ -4,25 +4,7 @@
       <i class="fab fa-accusoft user-icon" @click="toggleMenu"></i>
     </nav>
     <ul class="user-menu-list">
-      <li>
-        <a href="#">
-          <i class="fab fa-accusoft"></i>
-          <span>test</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fab fa-accusoft"></i>
-          <span>test</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fab fa-accusoft"></i>
-          <span>test</span>
-        </a>
-      </li>
-      <li>
+      <li v-for="i in 5" :key="i">
         <a href="#">
           <i class="fab fa-accusoft"></i>
           <span>test</span>
@@ -42,11 +24,8 @@ export default {
   computed: {},
   methods: {
     toggleMenu() {
-      const userIcon = document.querySelector(".user-icon");
-      userIcon.addEventListener("click", () => {
-        const body = document.querySelector("body");
-        body.classList.toggle("user-menu-open");
-      });
+      const app = document.querySelector("#app");
+      app.classList.toggle("user-menu-open");
     },
   },
 };
@@ -74,13 +53,13 @@ export default {
   }
 }
 .user-menu-list {
-  position: absolute;
+  position: fixed;
   top: 40px;
   right: 0;
   width: 200px;
   opacity: 0;
   visibility: hidden;
-  background-color: rgba(255, 165, 0, 0.8);
+  // background-color: rgba(255, 165, 0, 0.8);
   transform: translateY(-100%);
   transition: all 0.3s;
   // text-align: right;
@@ -92,7 +71,7 @@ export default {
     padding: 10px;
     // margin: 10px 0;
     border-bottom: 1px solid orange;
-    background-color: rgba(grey, 0.4);
+    background-color: rgba(grey, 0.8);
 
     a {
       text-decoration: none;

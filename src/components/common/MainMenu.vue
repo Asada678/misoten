@@ -46,6 +46,7 @@ export default {
       list-style: none;
       border-top: 1px solid orange;
       border-right: 1px solid orange;
+      background-color: rgba(#f0f0f0, 0.9);
 
       &:last-child {
         border-right: none;
@@ -60,11 +61,11 @@ export default {
         width: 100%;
         height: 100%;
         color: orange;
-          background-color: rgba(#f0f0f0, 0.9);
+        background-color: rgba(#f0f0f0, 0.9);
         text-decoration: none;
 
         &.router-link-active {
-          background-color: rgba(orange, 0.6);
+          background-color: rgba(orange, 0.3);
           font-weight: 600;
           i {
             font-size: 30px;

@@ -26,8 +26,8 @@ export default {
   display: flex;
   margin: 10px 0;
   padding: 10px 20px;
-  border-radius: 40px;
-  background-color: rgba(255, 165, 0, 0.5);
+  border-radius: 20px;
+  background-color: rgba(255, 165, 0, 0.2);
   box-shadow: 0px 5px 20px -5px rgba(0,0,0,0.6);
 
   .user-icon {
