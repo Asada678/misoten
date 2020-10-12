@@ -122,6 +122,28 @@ export default {
           border-right: 1px solid orange;
           border-bottom: 1px solid orange;
         }
+
+        a {
+          &.router-link-active {
+            span {
+              line-height: 24px;
+              font-size: 18px;
+            }
+          }
+          i {
+            font-size: 24px;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+          }
+          span {
+            top: 50%;
+            left: 80px;
+            line-height: 24px;
+            font-size: 18px;
+            transform: translateY(-50%);
+          }
+        }
       }
     }
   }
