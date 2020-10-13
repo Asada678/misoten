@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import db from '@/firebase/init.js'
+import db from "@/firebase/db";
 export default {
   components: {},
   props: {},
@@ -31,13 +31,15 @@ export default {
       app.classList.remove("dialog-open");
     },
     submit() {
-      console.log('db:', db);
-      db.collection('test').add({
-        text: 'sample text'
-      }).catch(err => {
-        console.log('err:', err);
-      })
-    }
+      console.log("db:", db);
+      db.collection("test")
+        .add({
+          text: "sample text",
+        })
+        .catch((err) => {
+          console.log("err:", err);
+        });
+    },
   },
 };
 </script>
@@ -53,7 +55,7 @@ export default {
 
   .dialog {
     // transform: translateY(0);
-  transform: translate( -50%, -50%);
+    transform: translate(-50%, -50%);
   }
 }
 .dialog-container {
@@ -67,7 +69,7 @@ export default {
   height: 100vh;
   opacity: 0;
   visibility: hidden;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   // background-color: rgba(20, 20, 20, 0);
 }
 
@@ -77,10 +79,11 @@ export default {
   left: 50%;
   right: 0;
   width: 80%;
+  max-width: 600px  ;
   height: 400px;
   margin: auto;
   background-color: rgba($color: #eee, $alpha: 1);
-  transform: translate( -50%, -80%);
+  transform: translate(-50%, -80%);
   border-radius: 10px;
   overflow: hidden;
   transition: all 0.3s;
@@ -95,13 +98,13 @@ export default {
     width: 100%;
     height: 60px;
     padding: 0 20px;
-    background-color: rgba($color: orange, $alpha: .9);
+    background-color: rgba($color: orange, $alpha: 0.9);
 
     i {
       font-size: 24px;
     }
   }
-  
+
   &__content {
     height: 280px;
     padding: 20px 0;
@@ -119,7 +122,7 @@ export default {
     width: 100%;
     height: 60px;
     padding: 0 20px;
-    background-color: rgba($color: orange, $alpha: .2);
+    background-color: rgba($color: orange, $alpha: 0.2);
 
     button {
       width: 40px;

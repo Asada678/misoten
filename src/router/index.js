@@ -16,42 +16,50 @@ const routes = [
   {
     path: '/',
     name: 'Timeline',
-    component: Timeline
+    component: Timeline,
+    meta: { menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
   },
   {
     path: '/group',
     name: 'Group',
     component: Group
+    , meta: { menuOrder: 20, prevPageName: 'Timeline', nextPageName: 'Video' }
   },
   {
     path: '/video',
     name: 'Video',
     component: Video
+    , meta: { menuOrder: 30, prevPageName: 'Group', nextPageName: 'Calendar' }
   },
   {
     path: '/calendar',
     name: 'Calendar',
     component: Calendar
+    , meta: { menuOrder: 40, prevPageName: 'Video', nextPageName: '' }
   },
   {
-    path: '/coach',
+    path: '/user/coach',
     name: 'Coach',
     component: Coach
+    , meta: { menuOrder: 0 }
   },
   {
-    path: '/title',
+    path: '/user/title',
     name: 'Title',
     component: Title
+    , meta: { menuOrder: 0 }
   },
   {
-    path: '/config',
+    path: '/user/config',
     name: 'Config',
     component: Config
+    , meta: { menuOrder: 0 }
   },
   {
-    path: '/language',
+    path: '/user/language',
     name: 'Language',
     component: Language
+    , meta: { menuOrder: 0 }
   },
 ]
 

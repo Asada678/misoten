@@ -1,12 +1,12 @@
 <template>
   <div class="user-menu-container">
     <nav class="user-menu">
-      <i class="fas fa-chevron-left" @click="back"></i>
+      <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i>
       <i class="fab fa-accusoft user-icon" @click="toggleMenu"></i>
     </nav>
     <ul class="user-menu-list">
       <li v-for="link in links" :key="link.to">
-        <router-link :to="link.to" exact>
+        <router-link :to="`/user${link.to}`" exact>
           <i :class="`fas fa-${link.icon}`"></i>
           <span>{{ link.text }}</span>
         </router-link>
@@ -27,12 +27,19 @@ export default {
         { text: "設定", icon: "cog", to: "/config" },
         { text: "言語", icon: "globe", to: "/language" },
       ],
+      // backBtn: false,
     };
   },
-  computed: {},
+  computed: {
+    backBtn() {
+      return this.$route.path.includes('/user')
+    }
+  },
   methods: {
     back() {
-      this.$router.go(-1);
+      // while(this.$route.path.includes('/user')) {
+      //   this.$router.go(-1);
+      // }
     },
     toggleMenu() {
       const app = document.querySelector("#app");
@@ -40,6 +47,9 @@ export default {
     },
 
   },
+  watch: {
+    
+  }
 };
 </script>
 
@@ -49,12 +59,19 @@ export default {
   z-index: 1200;
   top: 0;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 40px;
   padding: 0 5%;
   background-color: rgba(255, 165, 0, 0.9);
+
+  .user-icon {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+  }
 }
 .user-menu-open {
   .user-menu-list {
