@@ -3,7 +3,13 @@
     <div id="global-container">
       <UserMenu />
       <MainMenu />
-      <CoachBtn v-if="!coachBtn" />
+      <float-btn
+        icon="chalkboard-teacher"
+        color="#304FFE"
+        left="20"
+        size="70"
+        @click="showSnackbar"
+      />
       <Snackbar />
       <div
         id="container"
@@ -28,13 +34,11 @@
 <script>
 import UserMenu from "@/components/common/UserMenu";
 import MainMenu from "@/components/common/MainMenu";
-import CoachBtn from "@/components/common/CoachBtn";
 import Snackbar from "@/components/common/Snackbar";
 export default {
   components: {
     UserMenu,
     MainMenu,
-    CoachBtn,
     Snackbar,
   },
   props: {},
@@ -51,6 +55,10 @@ export default {
     },
   },
   methods: {
+    showSnackbar() {
+      const app = document.querySelector(".snackbar");
+      app.classList.toggle("appear");
+    },
     swipeLeft() {
       this.swipe = true;
       console.log("left:");
@@ -84,7 +92,7 @@ export default {
         console.log("this.swipe:", this.swipe);
         return;
       }
-        console.log("after if:",);
+      console.log("after if:");
       console.log("to, from:", to, from);
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;

@@ -14,8 +14,7 @@ export default {
   computed: {},
   methods: {
     openDialog() {
-      const app = document.querySelector("#app");
-      app.classList.add("dialog-open");
+      
     }
   },
 };

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import db from "@/firebase/db";
+import { db } from "@/firebase/firebase";
 export default {
   components: {},
   props: {},
@@ -31,7 +31,7 @@ export default {
       app.classList.remove("dialog-open");
     },
     submit() {
-      console.log("db:", db);
+      // console.log("db:", db);
       db.collection("test")
         .add({
           text: "sample text",
@@ -79,7 +79,7 @@ export default {
   left: 50%;
   right: 0;
   width: 80%;
-  max-width: 600px  ;
+  max-width: 600px;
   height: 400px;
   margin: auto;
   background-color: rgba($color: #eee, $alpha: 1);

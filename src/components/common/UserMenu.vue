@@ -2,7 +2,7 @@
   <div class="user-menu-container">
     <nav class="user-menu">
       <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i>
-      <i class="fab fa-accusoft user-icon" @click="toggleMenu"></i>
+      <img class="user-icon" src="/img/kuma.png" alt="" @click="toggleMenu" />
     </nav>
     <ul class="user-menu-list">
       <li v-for="link in links" :key="link.to">
@@ -32,8 +32,8 @@ export default {
   },
   computed: {
     backBtn() {
-      return this.$route.path.includes('/user')
-    }
+      return this.$route.path.includes("/user");
+    },
   },
   methods: {
     back() {
@@ -42,14 +42,11 @@ export default {
       // }
     },
     toggleMenu() {
-      const app = document.querySelector("#app");
+      const app = document.querySelector(".user-menu-list");
       app.classList.toggle("user-menu-open");
     },
-
   },
-  watch: {
-    
-  }
+  watch: {},
 };
 </script>
 
@@ -62,28 +59,29 @@ export default {
   // justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 40px;
+  height: 60px;
   padding: 0 5%;
   background-color: rgba(255, 165, 0, 0.9);
 
   .user-icon {
     position: absolute;
-    top: 50%;
+    // top: 50%;
     right: 5%;
-    transform: translateY(-50%);
+    // transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  img {
+    // width: 100px;
+    // height: 100px;
   }
 }
-.user-menu-open {
-  .user-menu-list {
-    z-index: 1200;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-}
+
 .user-menu-list {
   position: fixed;
-  top: 40px;
+  top: 60px;
   right: 0;
   width: 200px;
   opacity: 0;
@@ -91,7 +89,13 @@ export default {
   // background-color: rgba(255, 165, 0, 0.8);
   transform: translateY(-100%);
   transition: all 0.3s;
-  // text-align: right;
+  
+  &.user-menu-open {
+    z-index: 1200;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 
   li {
     height: 50px;

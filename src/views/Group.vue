@@ -1,14 +1,16 @@
 <template>
   <div>
     <p>This is a Group page!</p>
+    <FloatBtn icon="user" size="70" right="40" color="#E53935" />
   </div>
 </template>
 
 <script>
-
+import FloatBtn from '@/components/common/FloatBtn'
 
 export default {
   components: {
+    FloatBtn
   },
   props: {},
   data() {
@@ -16,12 +18,6 @@ export default {
   },
   computed: {},
   methods: {
-    onSwiper(swiper) {
-      console.log(swiper);
-    },
-    onSlideChange() {
-      console.log("slide change");
-    },
   },
 };
 </script>

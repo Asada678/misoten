@@ -15,8 +15,7 @@ export default {
   methods: {
     openDialog() {
       
-      const app = document.querySelector(".snackbar");
-      app.classList.toggle("appear");
+      
     },
   },
 };

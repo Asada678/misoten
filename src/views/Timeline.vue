@@ -1,19 +1,18 @@
 <template>
   <div>
     <TimelineContent v-for="i in 10" :key="i"/>
-    <FloatAddBtn />
+    <float-btn icon="pen" right="20" @click="openDialog" />
     <AddDialog />
   </div>
 </template>
 
 <script>
 import TimelineContent from '@/components/timeline/TimelineContent'
-import FloatAddBtn from "@/components/timeline/FloatAddBtn";
 import AddDialog from "@/components/timeline/AddDialog";
 export default {
   components: {
     TimelineContent,
-    FloatAddBtn,
+    // FloatAddBtn,
     AddDialog
   },
   props: {},
@@ -21,7 +20,13 @@ export default {
     return {};
   },
   computed: {},
-  methods: {},
+  methods: {
+    openDialog() {
+      console.log('open dialog:', );
+      const app = document.querySelector("#app");
+      app.classList.add("dialog-open");
+    }
+  },
 };
 </script>
 

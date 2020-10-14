@@ -1,12 +1,14 @@
 <template>
   <div class="timeline-content">
-        <div class="user-icon">
-          <i class="fab fa-accusoft"></i>
-        </div>
-        <div class="content">
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad, laborum.</p>
-        </div>
-      </div>
+    <div class="user-icon">
+      <i class="fab fa-accusoft"></i>
+    </div>
+    <div class="content">
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad, laborum.
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -14,11 +16,11 @@ export default {
   components: {},
   props: {},
   data() {
-    return {}
+    return {};
   },
   computed: {},
   methods: {},
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -28,7 +30,7 @@ export default {
   padding: 10px 20px;
   border-radius: 20px;
   background-color: rgba(255, 165, 0, 0.2);
-  box-shadow: 0px 5px 20px -5px rgba(0,0,0,0.6);
+  box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.6);
 
   .user-icon {
     flex-basis: 20%;
