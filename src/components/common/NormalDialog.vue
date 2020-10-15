@@ -2,13 +2,14 @@
   <div class="dialog-container">
     <div class="dialog">
       <div class="dialog__header">
+        <p>{{ headerText }}</p>
         <i class="fas fa-times" @click="closeDialog"></i>
       </div>
       <div class="dialog__content">
         <slot></slot>
       </div>
-      <div class="dialog__footer">
-        <button @click="$emit('click')">送信</button>
+      <div v-if="footer" class="dialog__footer">
+        <normal-button @click="doAction">{{ buttonText }}</normal-button>
       </div>
     </div>
   </div>
@@ -17,7 +18,11 @@
 <script>
 export default {
   components: {},
-  props: {},
+  props: {
+    headerText: String,
+    buttonText: String,
+    footer: { type: Boolean, default: true },
+  },
   data() {
     return {};
   },
@@ -26,6 +31,10 @@ export default {
     closeDialog() {
       const dialogContainer = document.querySelector(".dialog-container");
       dialogContainer.classList.remove("dialog-open");
+    },
+    doAction() {
+      this.closeDialog();
+      this.$emit("action");
     },
   },
 };
@@ -65,7 +74,7 @@ export default {
   right: 0;
   width: 80%;
   max-width: 600px;
-  height: 400px;
+  min-height: 400px;
   margin: auto;
   background-color: rgba($color: #eee, $alpha: 1);
   transform: translate(-50%, -80%);
@@ -78,12 +87,16 @@ export default {
     top: 0;
     left: 0;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 60px;
     padding: 0 20px;
     background-color: rgba($color: orange, $alpha: 0.9);
+
+    p {
+      font-weight: 700;
+    }
 
     i {
       font-size: 24px;
@@ -105,14 +118,9 @@ export default {
     justify-content: flex-end;
     align-items: center;
     width: 100%;
-    height: 60px;
-    padding: 0 20px;
+    min-height: 60px;
+    padding: 10px 20px;
     background-color: rgba($color: orange, $alpha: 0.2);
-
-    button {
-      width: 40px;
-      height: 24px;
-    }
   }
 }
 

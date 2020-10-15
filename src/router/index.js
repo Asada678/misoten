@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Timeline from '../views/Timeline.vue'
+import Post from '../views/Post.vue'
 import Group from '../views/Group.vue'
 import Video from '../views/Video.vue'
 import Calendar from '../views/Calendar.vue'
@@ -15,15 +15,15 @@ const routes = [
 
   {
     path: '/',
-    name: 'Timeline',
-    component: Timeline,
+    name: 'Post',
+    component: Post,
     meta: { menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
   },
   {
     path: '/group',
     name: 'Group',
     component: Group
-    , meta: { menuOrder: 20, prevPageName: 'Timeline', nextPageName: 'Video' }
+    , meta: { menuOrder: 20, prevPageName: 'Post', nextPageName: 'Video' }
   },
   {
     path: '/video',

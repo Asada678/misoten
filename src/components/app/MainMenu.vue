@@ -27,10 +27,24 @@ export default {
   },
   computed: {},
   methods: {},
+  mounted() {
+    const lis = document.querySelectorAll(".main-menu li");
+    console.log("lis:", lis);
+    lis.forEach((li) => {
+      li.addEventListener("click", () => {
+        console.log("li:", li);
+        let ripples = document.createElement("small");
+        ripples.style.left = `50%`;
+        ripples.style.top = `50%`;
+        ripples.classList.add("ripple");
+        li.appendChild(ripples);
+      });
+    });
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 // @import "@/scss/_variables.scss";
 .main-menu {
   position: fixed;
@@ -42,12 +56,14 @@ export default {
     display: flex;
 
     li {
+      position: relative;
       width: 25%;
       height: $mobileMainMenuHeight;
       list-style: none;
       border-top: 1px solid orange;
       border-right: 1px solid orange;
       background-color: rgba(#f0f0f0, 1);
+      overflow: hidden;
 
       &:last-child {
         border-right: none;
@@ -61,12 +77,14 @@ export default {
         align-items: center;
         width: 100%;
         height: 100%;
-        color: orange;
         // background-color: rgba(#f0f0f0, 0.9);
+        color: grey;
         text-decoration: none;
 
         &.router-link-active {
-          background-color: rgba(orange, 0.3);
+          // transition: background-color 0.5s 0.5s;
+          // background-color: rgba(orange, 0.3);
+          color: orange;
           font-weight: 600;
           i {
             font-size: 30px;
@@ -91,7 +109,35 @@ export default {
           font-size: 14px;
         }
       }
+      small {
+        position: absolute;
+        background-color: rgba(orange, 0.1);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: ripple .8s linear;
+        opacity: 1;
+        transition: 0.3s;
+      }
     }
+  }
+}
+
+@keyframes ripple {
+  0% {
+    width: 0px;
+    height: 0px;
+    // opacity: 0.5;
+  }
+  70% {
+    width: 300%;
+    height: 200%;
+    opacity: 1;
+  }
+  100% {
+    width: 300%;
+    height: 200%;
+    opacity: 0;
   }
 }
 

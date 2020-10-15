@@ -143,6 +143,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 i {
   cursor: pointer;
@@ -156,7 +157,7 @@ html {
   min-height: 100vh;
 }
 #container {
-  width: 95%;
+  width: 100%;
   max-width: $containerWidth;
   min-height: 100vh;
   margin: 0 auto;
@@ -165,6 +166,8 @@ html {
   overflow-x: hidden;
 }
 #content-wrapper {
+  width: 95%;
+  margin: 0 auto;
 }
 .user-page {
   position: fixed;
@@ -206,6 +209,7 @@ html {
     position: relative;
     left: $desktopMainMenuWidth;
     width: $containerWidth - $desktopMainMenuWidth;
+    margin: 0;
     padding: 20px;
   }
   .user-page {

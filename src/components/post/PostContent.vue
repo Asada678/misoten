@@ -1,11 +1,11 @@
 <template>
-  <div class="timeline-content">
+  <div class="post-content">
     <div class="user-icon">
       <img src="/img/kuma.png" alt="" />
     </div>
     <div class="content-wrapper">
       <div class="username">
-        <p>asada</p>
+        <p>浅田</p>
       </div>
       <div class="content">
         <p>
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.timeline-content {
+.post-content {
   display: flex;
   margin: 10px 0;
   padding: 10px;
@@ -50,8 +50,8 @@ export default {
     font-size: 35px;
 
     img {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
     }
   }
@@ -62,8 +62,7 @@ export default {
     border-bottom: 1px solid orange;
     p {
       font-size: 18px;
-      font-weight: 600;
-      font-family: cursive;
+      font-weight: 700;
     }
   }
 

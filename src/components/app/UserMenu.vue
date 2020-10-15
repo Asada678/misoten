@@ -77,6 +77,7 @@ export default {
 
 .user-menu-list {
   position: fixed;
+    z-index: 1000;
   top: $userMenuHeight;
   right: 0;
   width: 200px;
@@ -87,7 +88,6 @@ export default {
   transition: all 0.3s;
   
   &.user-menu-open {
-    z-index: 1200;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
