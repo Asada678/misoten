@@ -1,9 +1,12 @@
 <template>
   <div id="app">
-    <div id="global-container">
+    <div
+      id="global-container"
+      v-touch:swipe.left="swipeLeft"
+      v-touch:swipe.right="swipeRight"
+    >
       <UserMenu />
-      <MainMenu />
-      <float-btn
+      <float-button
         icon="chalkboard-teacher"
         color="#304FFE"
         left="20"
@@ -11,30 +14,29 @@
         @click="showSnackbar"
       />
       <Snackbar />
-      <div
-        id="container"
-        v-touch:swipe.left="swipeLeft"
-        v-touch:swipe.right="swipeRight"
-      >
-        <transition
-          name="fade"
-          class=""
-          :enter-active-class="enterActiveClass"
-          :leave-active-class="leaveActiveClass"
-          mode="out-in"
-        >
-          <!-- <transition name="fade" mode="out-in"> -->
-          <router-view />
-        </transition>
+      <div id="container">
+        <MainMenu />
+        <div id="content-wrapper">
+          <transition
+            name="fade"
+            class=""
+            :enter-active-class="enterActiveClass"
+            :leave-active-class="leaveActiveClass"
+            mode="out-in"
+          >
+            <!-- <transition name="fade" mode="out-in"> -->
+            <router-view />
+          </transition>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import UserMenu from "@/components/common/UserMenu";
-import MainMenu from "@/components/common/MainMenu";
-import Snackbar from "@/components/common/Snackbar";
+import UserMenu from "@/components/app/UserMenu";
+import MainMenu from "@/components/app/MainMenu";
+import Snackbar from "@/components/app/Snackbar";
 export default {
   components: {
     UserMenu,
@@ -60,6 +62,7 @@ export default {
       app.classList.toggle("appear");
     },
     swipeLeft() {
+      this.addSwiping();
       this.swipe = true;
       console.log("left:");
       this.enterActiveClass =
@@ -70,8 +73,10 @@ export default {
       if (nextPageName) {
         this.$router.push({ name: nextPageName });
       }
+      this.removeSwiping();
     },
-    swipeRight() {
+    async swipeRight() {
+      this.addSwiping();
       this.swipe = true;
       console.log("right:");
       this.enterActiveClass =
@@ -80,20 +85,29 @@ export default {
         "animate__animated animate__fadeOutRight animate__fastest";
       const prevPageName = this.$route.meta.prevPageName;
       if (prevPageName) {
-        this.$router.push({ name: prevPageName });
+        await this.$router.push({ name: prevPageName });
       }
+      await this.removeSwiping();
+    },
+    addSwiping() {
+      const globalContainer = document.querySelector("#global-container");
+      globalContainer.classList.add("swiping");
+    },
+    removeSwiping() {
+      // const globalContainer = document.querySelector("#global-container");
+      // globalContainer.classList.remove("swiping");
     },
   },
   watch: {
     $route(to, from) {
-      console.log("this.swipe:", this.swipe);
+      // console.log("this.swipe:", this.swipe);
       if (this.swipe) {
         this.swipe = false;
         console.log("this.swipe:", this.swipe);
         return;
       }
-      console.log("after if:");
-      console.log("to, from:", to, from);
+      // console.log("after if:");
+      // console.log("to, from:", to, from);
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
       // const toOrder = to.meta.menuOrder;
@@ -130,32 +144,35 @@ export default {
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
-#global-container {
-  position: relative;
-  width: 100%;
-  min-height: 101vh;
-  // overflow-y: scroll;
-  overflow-x: hidden;
+i {
+  cursor: pointer;
 }
-#container {
-  position: relative;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 90%;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 100px 0;
+html {
+  overflow-y: scroll;
 }
 
+#global-container {
+  width: 100%;
+  min-height: 100vh;
+}
+#container {
+  width: 95%;
+  max-width: $containerWidth;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 100px 0 200px 0;
+  background-color: rgba(orange, 0.1);
+  overflow-x: hidden;
+}
+#content-wrapper {
+}
 .user-page {
   position: fixed;
   z-index: 1100;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh - #{$MobileMainMenuHeight});
+  height: calc(100vh - #{$mobileMainMenuHeight});
   background-color: #eee;
   @extend .container-padding;
 }
@@ -178,16 +195,24 @@ export default {
 
 @media (min-width: 960px) {
   #container {
-    position: absolute;
-    left: $desktopMainMenuWidth;
+    position: relative;
+    // left: $desktopMainMenuWidth;
     right: 0;
     width: calc(100% - #{$desktopMainMenuWidth});
-    margin: 0;
-    padding: 100px 30px;
+    // margin: 0 a;
+    padding: 100px 0;
+  }
+  #content-wrapper {
+    position: relative;
+    left: $desktopMainMenuWidth;
+    width: $containerWidth - $desktopMainMenuWidth;
+    padding: 20px;
   }
   .user-page {
     position: absolute;
-    right: 0;
+    top: 0;
+    left: 0;
+    height: 100%;
   }
 }
 

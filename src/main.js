@@ -6,13 +6,20 @@ import store from './store'
 import animateCss from 'animate.css'
 import Vue2TouchEvents from 'vue2-touch-events'
 
-import FloatBtn from './components/common/FloatBtn'
+// components
+import FloatButton from './components/common/FloatButton'
+import NormalDialog from './components/common/NormalDialog'
+import Textarea from './components/common/Textarea'
+import TextForm from './components/common/TextForm'
 
 Vue.config.productionTip = false
 Vue.use(animateCss);
 Vue.use(Vue2TouchEvents)
 
-Vue.component('float-btn', FloatBtn);
+Vue.component('float-button', FloatButton);
+Vue.component('normal-dialog', NormalDialog);
+Vue.component('text-area', Textarea);
+Vue.component('text-form', TextForm);
 
 new Vue({
   router,

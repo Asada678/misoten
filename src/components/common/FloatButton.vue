@@ -63,16 +63,16 @@ export default {
 .float-btn {
   position: fixed;
   z-index: 1000;
-  bottom: 80px;
+  bottom: $mobileMainMenuHeight + 20px;
   // left: 20px;
-  width: 50px;
-  height: 50px;
+  width: $defaultFloatButtonSize;
+  height: $defaultFloatButtonSize;
   border-radius: 50%;
   background-color: rgba(orange, 0.8);
   font-size: 24px;
   overflow: hidden;
   cursor: pointer;
-  line-height: 50px;
+  line-height: $defaultFloatButtonSize;
   outline: none;
   text-align: center;
 

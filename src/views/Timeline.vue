@@ -1,30 +1,35 @@
 <template>
   <div>
     <TimelineContent v-for="i in 10" :key="i"/>
-    <float-btn icon="pen" right="20" @click="openDialog" />
-    <AddDialog />
+    <float-button icon="pen" right="20" @click="openDialog" />
+    <normal-dialog>
+      <text-form v-model="username" label="名前"/>
+      <button @click="clickbtn">aaaaa</button>
+    </normal-dialog>
   </div>
 </template>
 
 <script>
 import TimelineContent from '@/components/timeline/TimelineContent'
-import AddDialog from "@/components/timeline/AddDialog";
+
 export default {
   components: {
     TimelineContent,
-    // FloatAddBtn,
-    AddDialog
   },
   props: {},
   data() {
-    return {};
+    return {
+      username: null
+    };
   },
   computed: {},
   methods: {
     openDialog() {
-      console.log('open dialog:', );
-      const app = document.querySelector("#app");
-      app.classList.add("dialog-open");
+      const dialogContainer = document.querySelector('.dialog-container');
+      dialogContainer.classList.add('dialog-open');
+    },
+    clickbtn() {
+      console.log('this.username:', this.username);
     }
   },
 };

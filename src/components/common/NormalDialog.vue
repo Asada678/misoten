@@ -5,17 +5,16 @@
         <i class="fas fa-times" @click="closeDialog"></i>
       </div>
       <div class="dialog__content">
-        <text-form />
+        <slot></slot>
       </div>
       <div class="dialog__footer">
-        <button @click="submit">送信</button>
+        <button @click="$emit('click')">送信</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { db } from "@/firebase/firebase";
 export default {
   components: {},
   props: {},
@@ -25,18 +24,8 @@ export default {
   computed: {},
   methods: {
     closeDialog() {
-      const app = document.querySelector("#app");
-      app.classList.remove("dialog-open");
-    },
-    submit() {
-      // console.log("db:", db);
-      db.collection("test")
-        .add({
-          text: "sample text",
-        })
-        .catch((err) => {
-          console.log("err:", err);
-        });
+      const dialogContainer = document.querySelector(".dialog-container");
+      dialogContainer.classList.remove("dialog-open");
     },
   },
 };
@@ -44,15 +33,7 @@ export default {
 
 <style lang="scss" scoped>
 .dialog-open {
-  .dialog-container {
-    z-index: 1100;
-    background-color: rgba(20, 20, 20, 0.4);
-    opacity: 1;
-    visibility: visible;
-  }
-
   .dialog {
-    // transform: translateY(0);
     transform: translate(-50%, -50%);
   }
 }
@@ -68,7 +49,13 @@ export default {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s;
-  // background-color: rgba(20, 20, 20, 0);
+
+  &.dialog-open {
+    z-index: 1100;
+    background-color: rgba(20, 20, 20, 0.4);
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .dialog {
@@ -105,7 +92,7 @@ export default {
 
   &__content {
     height: 280px;
-    padding: 20px 0;
+    padding: 20px;
     overflow-y: auto;
     text-align: center;
   }

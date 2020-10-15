@@ -1,9 +1,17 @@
 $userMenuHeight: 50px;
-$MobileMainMenuHeight: 60px;
-$desktopMainMenuWidth: 300px;
+$mobileMainMenuHeight: 60px;
+$desktopMainMenuWidth: 250px;
+$containerWidth: 1000px;
+
+$defaultFloatButtonSize: 50px;
 
 
 
 .container-padding {
   padding: 100px 30px;
 }
+
+.blue {
+  $backgroundColor: royalblue;
+}
+

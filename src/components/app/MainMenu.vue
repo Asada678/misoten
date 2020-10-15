@@ -43,7 +43,7 @@ export default {
 
     li {
       width: 25%;
-      height: $MobileMainMenuHeight;
+      height: $mobileMainMenuHeight;
       list-style: none;
       border-top: 1px solid orange;
       border-right: 1px solid orange;
@@ -104,7 +104,7 @@ export default {
 @media (min-width: 960px) {
   .main-menu {
     width: $desktopMainMenuWidth;
-    min-height: calc(100vh - 40px);
+    min-height: calc(100vh - #{$userMenuHeight});
     background-color: rgba(orange, 0.4);
 
     ul {

@@ -1,23 +1,30 @@
 <template>
   <div>
     <p>This is a Group page!</p>
-    <FloatBtn icon="user" size="70" right="40" color="#E53935" />
+    <text-form v-model="name" label="name" />
+    <text-area v-model="area" label="area" />
+    <float-button icon="user" size="70" right="40" color="#E53935" />
+    <button @click="test">test</button>
   </div>
 </template>
 
 <script>
-import FloatBtn from '@/components/common/FloatBtn'
 
 export default {
   components: {
-    FloatBtn
   },
   props: {},
   data() {
-    return {};
+    return {
+      name: null,
+      area: null,
+    };
   },
   computed: {},
   methods: {
+    test() {
+      console.log('this.name, this.area:', this.name, this.area);
+    }
   },
 };
 </script>
