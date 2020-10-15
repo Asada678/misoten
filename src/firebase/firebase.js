@@ -17,6 +17,4 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 const db = firebaseApp.firestore();
 const storage = firebaseApp.storage();
-console.log('storage:', storage);
 export {db, storage};
-// export {storage} ;

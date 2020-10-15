@@ -59,7 +59,7 @@ export default {
   // justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 60px;
+  height: $userMenuHeight;
   padding: 0 5%;
   background-color: rgba(255, 165, 0, 0.9);
 
@@ -68,20 +68,16 @@ export default {
     // top: 50%;
     right: 5%;
     // transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
+    width: $userMenuHeight * 0.9;
+    height: $userMenuHeight * 0.9;
     border-radius: 50%;
     cursor: pointer;
-  }
-  img {
-    // width: 100px;
-    // height: 100px;
   }
 }
 
 .user-menu-list {
   position: fixed;
-  top: 60px;
+  top: $userMenuHeight;
   right: 0;
   width: 200px;
   opacity: 0;

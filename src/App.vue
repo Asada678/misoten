@@ -130,15 +130,12 @@ export default {
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
-html {
-  overflow-y: scroll;
-}
 #global-container {
-  overflow-x: hidden;
   position: relative;
-  // z-index: auto;
   width: 100%;
-  min-height: 100vh;
+  min-height: 101vh;
+  // overflow-y: scroll;
+  overflow-x: hidden;
 }
 #container {
   position: relative;
@@ -158,9 +155,9 @@ html {
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh - 60px);
-  padding: 100px 30px;
+  height: calc(100vh - #{$MobileMainMenuHeight});
   background-color: #eee;
+  @extend .container-padding;
 }
 
 .fade-enter-active,
@@ -182,9 +179,9 @@ html {
 @media (min-width: 960px) {
   #container {
     position: absolute;
-    left: 300px;
+    left: $desktopMainMenuWidth;
     right: 0;
-    width: calc(100% - 300px);
+    width: calc(100% - #{$desktopMainMenuWidth});
     margin: 0;
     padding: 100px 30px;
   }

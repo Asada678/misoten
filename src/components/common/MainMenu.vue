@@ -31,6 +31,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// @import "@/scss/_variables.scss";
 .main-menu {
   position: fixed;
   z-index: 1000;
@@ -42,7 +43,7 @@ export default {
 
     li {
       width: 25%;
-      height: 60px;
+      height: $MobileMainMenuHeight;
       list-style: none;
       border-top: 1px solid orange;
       border-right: 1px solid orange;
@@ -102,7 +103,7 @@ export default {
 
 @media (min-width: 960px) {
   .main-menu {
-    width: 300px;
+    width: $desktopMainMenuWidth;
     min-height: calc(100vh - 40px);
     background-color: rgba(orange, 0.4);
 

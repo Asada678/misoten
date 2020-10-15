@@ -23,33 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.my-swipe {
-  height: 200px;
-  color: #333;
-  background-color: #333;
-  font-size: 30px;
-  text-align: center;
 
-  div {
-    width: 400px;
-    height: 200px;
-  }
-}
-
-.slide1 {
-  background-color: #0089dc;
-  color: #fff;
-}
-
-.slide2 {
-  background-color: #ffd705;
-  color: #000;
-}
-
-.slide3 {
-  background-color: #ff2d4b;
-  color: #fff;
-}
 
 @media (min-width: 480px) {
 }

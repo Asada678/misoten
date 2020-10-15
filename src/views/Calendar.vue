@@ -52,7 +52,6 @@ export default {
     },
     fetchUsers() {
       db.collection('users').onSnapshot(snapshot => {
-        console.log('snapshot:', snapshot);
         snapshot.docChanges().forEach(change => {
           if(change.type === 'added') {
             this.users = [change.doc.data(), ...this.users]

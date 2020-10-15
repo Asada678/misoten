@@ -24,7 +24,7 @@ export default {
 .snackbar {
   position: fixed;
   z-index: 500;
-  top: 60px;
+  top: 80px;
   left: 0;
   right: 0;
   width: 90%;
