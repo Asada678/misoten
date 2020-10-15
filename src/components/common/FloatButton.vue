@@ -62,7 +62,7 @@ export default {
 <style lang="scss" scoped>
 .float-btn {
   position: fixed;
-  z-index: 1000;
+  z-index: 1050;
   bottom: $mobileMainMenuHeight + 20px;
   // left: 20px;
   width: $defaultFloatButtonSize;
@@ -86,7 +86,7 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
+@media (min-width: 767px) {
 }
 
 @media (min-width: 1200px) {

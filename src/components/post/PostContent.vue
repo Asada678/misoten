@@ -15,7 +15,7 @@
       <div class="actions">
         <i class="fas fa-reply"></i>
         <i class="fas fa-heart"></i>
-        <i class="fas fa-ellipsis-h"></i>
+        <i class="fas fa-ellipsis-h" @click="clickOption"></i>
       </div>
     </div>
   </div>
@@ -29,7 +29,20 @@ export default {
     return {};
   },
   computed: {},
-  methods: {},
+  methods: {
+    clickOption(event){
+      const options = document.querySelector('.options');
+      options.classList.remove('open');
+      setTimeout(() => {
+        options.classList.add('open');
+        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのwidth + アイコンのwidth)px 
+        options.style.left = `${event.layerX - event.offsetX - 120 + 16}px`;
+        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 + アイコンのheight)px 
+        options.style.top = `${event.layerY - event.offsetY + 16}px`;
+      }, 100)
+
+    }
+  },
 };
 </script>
 
@@ -94,7 +107,7 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
+@media (min-width: 767px) {
 }
 
 @media (min-width: 1200px) {

@@ -1,10 +1,8 @@
 <template>
   <div>
     <p>This is a Group page!</p>
-    <text-form v-model="name" label="name" />
-    <text-area v-model="area" label="area" />
     <float-button icon="user" size="70" right="40" color="#E53935" />
-    <normal-button @click="test">test</normal-button>
+    <m-button @click="test">test</m-button>
   </div>
 </template>
 
@@ -38,7 +36,7 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
+@media (min-width: 767px) {
 }
 
 @media (min-width: 1200px) {

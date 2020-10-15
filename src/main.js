@@ -17,10 +17,10 @@ Vue.config.productionTip = false
 Vue.use(animateCss);
 Vue.use(Vue2TouchEvents)
 
-Vue.component('normal-button', NormalButton);
+Vue.component('m-button', NormalButton);
 Vue.component('float-button', FloatButton);
-Vue.component('normal-dialog', NormalDialog);
-Vue.component('text-area', Textarea);
+Vue.component('m-dialog', NormalDialog);
+Vue.component('m-textarea', Textarea);
 Vue.component('text-form', TextForm);
 
 new Vue({

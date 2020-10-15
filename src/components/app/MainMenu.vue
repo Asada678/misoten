@@ -28,18 +28,6 @@ export default {
   computed: {},
   methods: {},
   mounted() {
-    const lis = document.querySelectorAll(".main-menu li");
-    console.log("lis:", lis);
-    lis.forEach((li) => {
-      li.addEventListener("click", () => {
-        console.log("li:", li);
-        let ripples = document.createElement("small");
-        ripples.style.left = `50%`;
-        ripples.style.top = `50%`;
-        ripples.classList.add("ripple");
-        li.appendChild(ripples);
-      });
-    });
   },
 };
 </script>
@@ -80,18 +68,15 @@ export default {
         // background-color: rgba(#f0f0f0, 0.9);
         color: grey;
         text-decoration: none;
+        transition: 0.2s;
 
         &.router-link-active {
-          // transition: background-color 0.5s 0.5s;
-          // background-color: rgba(orange, 0.3);
           color: orange;
-          font-weight: 600;
           i {
             font-size: 30px;
           }
           span {
-            line-height: 16px;
-            font-size: 16px;
+            font-weight: 600;
           }
         }
 
@@ -108,16 +93,18 @@ export default {
           line-height: 14px;
           font-size: 14px;
         }
-      }
-      small {
-        position: absolute;
-        background-color: rgba(orange, 0.1);
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        pointer-events: none;
-        animation: ripple .8s linear;
-        opacity: 1;
-        transition: 0.3s;
+        small {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          background-color: rgba(orange, 0.1);
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          pointer-events: none;
+          animation: ripple 0.8s linear;
+          opacity: 1;
+          transition: 0.3s;
+        }
       }
     }
   }
@@ -147,7 +134,7 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
+@media (min-width: 767px) {
   .main-menu {
     width: $desktopMainMenuWidth;
     min-height: calc(100vh - #{$userMenuHeight});
@@ -170,10 +157,6 @@ export default {
 
         a {
           &.router-link-active {
-            span {
-              line-height: 24px;
-              font-size: 18px;
-            }
           }
           i {
             font-size: 24px;

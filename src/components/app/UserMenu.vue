@@ -1,17 +1,19 @@
 <template>
   <div class="user-menu-container">
     <nav class="user-menu">
-      <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i>
-      <img class="user-icon" src="/img/kuma.png" alt="" @click="toggleMenu" />
+      <div class="user-menu-inner">
+        <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i>
+        <img class="user-icon" src="/img/kuma.png" alt="" @click="toggleMenu" />
+        <ul class="user-menu-list">
+          <li v-for="link in links" :key="link.to">
+            <router-link :to="`/user${link.to}`" exact>
+              <i :class="`fas fa-${link.icon}`"></i>
+              <span>{{ link.text }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </nav>
-    <ul class="user-menu-list">
-      <li v-for="link in links" :key="link.to">
-        <router-link :to="`/user${link.to}`" exact>
-          <i :class="`fas fa-${link.icon}`"></i>
-          <span>{{ link.text }}</span>
-        </router-link>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -55,29 +57,35 @@ export default {
   position: fixed;
   z-index: 1200;
   top: 0;
-  display: flex;
-  // justify-content: space-between;
-  align-items: center;
   width: 100%;
   height: $userMenuHeight;
-  padding: 0 5%;
   background-color: rgba(255, 165, 0, 0.9);
 
-  .user-icon {
-    position: absolute;
-    // top: 50%;
-    right: 5%;
-    // transform: translateY(-50%);
-    width: $userMenuHeight * 0.9;
-    height: $userMenuHeight * 0.9;
-    border-radius: 50%;
-    cursor: pointer;
+  &-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    max-width: $containerWidth;
+    margin: auto;
+
+    .user-icon {
+      position: absolute;
+      // top: 50%;
+      right: 5%;
+      // transform: translateY(-50%);
+      width: $userMenuHeight * 0.9;
+      height: $userMenuHeight * 0.9;
+      border-radius: 50%;
+      cursor: pointer;
+    }
   }
 }
 
 .user-menu-list {
-  position: fixed;
-    z-index: 1000;
+  position: absolute;
+  z-index: 1000;
   top: $userMenuHeight;
   right: 0;
   width: 200px;
@@ -86,7 +94,7 @@ export default {
   // background-color: rgba(255, 165, 0, 0.8);
   transform: translateY(-100%);
   transition: all 0.3s;
-  
+
   &.user-menu-open {
     opacity: 1;
     visibility: visible;
@@ -101,6 +109,7 @@ export default {
     // margin: 10px 0;
     border-bottom: 1px solid orange;
     background-color: rgba(grey, 0.9);
+    overflow: hidden;
 
     a {
       position: relative;
@@ -142,12 +151,16 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
-  .user-menu-list {
-    right: 5%;
-  }
+@media (min-width: 767px) {
 }
 
 @media (min-width: 1200px) {
+  .user-menu {
+    &-inner {
+      .user-icon {
+        right: 0%;
+      }
+    }
+  }
 }
 </style>

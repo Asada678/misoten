@@ -6,15 +6,15 @@
       v-touch:swipe.right="swipeRight"
     >
       <UserMenu />
-      <float-button
-        icon="chalkboard-teacher"
-        color="#304FFE"
-        left="20"
-        size="70"
-        @click="showSnackbar"
-      />
       <Snackbar />
       <div id="container">
+        <float-button
+          icon="chalkboard-teacher"
+          color="#304FFE"
+          left="20"
+          size="70"
+          @click="showSnackbar"
+        />
         <MainMenu />
         <div id="content-wrapper">
           <transition
@@ -58,8 +58,8 @@ export default {
   },
   methods: {
     showSnackbar() {
-      const app = document.querySelector(".snackbar");
-      app.classList.toggle("appear");
+      const snackbar = document.querySelector(".snackbar");
+      snackbar.classList.toggle("appear");
     },
     swipeLeft() {
       this.addSwiping();
@@ -98,16 +98,29 @@ export default {
       // globalContainer.classList.remove("swiping");
     },
   },
+  mounted(){
+    const container = document.querySelector('#container');
+    container.addEventListener('click', (event) => {
+      console.log('event.target:', event.target);
+      if(!event.target.classList.contains('options')) {
+        const options = document.querySelector('.options');
+        options.classList.remove('open')
+      }
+    })
+  },
   watch: {
     $route(to, from) {
       // console.log("this.swipe:", this.swipe);
+      const target = document.querySelector(`a[href="${to.path}"]`);
+      const ripple = document.createElement("small");
+      target.appendChild(ripple);
       if (this.swipe) {
         this.swipe = false;
-        console.log("this.swipe:", this.swipe);
+        // console.log("this.swipe:", this.swipe);
         return;
       }
       // console.log("after if:");
-      // console.log("to, from:", to, from);
+      console.log("to, from:", to, from);
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
       // const toOrder = to.meta.menuOrder;
@@ -143,7 +156,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
 }
 i {
   cursor: pointer;
@@ -171,13 +184,26 @@ html {
 }
 .user-page {
   position: fixed;
-  z-index: 1100;
-  top: 0;
+  z-index: 950;
+  top: $userMenuHeight;
   left: 0;
   width: 100%;
-  height: calc(100vh - #{$mobileMainMenuHeight});
+  height: calc(100vh - #{$userMenuHeight});
   background-color: #eee;
   @extend .container-padding;
+}
+
+small {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: rgba(orange, 0.1);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ripple 0.8s linear;
+  opacity: 1;
+  transition: 0.3s;
 }
 
 .fade-enter-active,
@@ -196,19 +222,19 @@ html {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
+@media (min-width: 767px) {
   #container {
     position: relative;
     // left: $desktopMainMenuWidth;
     right: 0;
-    width: calc(100% - #{$desktopMainMenuWidth});
+    // width: calc(100% - #{$desktopMainMenuWidth});
     // margin: 0 a;
     padding: 100px 0;
   }
   #content-wrapper {
     position: relative;
     left: $desktopMainMenuWidth;
-    width: $containerWidth - $desktopMainMenuWidth;
+    width: calc(100% - #{$desktopMainMenuWidth});
     margin: 0;
     padding: 20px;
   }
@@ -221,5 +247,23 @@ html {
 }
 
 @media (min-width: 1200px) {
+}
+
+@keyframes ripple {
+  0% {
+    width: 0px;
+    height: 0px;
+    // opacity: 0.5;
+  }
+  70% {
+    width: 300%;
+    height: 200%;
+    opacity: 1;
+  }
+  100% {
+    width: 300%;
+    height: 200%;
+    opacity: 0;
+  }
 }
 </style>

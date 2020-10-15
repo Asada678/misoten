@@ -29,6 +29,7 @@ button {
   background-color: rgba(orange, 0.7);
   font-size: 18px;
   font-weight: 700;
+  word-break: break-word;
 }
 
 
@@ -38,7 +39,7 @@ button {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
+@media (min-width: 767px) {
 }
 
 @media (min-width: 1200px) {

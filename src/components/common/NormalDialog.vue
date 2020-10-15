@@ -9,7 +9,7 @@
         <slot></slot>
       </div>
       <div v-if="footer" class="dialog__footer">
-        <normal-button @click="doAction">{{ buttonText }}</normal-button>
+        <m-button @click="doAction">{{ buttonText }}</m-button>
       </div>
     </div>
   </div>
@@ -24,18 +24,29 @@ export default {
     footer: { type: Boolean, default: true },
   },
   data() {
-    return {};
+    return {
+      dialogContainer: null,
+    };
   },
   computed: {},
   methods: {
     closeDialog() {
-      const dialogContainer = document.querySelector(".dialog-container");
-      dialogContainer.classList.remove("dialog-open");
+      this.dialogContainer.classList.remove("dialog-open");
     },
     doAction() {
       this.closeDialog();
       this.$emit("action");
     },
+  },
+  mounted() {
+    this.dialogContainer = document.querySelector(".dialog-container");
+    this.dialogContainer.addEventListener("click", (event) => {
+      event.stopPropagation();
+      console.log("event.target:", event.target);
+      if (event.target.classList.contains("dialog-container")) {
+        this.dialogContainer.classList.remove("dialog-open");
+      }
+    });
   },
 };
 </script>
@@ -43,7 +54,8 @@ export default {
 <style lang="scss" scoped>
 .dialog-open {
   .dialog {
-    transform: translate(-50%, -50%);
+    // transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scaleX(1) scaleY(1);
   }
 }
 .dialog-container {
@@ -77,7 +89,9 @@ export default {
   min-height: 400px;
   margin: auto;
   background-color: rgba($color: #eee, $alpha: 1);
-  transform: translate(-50%, -80%);
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: right bottom;
+  // transform: scale(0);
   border-radius: 10px;
   overflow: hidden;
   transition: all 0.3s;
@@ -125,12 +139,15 @@ export default {
 }
 
 @media (min-width: 480px) {
+.dialog {
+  transform-origin: center;
+}
 }
 
 @media (min-width: 600px) {
 }
 
-@media (min-width: 960px) {
+@media (min-width: 767px) {
 }
 
 @media (min-width: 1200px) {
