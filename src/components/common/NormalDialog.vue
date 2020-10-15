@@ -57,7 +57,7 @@ export default {
     // transform: translate(-50%, -50%);
     opacity: 1;
     visibility: visible;
-    transform: translate(-50%, -50%) scaleX(1) scaleY(1);
+    transform: translate(-50%, -50%) scaleY(1);
   }
 }
 .dialog-container {
@@ -92,14 +92,11 @@ export default {
   margin: auto;
   background-color: rgba($color: #eee, $alpha: 1);
   transform: translate(-50%, -50%) scaleY(0);
-  // transform-origin: top;
-  // transform-origin: right bottom;
-  // transform: scale(0);
   border-radius: 10px;
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  transition: opacity .5s, visibility 0.5s, transform 0.3s;
+  transition: opacity .6s, visibility .6s, transform 0.4s;
 
   &__header {
     position: relative;
@@ -144,9 +141,6 @@ export default {
 }
 
 @media (min-width: 480px) {
-  .dialog {
-    transform-origin: center;
-  }
 }
 
 @media (min-width: 600px) {

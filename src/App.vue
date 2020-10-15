@@ -85,17 +85,7 @@ export default {
       }
     },
   },
-  mounted() {
-    const globalContainer = document.querySelector("#global-container");
-    // const container = document.querySelector('#container');
-    globalContainer.addEventListener("click", (event) => {
-      console.log("event.target:", event.target);
-      if (!event.target.classList.contains("options")) {
-        const options = document.querySelector(".options");
-        options.classList.remove("open");
-      }
-    });
-  },
+  mounted(){},
   watch: {
     $route(to, from) {
       // console.log("this.swipe:", this.swipe);
@@ -226,10 +216,11 @@ small {
     padding: 20px;
   }
   .user-page {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+    position: relative;
+    top: -$mobileMainMenuHeight - 20px;
+    width: calc(100% + 40px);
+    left: -20px;
+    height: auto;
   }
 }
 

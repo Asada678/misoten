@@ -15,7 +15,7 @@
       <div class="actions">
         <i class="fas fa-reply"></i>
         <i class="fas fa-heart"></i>
-        <i class="fas fa-ellipsis-h" @click="clickOption"></i>
+        <i class="fas fa-ellipsis-h" @click="openOption"></i>
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@ export default {
   },
   computed: {},
   methods: {
-    clickOption(event){
+    openOption(event){
       const options = document.querySelector('.options');
       options.classList.remove('open');
       setTimeout(() => {

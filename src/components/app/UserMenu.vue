@@ -2,8 +2,12 @@
   <div class="user-menu-container">
     <nav class="user-menu">
       <div class="user-menu-inner">
-        <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i>
+        <!-- <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i> -->
         <img class="user-icon" src="/img/kuma.png" alt="" @click="toggleMenu" />
+      </div>
+    </nav>
+    <div class="list-container">
+      <div class="list-container-inner">
         <ul class="user-menu-list">
           <li v-for="link in links" :key="link.to">
             <router-link :to="`/user${link.to}`" exact>
@@ -13,7 +17,7 @@
           </li>
         </ul>
       </div>
-    </nav>
+    </div>
   </div>
 </template>
 
@@ -68,7 +72,7 @@ export default {
     width: 100%;
     height: 100%;
     max-width: $containerWidth;
-    margin: auto;
+    margin: 0 auto;
 
     .user-icon {
       position: absolute;
@@ -80,6 +84,18 @@ export default {
       border-radius: 50%;
       cursor: pointer;
     }
+  }
+}
+.list-container {
+  position: fixed;
+  z-index: 1100;
+  width: 100%;
+
+  &-inner {
+    position: relative;
+    width: 100%;
+    max-width: $containerWidth;
+    margin: 0 auto;
   }
 }
 
