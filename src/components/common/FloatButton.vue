@@ -50,10 +50,10 @@ export default {
 
       this.floatBtn.style.backgroundColor = `rgba(${R},${G},${B}, 0.8)`;
     }
-    if(this.top) this.floatBtn.style.top = `${this.top}px`;
-    if(this.bottom) this.floatBtn.style.bottom = `${this.bottom}px`;
-    if(this.left) this.floatBtn.style.left = `${this.left}px`;
-    if(this.right) this.floatBtn.style.right = `${this.right}px`;
+    if (this.top) this.floatBtn.style.top = `${this.top}px`;
+    if (this.bottom) this.floatBtn.style.bottom = `${this.bottom}px`;
+    if (this.left) this.floatBtn.style.left = `${this.left}px`;
+    if (this.right) this.floatBtn.style.right = `${this.right}px`;
   },
   watch: {},
 };
@@ -75,6 +75,8 @@ export default {
   line-height: $defaultFloatButtonSize;
   outline: none;
   text-align: center;
+  box-shadow: 
+  2px 2px 10px 0px rgba(0, 0, 0, 0.4);
 
   i {
   }

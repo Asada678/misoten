@@ -8,6 +8,7 @@
       <UserMenu />
       <Snackbar />
       <div id="container">
+        <MainMenu />
         <float-button
           icon="chalkboard-teacher"
           color="#304FFE"
@@ -15,7 +16,6 @@
           size="70"
           @click="showSnackbar"
         />
-        <MainMenu />
         <div id="content-wrapper">
           <transition
             name="fade"
@@ -85,13 +85,16 @@ export default {
       }
     },
   },
-  mounted(){},
+  mounted() {},
   watch: {
     $route(to, from) {
       // console.log("this.swipe:", this.swipe);
       const target = document.querySelector(`a[href="${to.path}"]`);
       const ripple = document.createElement("small");
       target.appendChild(ripple);
+      setTimeout(() => {
+        ripple.remove();
+      }, 1000);
       if (this.swipe) {
         this.swipe = false;
         return;
@@ -180,7 +183,6 @@ small {
   pointer-events: none;
   animation: ripple 0.8s linear;
   opacity: 1;
-  transition: 0.3s;
 }
 
 .fade-enter-active,

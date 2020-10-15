@@ -27,8 +27,7 @@ export default {
   },
   computed: {},
   methods: {},
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 
@@ -39,6 +38,7 @@ export default {
   z-index: 1000;
   bottom: 0;
   width: 100%;
+  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.4);
 
   ul {
     display: flex;
@@ -71,6 +71,7 @@ export default {
         transition: 0.2s;
 
         &.router-link-active {
+          background-color: rgba(orange, 0.1);
           color: orange;
           i {
             font-size: 30px;
@@ -139,6 +140,7 @@ export default {
     width: $desktopMainMenuWidth;
     min-height: calc(100vh - #{$userMenuHeight});
     background-color: rgba(orange, 0.4);
+    box-shadow: 2px 0px 10px -2px rgba(0, 0, 0, 0.4);
 
     ul {
       flex-direction: column;
