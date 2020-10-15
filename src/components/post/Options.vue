@@ -37,7 +37,7 @@ export default {
   width: 120px;
   // background-color: rgba(255, 165, 0, 0.8);
   transform: scale(0);
-  transform-origin: top right;
+  transform-origin: bottom right;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s, visibility .5s, transform 0.3s;

@@ -37,8 +37,8 @@ export default {
         options.classList.add('open');
         // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのwidth + アイコンのwidth)px 
         options.style.left = `${event.layerX - event.offsetX - 120 + 16}px`;
-        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 + アイコンのheight)px 
-        options.style.top = `${event.layerY - event.offsetY + 16}px`;
+        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのheight + アイコンのheight/4)px 
+        options.style.top = `${event.layerY - event.offsetY - 120 + 4}px`;
       }, 100)
 
     }

@@ -62,7 +62,6 @@ export default {
       snackbar.classList.toggle("appear");
     },
     swipeLeft() {
-      this.addSwiping();
       this.swipe = true;
       console.log("left:");
       this.enterActiveClass =
@@ -73,40 +72,29 @@ export default {
       if (nextPageName) {
         this.$router.push({ name: nextPageName });
       }
-      this.removeSwiping();
     },
-    async swipeRight() {
-      this.addSwiping();
+    swipeRight() {
       this.swipe = true;
-      console.log("right:");
       this.enterActiveClass =
         "animate__animated animate__fadeInLeft animate__fastest";
       this.leaveActiveClass =
         "animate__animated animate__fadeOutRight animate__fastest";
       const prevPageName = this.$route.meta.prevPageName;
       if (prevPageName) {
-        await this.$router.push({ name: prevPageName });
+        this.$router.push({ name: prevPageName });
       }
-      await this.removeSwiping();
-    },
-    addSwiping() {
-      const globalContainer = document.querySelector("#global-container");
-      globalContainer.classList.add("swiping");
-    },
-    removeSwiping() {
-      // const globalContainer = document.querySelector("#global-container");
-      // globalContainer.classList.remove("swiping");
     },
   },
-  mounted(){
-    const container = document.querySelector('#container');
-    container.addEventListener('click', (event) => {
-      console.log('event.target:', event.target);
-      if(!event.target.classList.contains('options')) {
-        const options = document.querySelector('.options');
-        options.classList.remove('open')
+  mounted() {
+    const globalContainer = document.querySelector("#global-container");
+    // const container = document.querySelector('#container');
+    globalContainer.addEventListener("click", (event) => {
+      console.log("event.target:", event.target);
+      if (!event.target.classList.contains("options")) {
+        const options = document.querySelector(".options");
+        options.classList.remove("open");
       }
-    })
+    });
   },
   watch: {
     $route(to, from) {
@@ -116,7 +104,6 @@ export default {
       target.appendChild(ripple);
       if (this.swipe) {
         this.swipe = false;
-        // console.log("this.swipe:", this.swipe);
         return;
       }
       // console.log("after if:");
@@ -229,7 +216,7 @@ small {
     right: 0;
     // width: calc(100% - #{$desktopMainMenuWidth});
     // margin: 0 a;
-    padding: 100px 0;
+    padding: 100px 0 200px 0;
   }
   #content-wrapper {
     position: relative;
