@@ -1,5 +1,5 @@
 <template>
-  <button @click="$emit('click')">
+  <button @click="click">
     <slot></slot>
   </button>
 </template>
@@ -7,12 +7,23 @@
 <script>
 export default {
   components: {},
-  props: {},
+  props: {
+    to: String
+  },
   data() {
     return {}
   },
   computed: {},
-  methods: {},
+  methods: {
+    click() {
+      if(this.to) {
+        console.log('to:');
+        this.$router.push({path: this.to});
+      } else {
+        this.$emit('click');
+      }
+    }
+  },
 }
 </script>
 
@@ -21,6 +32,7 @@ export default {
 button {
   display: inline-block;
   width: 150px;
+  margin: 10px 0;
   padding: 10px;
   outline: none;
   cursor: pointer;
@@ -30,6 +42,10 @@ button {
   font-size: 18px;
   font-weight: 700;
   word-break: break-word;
+
+  &.w-100 {
+    width: 100%;
+  }
 }
 
 

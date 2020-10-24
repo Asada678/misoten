@@ -29,13 +29,15 @@ export default {
     const globalContainer = document.querySelector("#global-container");
     // const container = document.querySelector('#container');
     globalContainer.addEventListener("click", (event) => {
-      console.log("event.target:", event.target);
+      // console.log("event.target:", event.target);
       if (!event.target.classList.contains("option")) {
-        console.log('this is not an option:', );
-        const options = document.querySelector(".options");
-        options.classList.remove("open");
+        // console.log('this is not an option:', );
+        const openedOptions = document.querySelector(".options.open");
+        if(openedOptions) {
+          openedOptions.classList.remove("open");
+        }
       } else {
-        console.log('this is an option:', );
+        // console.log('this is an option:', );
       }
     });
   },
@@ -45,9 +47,11 @@ export default {
 <style lang="scss" scoped>
 .options {
   position: absolute;
-  z-index: 1000;
-  top: $userMenuHeight;
-  right: 30px;
+  z-index: 900;
+  // top: $userMenuHeight;
+  // right: 30px;
+  bottom: 16px;
+  right: 0;
   width: 120px;
   // background-color: rgba(255, 165, 0, 0.8);
   transform: scale(0);
@@ -93,6 +97,7 @@ export default {
       color: #eee;
       transform: translateY(-50%);
       font-size: 14px;
+      font-weight: 400;
     }
   }
 }

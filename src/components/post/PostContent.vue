@@ -15,30 +15,34 @@
       <div class="actions">
         <i class="fas fa-reply"></i>
         <i class="fas fa-heart"></i>
-        <i class="fas fa-ellipsis-h" @click="openOption"></i>
+        <i class="fas fa-ellipsis-h" @click="openOption">
+          <Options />
+        </i>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Options from '@/components/post/Options'
 export default {
-  components: {},
-  props: {},
+  components: {Options},
+  props: {
+  },
   data() {
     return {};
   },
   computed: {},
   methods: {
     openOption(event){
-      const options = document.querySelector('.options');
+      const options = event.target.querySelector('.options');
       options.classList.remove('open');
       setTimeout(() => {
         options.classList.add('open');
         // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのwidth + アイコンのwidth)px 
-        options.style.left = `${event.layerX - event.offsetX - 120 + 16}px`;
+        // options.style.left = `${event.layerX - event.offsetX - 120 + 16}px`;
         // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのheight + アイコンのheight/4)px 
-        options.style.top = `${event.layerY - event.offsetY - 120 + 4}px`;
+        // options.style.top = `${event.layerY - event.offsetY - 120 + 4}px`;
       }, 100)
 
     }
@@ -91,6 +95,7 @@ export default {
     padding: 0 10px;
 
     i {
+      position: relative;
       color: grey;
       transition: 0.3s;
 

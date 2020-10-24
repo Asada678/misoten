@@ -1,24 +1,21 @@
 <template>
   <div>
     <m-dialog header-text="今日の頑張り" button-text="投稿" @action="postTodayWorkout">
-      <text-form v-model="username" label="名前"/>
+      <m-form v-model="username" label="名前"/>
       <m-textarea v-model="workout" label="内容"/>
       <i class="fas fa-image"></i>
     </m-dialog>
     <PostContent v-for="i in 10" :key="i"/>
     <float-button icon="pen" right="20" @click="openDialog" />
-    <Options />
   </div>
 </template>
 
 <script>
 import PostContent from '@/components/post/PostContent'
-import Options from '@/components/post/Options'
 
 export default {
   components: {
     PostContent,
-    Options
   },
   props: {},
   data() {

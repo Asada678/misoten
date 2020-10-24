@@ -1,17 +1,35 @@
 $userMenuHeight: 40px;
-$mobileMainMenuHeight: 60px;
+$mobileMainMenuHeight: 50px;
 $desktopMainMenuWidth: 250px;
 $containerWidth: 1050px;
 
 $defaultFloatButtonSize: 50px;
 
-
-
 .container-padding {
   padding: 100px 30px;
 }
 
-.blue {
-  $backgroundColor: royalblue;
+.fixed-page {
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 50px 5px;
 }
 
+.fixed-page-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.blue {
+  background-color: royalblue;
+
+  &-l {
+    background-color: rgba(royalblue, 0.7);
+  }
+}

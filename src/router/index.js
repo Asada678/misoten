@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Signup from '../views/Signup.vue'
+import FirstAccess from '../views/FirstAccess.vue'
 import Post from '../views/Post.vue'
 import Group from '../views/Group.vue'
 import Video from '../views/Video.vue'
@@ -13,6 +15,18 @@ Vue.use(VueRouter)
 
 const routes = [
 
+  {
+    path: '/first-access',
+    name: 'FirstAccess',
+    component: FirstAccess,
+    // meta: { menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup,
+    // meta: { menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
+  },
   {
     path: '/',
     name: 'Post',

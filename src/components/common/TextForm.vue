@@ -1,5 +1,5 @@
 <template>
-  <div class="text-form">
+  <div class="m-form">
     <input
       :value="value"
       type="text"
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-form {
+.m-form {
   position: relative;
   margin: 20px 0;
   padding: 0;
@@ -59,7 +59,7 @@ export default {
 
     & ~ label {
       position: absolute;
-      z-index: -1;
+      // z-index: -1;
       top: 4px;
       left: 0;
       width: 100%;

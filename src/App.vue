@@ -85,21 +85,33 @@ export default {
       }
     },
   },
+  created() {
+    const keyName = 'EverFitUpFirstAccess';
+    const keyValue = true;
+    if(!localStorage.getItem(keyName)) {
+      console.log('first:', );
+      localStorage.setItem(keyName, keyValue);
+      this.$router.push({name: 'FirstAccess'});
+    } else {
+      console.log('not first:', );
+    }
+  },
   mounted() {},
   watch: {
     $route(to, from) {
       // console.log("this.swipe:", this.swipe);
       const target = document.querySelector(`a[href="${to.path}"]`);
-      const ripple = document.createElement("small");
-      target.appendChild(ripple);
-      setTimeout(() => {
-        ripple.remove();
-      }, 1000);
-      if (this.swipe) {
-        this.swipe = false;
-        return;
+      if (target) {
+        const ripple = document.createElement("small");
+        target.appendChild(ripple);
+        setTimeout(() => {
+          ripple.remove();
+        }, 1000);
+        if (this.swipe) {
+          this.swipe = false;
+          return;
+        }
       }
-      // console.log("after if:");
       console.log("to, from:", to, from);
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;

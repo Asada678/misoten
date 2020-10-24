@@ -48,8 +48,8 @@ export default {
       width: 25%;
       height: $mobileMainMenuHeight;
       list-style: none;
-      border-top: 1px solid orange;
-      border-right: 1px solid orange;
+      border-top: 1px solid rgba(orange, 0.4);
+      border-right: 1px solid rgba(orange, 0.2);
       background-color: rgba(#f0f0f0, 1);
       overflow: hidden;
 
@@ -74,7 +74,7 @@ export default {
           background-color: rgba(orange, 0.1);
           color: orange;
           i {
-            font-size: 30px;
+            font-size: 28px;
           }
           span {
             font-weight: 600;
@@ -83,16 +83,16 @@ export default {
 
         i {
           position: absolute;
-          top: 5px;
-          font-size: 25px;
+          top: 4px;
+          font-size: 24px;
           transition: 0.3s;
         }
 
         span {
           position: absolute;
-          bottom: 5px;
-          line-height: 14px;
-          font-size: 14px;
+          bottom: 2px;
+          line-height: 12px;
+          font-size: 12px;
         }
         small {
           position: absolute;
@@ -149,7 +149,8 @@ export default {
       li {
         width: 90%;
         margin: 0 auto;
-        border-bottom: none;
+        border-top: 1px solid orange;
+        border-right: 1px solid orange;
         border-left: 1px solid orange;
 
         &:last-child {

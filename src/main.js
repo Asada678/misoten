@@ -21,7 +21,7 @@ Vue.component('m-button', NormalButton);
 Vue.component('float-button', FloatButton);
 Vue.component('m-dialog', NormalDialog);
 Vue.component('m-textarea', Textarea);
-Vue.component('text-form', TextForm);
+Vue.component('m-form', TextForm);
 
 new Vue({
   router,
