@@ -53,7 +53,7 @@ export default {
   bottom: 16px;
   right: 0;
   width: 120px;
-  // background-color: rgba(255, 165, 0, 0.8);
+  // background-color: rgba($orange, 0.8);
   transform: scale(0);
   transform-origin: bottom right;
   opacity: 0;
@@ -74,7 +74,7 @@ export default {
     line-height: 30px;
     list-style: none;
     // margin: 10px 0;
-    border-bottom: 1px solid rgba($color: orange, $alpha: 0.3);
+    border-bottom: 1px solid rgba($color: $orange, $alpha: 0.3);
     background-color: rgba(grey, 1);
     cursor: pointer;
     overflow: hidden;
@@ -84,7 +84,7 @@ export default {
       top: 50%;
       left: 20px;
       width: 30px;
-      color: #eee;
+      color: $white;
       font-size: 16px;
       text-align: center;
       transform: translateY(-50%);
@@ -94,7 +94,7 @@ export default {
       position: absolute;
       top: 50%;
       left: 70px;
-      color: #eee;
+      color: $white;
       transform: translateY(-50%);
       font-size: 14px;
       font-weight: 400;

@@ -90,7 +90,7 @@ export default {
   max-width: 600px;
   min-height: 400px;
   margin: auto;
-  background-color: rgba($color: #eee, $alpha: 1);
+  background-color: rgba($color: $white, $alpha: 1);
   transform: translate(-50%, -50%) scaleY(0);
   border-radius: 10px;
   opacity: 0;
@@ -108,7 +108,7 @@ export default {
     width: 100%;
     height: 60px;
     padding: 0 20px;
-    background-color: rgba($color: orange, $alpha: 0.9);
+    background-color: rgba($color: $orange, $alpha: 0.9);
 
     p {
       font-weight: 700;
@@ -136,7 +136,7 @@ export default {
     width: 100%;
     min-height: 60px;
     padding: 10px 20px;
-    background-color: rgba($color: orange, $alpha: 0.2);
+    background-color: rgba($color: $orange, $alpha: 0.2);
   }
 }
 

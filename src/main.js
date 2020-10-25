@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import animateCss from 'animate.css'
 import Vue2TouchEvents from 'vue2-touch-events'
+import 'swiper/swiper-bundle.css';
 
 // common components
 import NormalButton from './components/common/NormalButton'

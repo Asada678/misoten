@@ -1,30 +1,36 @@
 <template>
   <div id="app">
-    <div
+    <div id="global-container">
+      <!-- <div
       id="global-container"
       v-touch:swipe.left="swipeLeft"
       v-touch:swipe.right="swipeRight"
-    >
-      <UserMenu />
+    > -->
+      <transition name="fade">
+        <UserMenu v-if="menuVisible" />
+      </transition>
       <Snackbar />
       <div id="container">
-        <MainMenu />
-        <float-button
-          icon="chalkboard-teacher"
-          color="#304FFE"
-          left="20"
-          size="70"
-          @click="showSnackbar"
-        />
+        <transition name="fade">
+          <MainMenu v-if="menuVisible" />
+        </transition>
+        <transition name="fade">
+          <float-button
+            v-if="menuVisible"
+            icon="chalkboard-teacher"
+            color="#304FFE"
+            left="20"
+            size="70"
+            @click="showSnackbar"
+          />
+        </transition>
         <div id="content-wrapper">
           <transition
             name="fade"
-            class=""
             :enter-active-class="enterActiveClass"
             :leave-active-class="leaveActiveClass"
             mode="out-in"
           >
-            <!-- <transition name="fade" mode="out-in"> -->
             <router-view />
           </transition>
         </div>
@@ -46,14 +52,20 @@ export default {
   props: {},
   data() {
     return {
-      swipe: false,
+      // swipe: false,
       enterActiveClass: null,
       leaveActiveClass: null,
+      pageHierarchy: 0,
     };
   },
   computed: {
-    coachBtn() {
-      return this.$route.path.includes("/user");
+    menuVisible() {
+      console.log(
+        "this.$route.meta.pageHierarchy:",
+        this.$route.meta.pageHierarchy
+      );
+      return this.pageHierarchy > 10;
+      // return this.$route.path.includes("/user");
     },
   },
   methods: {
@@ -84,22 +96,41 @@ export default {
         this.$router.push({ name: prevPageName });
       }
     },
+    leftIn() {
+      this.enterActiveClass =
+        "animate__animated animate__fadeInLeft animate__fastest";
+      this.leaveActiveClass =
+        "animate__animated animate__fadeOutRight animate__fastest";
+    },
+    rightIn() {
+      this.enterActiveClass = this.leaveActiveClass =
+        "animate__animated animate__fadeInRight animate__fastest";
+      this.leaveActiveClass =
+        "animate__animated animate__fadeOutLeft animate__fastest";
+    },
+    fadeIn() {
+      this.enterActiveClass =
+        "animate__animated animate__fadeIn animate__fastest";
+      this.leaveActiveClass =
+        "animate__animated animate__fadeOut animate__fastest";
+    },
   },
   created() {
-    const keyName = 'EverFitUpFirstAccess';
+    const keyName = "EverFitUpFirstAccess";
     const keyValue = true;
-    if(!localStorage.getItem(keyName)) {
-      console.log('first:', );
+    if (!localStorage.getItem(keyName)) {
+      // console.log('first:', );
       localStorage.setItem(keyName, keyValue);
-      this.$router.push({name: 'FirstAccess'});
+      this.$router.push({ name: "FirstAccess" });
     } else {
-      console.log('not first:', );
+      // console.log('not first:', );
+      this.pageHierarchy = this.$route.meta.pageHierarchy;
     }
   },
   mounted() {},
   watch: {
     $route(to, from) {
-      // console.log("this.swipe:", this.swipe);
+      this.pageHierarchy = to.meta.pageHierarchy;
       const target = document.querySelector(`a[href="${to.path}"]`);
       if (target) {
         const ripple = document.createElement("small");
@@ -107,36 +138,26 @@ export default {
         setTimeout(() => {
           ripple.remove();
         }, 1000);
-        if (this.swipe) {
-          this.swipe = false;
-          return;
-        }
       }
       console.log("to, from:", to, from);
-      const toDepth = to.path.split("/").length;
-      const fromDepth = from.path.split("/").length;
-      // const toOrder = to.meta.menuOrder;
-      // const fromOrder = from.meta.menuOrder;
-      if (toDepth < fromDepth) {
-        // if (toOrder < fromOrder) {
-        this.enterActiveClass =
-          "animate__animated animate__fadeInLeft animate__fastest";
-        this.leaveActiveClass =
-          "animate__animated animate__fadeOutRight animate__fastest";
+
+      if (to.path === "/") {
+        this.fadeIn();
         return;
       }
-      // if (toOrder > fromOrder) {
-      if (toDepth > fromDepth) {
-        this.enterActiveClass = this.leaveActiveClass =
-          "animate__animated animate__fadeInRight animate__fastest";
-        this.leaveActiveClass =
-          "animate__animated animate__fadeOutLeft animate__fastest";
-        return;
+
+      const toPageHierarchy = to.meta.pageHierarchy;
+      const fromPageHierarchy = from.meta.pageHierarchy;
+      if (toPageHierarchy < fromPageHierarchy) {
+        // 浅い階層へ進むとき
+        this.leftIn();
+      } else if (toPageHierarchy > fromPageHierarchy) {
+        // 深い階層へ進むとき
+        this.rightIn();
+      } else {
+        // 同階層へ進むとき
+        this.fadeIn();
       }
-      this.enterActiveClass =
-        "animate__animated animate__fadeIn animate__fastest";
-      this.leaveActiveClass =
-        "animate__animated animate__fadeOut animate__fastest";
     },
   },
 };
@@ -153,7 +174,7 @@ export default {
 i {
   cursor: pointer;
 }
-html {
+body {
   overflow-y: scroll;
 }
 
@@ -166,8 +187,8 @@ html {
   max-width: $containerWidth;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 100px 0 200px 0;
-  background-color: rgba(orange, 0.1);
+  padding: 80px 0 200px 0;
+  background-color: rgba($orange, 0.1);
   overflow-x: hidden;
 }
 #content-wrapper {
@@ -181,7 +202,7 @@ html {
   left: 0;
   width: 100%;
   height: calc(100vh - #{$userMenuHeight});
-  background-color: #eee;
+  background-color: $white;
   @extend .container-padding;
 }
 
@@ -189,7 +210,7 @@ small {
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: rgba(orange, 0.1);
+  background-color: rgba($orange, 0.1);
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
@@ -199,7 +220,7 @@ small {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
@@ -216,16 +237,15 @@ small {
 @media (min-width: 767px) {
   #container {
     position: relative;
-    // left: $desktopMainMenuWidth;
+    // left: $mainMenuWidth;
     right: 0;
-    // width: calc(100% - #{$desktopMainMenuWidth});
+    // width: calc(100% - #{$mainMenuWidth});
     // margin: 0 a;
-    padding: 100px 0 200px 0;
   }
   #content-wrapper {
     position: relative;
-    left: $desktopMainMenuWidth;
-    width: calc(100% - #{$desktopMainMenuWidth});
+    left: $mainMenuWidth;
+    width: calc(100% - #{$mainMenuWidth});
     margin: 0;
     padding: 20px;
   }

@@ -48,8 +48,8 @@ export default {
       width: 25%;
       height: $mobileMainMenuHeight;
       list-style: none;
-      border-top: 1px solid rgba(orange, 0.4);
-      border-right: 1px solid rgba(orange, 0.2);
+      border-top: 1px solid rgba($orange, 0.4);
+      border-right: 1px solid rgba($orange, 0.2);
       background-color: rgba(#f0f0f0, 1);
       overflow: hidden;
 
@@ -71,8 +71,8 @@ export default {
         transition: 0.2s;
 
         &.router-link-active {
-          background-color: rgba(orange, 0.1);
-          color: orange;
+          background-color: rgba($orange, 0.1);
+          color: $orange;
           i {
             font-size: 28px;
           }
@@ -98,7 +98,7 @@ export default {
           position: absolute;
           top: 50%;
           left: 50%;
-          background-color: rgba(orange, 0.1);
+          background-color: rgba($orange, 0.1);
           transform: translate(-50%, -50%);
           border-radius: 50%;
           pointer-events: none;
@@ -137,9 +137,9 @@ export default {
 
 @media (min-width: 767px) {
   .main-menu {
-    width: $desktopMainMenuWidth;
+    width: $mainMenuWidth;
     min-height: calc(100vh - #{$userMenuHeight});
-    background-color: rgba(orange, 0.4);
+    background-color: rgba($orange, 0.4);
     box-shadow: 2px 0px 10px -2px rgba(0, 0, 0, 0.4);
 
     ul {
@@ -149,13 +149,13 @@ export default {
       li {
         width: 90%;
         margin: 0 auto;
-        border-top: 1px solid orange;
-        border-right: 1px solid orange;
-        border-left: 1px solid orange;
+        border-top: 1px solid $orange;
+        border-right: 1px solid $orange;
+        border-left: 1px solid $orange;
 
         &:last-child {
-          border-right: 1px solid orange;
-          border-bottom: 1px solid orange;
+          border-right: 1px solid $orange;
+          border-bottom: 1px solid $orange;
         }
 
         a {

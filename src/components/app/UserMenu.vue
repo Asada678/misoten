@@ -63,7 +63,7 @@ export default {
   top: 0;
   width: 100%;
   height: $userMenuHeight;
-  background-color: rgba(255, 165, 0, 0.9);
+  background-color: rgba($orange, 0.9);
 
   &-inner {
     position: relative;
@@ -107,7 +107,7 @@ export default {
   width: 200px;
   opacity: 0;
   visibility: hidden;
-  // background-color: rgba(255, 165, 0, 0.8);
+  // background-color: rgba($orange, 0.8);
   transform: translateY(-100%);
   transition: all 0.3s;
 
@@ -123,7 +123,7 @@ export default {
     line-height: 30px;
     list-style: none;
     // margin: 10px 0;
-    border-bottom: 1px solid orange;
+    border-bottom: 1px solid $orange;
     background-color: rgba(grey, 0.9);
     overflow: hidden;
 
@@ -135,7 +135,7 @@ export default {
       text-decoration: none;
 
       &.router-link-active {
-        background-color: rgba(orange, 0.3);
+        background-color: rgba($orange, 0.3);
         font-weight: 600;
       }
       i {
@@ -143,7 +143,7 @@ export default {
         top: 50%;
         left: 20px;
         width: 30px;
-        color: #eee;
+        color: $white;
         font-size: 20px;
         text-align: center;
         transform: translateY(-50%);
@@ -153,7 +153,7 @@ export default {
         position: absolute;
         top: 50%;
         left: 70px;
-        color: #eee;
+        color: $white;
         transform: translateY(-50%);
         font-size: 18px;
       }

@@ -1,9 +1,9 @@
 <template>
-  <div class="first-access">
-    <div class="first-access-container">
-      <m-button class="w-100" icon="user-plus" to="/signup">ユーザー登録</m-button>
-      <m-button class="w-100 blue" icon="sign-in-alt" to="/login">ログイン</m-button>
-      <m-button class="w-100 grey" icon="user" to="/">ゲストとして利用</m-button>
+  <div class="login">
+    <div class="login-container">
+      <m-form label="mail"></m-form>
+      <m-form label="password"></m-form>
+      <m-button class="w-100 blue">ログイン</m-button>
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.first-access {
+.login {
   @extend .fixed-page;
 
   &-container {

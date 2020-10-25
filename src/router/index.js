@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Signup from '../views/Signup.vue'
+import Login from '../views/auth/Login.vue'
+import Signup from '../views/auth/Signup.vue'
 import FirstAccess from '../views/FirstAccess.vue'
 import Post from '../views/Post.vue'
 import Group from '../views/Group.vue'
@@ -19,61 +20,67 @@ const routes = [
     path: '/first-access',
     name: 'FirstAccess',
     component: FirstAccess,
-    // meta: { menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
+    meta: { pageHierarchy: 0, menuOrder: 0 }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: { pageHierarchy: 10, menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
   },
   {
     path: '/signup',
     name: 'Signup',
     component: Signup,
-    // meta: { menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
+    meta: { pageHierarchy: 10, menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
   },
   {
     path: '/',
     name: 'Post',
     component: Post,
-    meta: { menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
+    meta: { pageHierarchy: 20, menuOrder: 10, prevPageName: '', nextPageName: 'Group' }
   },
   {
     path: '/group',
     name: 'Group',
     component: Group
-    , meta: { menuOrder: 20, prevPageName: 'Post', nextPageName: 'Video' }
+    , meta: { pageHierarchy: 20, menuOrder: 20, prevPageName: 'Post', nextPageName: 'Video' }
   },
   {
     path: '/video',
     name: 'Video',
     component: Video
-    , meta: { menuOrder: 30, prevPageName: 'Group', nextPageName: 'Calendar' }
+    , meta: { pageHierarchy: 20, menuOrder: 30, prevPageName: 'Group', nextPageName: 'Calendar' }
   },
   {
     path: '/calendar',
     name: 'Calendar',
     component: Calendar
-    , meta: { menuOrder: 40, prevPageName: 'Video', nextPageName: '' }
+    , meta: { pageHierarchy: 20, menuOrder: 40, prevPageName: 'Video', nextPageName: '' }
   },
   {
     path: '/user/coach',
     name: 'Coach',
     component: Coach
-    , meta: { menuOrder: 0 }
+    , meta: { pageHierarchy: 40, menuOrder: 0 }
   },
   {
     path: '/user/title',
     name: 'Title',
     component: Title
-    , meta: { menuOrder: 0 }
+    , meta: { pageHierarchy: 40, menuOrder: 0 }
   },
   {
     path: '/user/config',
     name: 'Config',
     component: Config
-    , meta: { menuOrder: 0 }
+    , meta: { pageHierarchy: 40, menuOrder: 0 }
   },
   {
     path: '/user/language',
     name: 'Language',
     component: Language
-    , meta: { menuOrder: 0 }
+    , meta: { pageHierarchy: 40, menuOrder: 0 }
   },
 ]
 

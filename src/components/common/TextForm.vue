@@ -2,7 +2,7 @@
   <div class="m-form">
     <input
       :value="value"
-      type="text"
+      :type="type ? type : 'text'"
       :class="{ 'is-input': inputText }"
       @input="onInput"
     />
@@ -17,6 +17,7 @@ export default {
   props: {
     value: String,
     label: String,
+    type: String,
   },
   data() {
     return {};
@@ -37,7 +38,7 @@ export default {
 <style lang="scss" scoped>
 .m-form {
   position: relative;
-  margin: 20px 0;
+  margin: 30px 0;
   padding: 0;
   display: block;
   width: 100%;
@@ -59,7 +60,7 @@ export default {
 
     & ~ label {
       position: absolute;
-      // z-index: -1;
+      z-index: -1;
       top: 4px;
       left: 0;
       width: 100%;
@@ -76,7 +77,7 @@ export default {
       font-weight: 600;
     }
     &:focus ~ label {
-      color: #6585c7;
+      color: $blue;
     }
     & ~ .focus-line {
       position: absolute;
@@ -85,7 +86,7 @@ export default {
       width: 0;
       height: 2px;
       transition: 0.4s;
-      background-color: #6585c7;
+      background-color: $blue;
     }
     &:focus ~ .focus-line {
       left: 0;

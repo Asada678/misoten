@@ -68,7 +68,7 @@ export default {
   width: $defaultFloatButtonSize;
   height: $defaultFloatButtonSize;
   border-radius: 50%;
-  background-color: rgba(orange, 0.8);
+  background-color: rgba($orange, 0.8);
   font-size: 24px;
   overflow: hidden;
   cursor: pointer;

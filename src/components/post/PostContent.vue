@@ -56,7 +56,7 @@ export default {
   margin: 10px 0;
   padding: 10px;
   border-radius: 20px;
-  background-color: rgba(255, 165, 0, 0.2);
+  background-color: rgba($orange, 0.2);
   box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.6);
 
   .user-icon {
@@ -76,7 +76,7 @@ export default {
     width: 100%;
   }
   .username {
-    border-bottom: 1px solid orange;
+    border-bottom: 1px solid $orange;
     p {
       font-size: 18px;
       font-weight: 700;
@@ -85,7 +85,7 @@ export default {
 
   .content {
     padding: 5px;
-    border-bottom: 1px solid orange;
+    border-bottom: 1px solid $orange;
     // flex-basis: 80%;
   }
   .actions {
