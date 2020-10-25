@@ -57,7 +57,7 @@ export default {
   padding: 10px;
   border-radius: 20px;
   background-color: rgba($orange, 0.2);
-  box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.6);
+  @extend .box-shadow-2;
 
   .user-icon {
     display: flex;

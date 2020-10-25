@@ -62,7 +62,45 @@
             <m-form label="month" type="number"></m-form>
             <m-form label="date" type="number"></m-form>
             <m-form label="email"></m-form>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus fugit, modi consequuntur quibusdam libero, reiciendis debitis necessitatibus repellat exercitationem totam suscipit ex eum nesciunt. Doloribus, nihil, voluptate expedita maiores fuga a quisquam facere eum voluptatum nemo quidem repellendus nam labore praesentium cum velit laboriosam voluptas dicta modi officia in consectetur. Molestias eius nobis similique doloremque esse quo sequi iure molestiae libero aspernatur quisquam explicabo iusto blanditiis iste officiis illum repellat, quasi doloribus! Alias vero enim atque doloremque et aut nemo delectus natus fugit! Iure velit ipsum blanditiis eum error, laudantium deserunt aut obcaecati quia praesentium! Tempora, itaque aliquam, numquam minima cupiditate repellendus eligendi perferendis unde quaerat officiis quidem ipsam non officia quam repudiandae beatae. Maiores repudiandae at, quo eum consectetur delectus, commodi quaerat nisi tempora vero harum quibusdam! Officiis fugit autem distinctio ullam reprehenderit optio sequi cumque modi aperiam voluptates tenetur harum a animi commodi aut magnam beatae corporis magni, perspiciatis ipsam quaerat in, ea at! Similique eveniet repellat vitae impedit, nostrum voluptas cupiditate blanditiis repellendus veritatis illo non dicta nulla vel tempore. Laudantium blanditiis, assumenda dolorum aliquam iusto optio eos qui voluptate possimus voluptates voluptas rem labore repellendus necessitatibus illo deserunt ducimus ipsa ipsam nostrum earum modi odio dolorem repudiandae. Adipisci consequuntur accusamus dignissimos vel sequi facere placeat alias debitis autem aspernatur modi inventore, magni vero praesentium nobis, sit, cumque animi repellat maxime quaerat! Enim sapiente totam eius earum beatae officiis minima. Voluptas provident recusandae consequuntur soluta iure dolorem aliquam suscipit ex, nihil consequatur quis molestias facere culpa fugiat reprehenderit consectetur omnis debitis labore ullam eum natus! Dolores quis amet provident ex debitis molestiae, voluptatem atque maiores rerum, voluptatum modi et illum sapiente consectetur nulla velit unde. Sapiente magni, libero impedit at distinctio aperiam voluptatibus voluptate illo, dolorem excepturi dolorum omnis esse molestiae est quisquam dignissimos obcaecati maxime! Consequuntur!</p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
+              fugit, modi consequuntur quibusdam libero, reiciendis debitis
+              necessitatibus repellat exercitationem totam suscipit ex eum
+              nesciunt. Doloribus, nihil, voluptate expedita maiores fuga a
+              quisquam facere eum voluptatum nemo quidem repellendus nam labore
+              praesentium cum velit laboriosam voluptas dicta modi officia in
+              consectetur. Molestias eius nobis similique doloremque esse quo
+              sequi iure molestiae libero aspernatur quisquam explicabo iusto
+              blanditiis iste officiis illum repellat, quasi doloribus! Alias
+              vero enim atque doloremque et aut nemo delectus natus fugit! Iure
+              velit ipsum blanditiis eum error, laudantium deserunt aut
+              obcaecati quia praesentium! Tempora, itaque aliquam, numquam
+              minima cupiditate repellendus eligendi perferendis unde quaerat
+              officiis quidem ipsam non officia quam repudiandae beatae. Maiores
+              repudiandae at, quo eum consectetur delectus, commodi quaerat nisi
+              tempora vero harum quibusdam! Officiis fugit autem distinctio
+              ullam reprehenderit optio sequi cumque modi aperiam voluptates
+              tenetur harum a animi commodi aut magnam beatae corporis magni,
+              perspiciatis ipsam quaerat in, ea at! Similique eveniet repellat
+              vitae impedit, nostrum voluptas cupiditate blanditiis repellendus
+              veritatis illo non dicta nulla vel tempore. Laudantium blanditiis,
+              assumenda dolorum aliquam iusto optio eos qui voluptate possimus
+              voluptates voluptas rem labore repellendus necessitatibus illo
+              deserunt ducimus ipsa ipsam nostrum earum modi odio dolorem
+              repudiandae. Adipisci consequuntur accusamus dignissimos vel sequi
+              facere placeat alias debitis autem aspernatur modi inventore,
+              magni vero praesentium nobis, sit, cumque animi repellat maxime
+              quaerat! Enim sapiente totam eius earum beatae officiis minima.
+              Voluptas provident recusandae consequuntur soluta iure dolorem
+              aliquam suscipit ex, nihil consequatur quis molestias facere culpa
+              fugiat reprehenderit consectetur omnis debitis labore ullam eum
+              natus! Dolores quis amet provident ex debitis molestiae,
+              voluptatem atque maiores rerum, voluptatum modi et illum sapiente
+              consectetur nulla velit unde. Sapiente magni, libero impedit at
+              distinctio aperiam voluptatibus voluptate illo, dolorem excepturi
+              dolorum omnis esse molestiae est quisquam dignissimos obcaecati
+              maxime! Consequuntur!
+            </p>
           </div>
           <div class="page">
             <!-- <h2>Contact Info:</h2> -->
@@ -93,12 +131,10 @@
 </template>
 
 <script>
-import Swiper from 'swiper';
+import Swiper from "swiper";
 
 export default {
-  
-  components: {
-  },
+  components: {},
   props: {},
   data() {
     return {
@@ -132,19 +168,17 @@ export default {
       this.currentPage = target;
     },
     onSwiper(swiper) {
-      console.log('swiper:', swiper);
+      console.log("swiper:", swiper);
     },
     onSlideChange(swiper) {
-      console.log('slide change:', swiper);
-    }
+      console.log("slide change:", swiper);
+    },
   },
   mounted() {
     this.slidePage = document.querySelector(".slide-page");
     this.steps = document.querySelectorAll(".step");
 
-    this.swiper = new Swiper('.swiper-container', {
-
-    })
+    this.swiper = new Swiper(".swiper-container", {});
   },
 };
 </script>
@@ -332,9 +366,6 @@ export default {
 }
 
 @media (min-width: 767px) {
-.sign-up {
-  left: -#{$mainMenuWidth / 2};
-}
 }
 
 @media (min-width: 1200px) {

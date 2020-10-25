@@ -1,9 +1,15 @@
 <template>
   <div class="first-access">
     <div class="first-access-container">
-      <m-button class="w-100" icon="user-plus" to="/signup">ユーザー登録</m-button>
-      <m-button class="w-100 blue" icon="sign-in-alt" to="/login">ログイン</m-button>
-      <m-button class="w-100 grey" icon="user" to="/">ゲストとして利用</m-button>
+      <m-button class="w-100" icon="user-plus" to="/signup"
+        >ユーザー登録</m-button
+      >
+      <m-button class="w-100 blue" icon="sign-in-alt" to="/login"
+        >ログイン</m-button
+      >
+      <m-button class="w-100 grey" icon="user" to="/"
+        >ゲストとして利用</m-button
+      >
     </div>
   </div>
 </template>
@@ -16,18 +22,30 @@ export default {
     return {};
   },
   computed: {},
-  methods: {},
+  methods: {
+  },
+  created() {
+    // const snackbar = {
+    //   text: "始めまして！<br>ご利用方法を選択してください。",
+    //   appear: true,
+    //   color: "blue",
+    // };
+    //   this.$store.commit("setSnackbar", snackbar);
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .first-access {
   @extend .fixed-page;
+  display: flex;
+  align-items: center;
 
   &-container {
     @extend .fixed-page-container;
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 }
 

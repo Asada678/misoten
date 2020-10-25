@@ -9,7 +9,7 @@
       <transition name="fade">
         <UserMenu v-if="menuVisible" />
       </transition>
-      <Snackbar />
+      <Snackbar :snackbar="snackbar" />
       <div id="container">
         <transition name="fade">
           <MainMenu v-if="menuVisible" />
@@ -60,12 +60,10 @@ export default {
   },
   computed: {
     menuVisible() {
-      console.log(
-        "this.$route.meta.pageHierarchy:",
-        this.$route.meta.pageHierarchy
-      );
       return this.pageHierarchy > 10;
-      // return this.$route.path.includes("/user");
+    },
+    snackbar() {
+      return this.$store.getters.snackbar;
     },
   },
   methods: {
@@ -121,7 +119,13 @@ export default {
     if (!localStorage.getItem(keyName)) {
       // console.log('first:', );
       localStorage.setItem(keyName, keyValue);
+      const snackbar = {
+        text: "始めまして！<br>ご利用方法を選択してください。",
+        appear: true,
+        color: "blue",
+      };
       this.$router.push({ name: "FirstAccess" });
+      this.$store.commit("setSnackbar", snackbar);
     } else {
       // console.log('not first:', );
       this.pageHierarchy = this.$route.meta.pageHierarchy;
@@ -141,7 +145,7 @@ export default {
       }
       console.log("to, from:", to, from);
 
-      if (to.path === "/") {
+      if (to.path === "/" || to.path === "/first-access") {
         this.fadeIn();
         return;
       }

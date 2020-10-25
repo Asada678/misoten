@@ -1,9 +1,9 @@
 $red: #e53935;
-$pink: #FF4081;
+$pink: #ff4081;
 $orange: #ffa931;
 $blue: #64b5f6;
 $indigo: #3949ab;
-$green: #66BB6A;
+$green: #66bb6a;
 $white: #f6f6f6;
 $grey: #b0bec5;
 $black: #353535;
@@ -17,6 +17,14 @@ $defaultFloatButtonSize: 50px;
 
 .container-padding {
   padding: 100px 30px;
+}
+
+.box-shadow-1 {
+  box-shadow: 0 -1px 5px 0px rgba($black, 0.2),
+    0px 4px 10px 0px rgba($black, 0.2);
+}
+.box-shadow-2 {
+  box-shadow: 0px 2px 5px 1px rgba($black, 0.3);
 }
 
 .fixed-page {
@@ -43,4 +51,19 @@ $defaultFloatButtonSize: 50px;
   &-l {
     background-color: rgba(royalblue, 0.7);
   }
+}
+
+@media (min-width: 480px) {
+}
+
+@media (min-width: 600px) {
+}
+
+@media (min-width: 767px) {
+  .fixed-page {
+    left: -#{$mainMenuWidth / 2};
+  }
+}
+
+@media (min-width: 1200px) {
 }

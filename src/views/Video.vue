@@ -4,11 +4,11 @@
     <p v-for="(room, index) in rooms" :key="index">
       {{room}}
     </p>
-    <m-button icon="camera" @click="openUserMedia">camera</m-button>
-    <m-button @click="hangUp">hang up</m-button>
-    <m-button @click="createRoom">create room</m-button>
-    <input type="text" v-model="remoteRoomId" />
-    <m-button @click="joinRoomById">join room</m-button>
+    <m-button class="w-50" icon="camera" @click="openUserMedia">camera</m-button>
+    <m-button class="w-50 red" @click="hangUp">hang up</m-button>
+    <m-button class="w-100 green" @click="createRoom">create room</m-button>
+    <m-form v-model="remoteRoomId" label="Room ID"></m-form>
+    <m-button class="w-100 indigo" @click="joinRoomById">join room</m-button>
     <video id="local-video" muted autoplay playsInline></video>
     <video id="remote-video" autoplay playsInline></video>
   </div>
@@ -187,7 +187,7 @@ export default {
     db.collection('rooms').onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
         if(change.type === 'added') {
-          this.rooms.push(change.doc.id);
+          this.rooms.unshift(change.doc.id);
         }
       })
     })

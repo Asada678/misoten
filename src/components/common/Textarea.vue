@@ -77,19 +77,19 @@ export default {
       font-weight: 600;
     }
     &:focus ~ label {
-      color: #6585c7;
+      color: $blue;
     }
     & ~ .focus-line {
       position: absolute;
-      bottom: 7px;
+      bottom: 5px;
       left: 50%;
       width: 0;
       height: 2px;
       transition: 0.4s;
-      background-color: #6585c7;
+      background-color: $blue;
     }
     &:focus ~ .focus-line {
-      bottom: 7px;
+      bottom: 5px;
       left: 0;
       width: 100%;
       transition: width 0.4s, left 0.4s;

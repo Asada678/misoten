@@ -76,7 +76,7 @@ export default {
   outline: none;
   text-align: center;
   box-shadow: 
-  2px 2px 10px 0px rgba(0, 0, 0, 0.4);
+  2px 2px 10px 0px rgba($black, 0.4);
 
   i {
   }
