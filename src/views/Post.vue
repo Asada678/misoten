@@ -9,7 +9,8 @@
     >
       <m-form v-model="username" label="名前" />
       <m-textarea v-model="workout" label="内容" />
-      <i class="fas fa-image"></i>
+      <input type="file" name="" id="" @change="onFileChange" />
+      <!-- <i class="fas fa-image"></i> -->
     </m-dialog>
     <transition-group tag="div" name="post-content">
       <PostContent
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-import { db } from "@/firebase/firebase";
+import { db, storage } from "@/firebase/firebase";
 import PostContent from "@/components/post/PostContent";
 
 export default {
@@ -38,6 +39,7 @@ export default {
       posts: [],
       username: null,
       workout: null,
+      file: null,
       dialog: false,
     };
   },
@@ -46,7 +48,15 @@ export default {
     openDialog() {
       this.dialog = true;
     },
-    postTodayWorkout() {
+    onFileChange(event) {
+      this.file = event.target.files[0];
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        document.querySelector("#preview").src = fileReader.result;
+      };
+      fileReader.readAsDataURL(this.file);
+    },
+    async postTodayWorkout() {
       const snackbar = {
         text: "",
         color: "",
@@ -69,25 +79,37 @@ export default {
         this.$store.commit("setSnackbar", snackbar);
         return;
       }
+
+      let url = "";
+      if (this.file) {
+        const storageRef = storage.ref();
+        const fileRef = storageRef.child(this.file.name);
+        await fileRef.put(this.file).then();
+        url = await fileRef.getDownloadURL();
+      }
       const data = {
         username: this.username,
         workout: this.workout,
+        url,
         deleteFlg: false,
         createdAt: new Date(),
       };
-      db.collection("posts").add(data).then(() => {
-        snackbar.text += "今日の頑張りを投稿しました。";
-        snackbar.color = "blue";
-        this.$store.commit("setSnackbar", snackbar);
-        this.username = null;
-        this.workout = null;
-        this.dialog = false;
-      }).catch(err => {
-        console.log('err:', err);
-        snackbar.text += "投稿に失敗しました。";
-        snackbar.color = "blue";
-        this.$store.commit("setSnackbar", snackbar);
-      });
+      db.collection("posts")
+        .add(data)
+        .then(() => {
+          snackbar.text += "今日の頑張りを投稿しました。";
+          snackbar.color = "blue";
+          this.$store.commit("setSnackbar", snackbar);
+          this.username = null;
+          this.workout = null;
+          this.dialog = false;
+        })
+        .catch((err) => {
+          console.log("err:", err);
+          snackbar.text += "投稿に失敗しました。";
+          snackbar.color = "blue";
+          this.$store.commit("setSnackbar", snackbar);
+        });
     },
     fetchPosts() {
       db.collection("posts")
@@ -103,7 +125,7 @@ export default {
               this.posts = [post, ...this.posts];
             }
             if (change.type === "modified") {
-              console.log('modified:', change.doc.id);
+              console.log("modified:", change.doc.id);
             }
             if (change.type === "removed") {
               this.posts = this.posts.filter(

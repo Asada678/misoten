@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>This is a Calendar page!</p>
-    <form @submit="onSubmit">
+    <!-- <form @submit="onSubmit">
       <input type="file" name="" id="" @change="onChange" />
       <input type="text" name="username" placeholder="NAME" />
       <input type="submit" name="" value="submit" />
@@ -11,7 +11,7 @@
     <div v-for="user in users" :key="user.name">
       <p>{{ user.name }}</p>
       <img :src="`${user.icon}`" alt="" width="300" height="200">
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
       const storageRef = storage.ref();
       const fileRef = storageRef.child(this.file.name);
       await fileRef.put(this.file).then();
-      this.url = await fileRef.getDownloadURL()
+      this.url = await fileRef.getDownloadURL();
       await db.collection('users').doc(username).set({
         name: username,
         icon: this.url

@@ -11,6 +11,7 @@
         <p>
           {{ post.workout }}
         </p>
+        <img v-if="post.url" :src="`${post.url}`" alt="image" />
       </div>
       <div class="actions">
         <i class="fas fa-reply"></i>
@@ -99,6 +100,12 @@ export default {
     padding: 5px;
     border-bottom: 1px solid $orange;
     // flex-basis: 80%;
+
+    img {
+      width: 100%;
+      max-height: 180px;
+      object-fit: contain;
+    }
   }
   .actions {
     display: flex;

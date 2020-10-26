@@ -26,7 +26,7 @@ export default {
   computed: {},
   methods: {
     onClick(icon) {
-      console.log('icon:', icon);
+      // console.log('icon:', icon);
       switch(icon) {
         case 'edit':
           this.$emit('edit');
