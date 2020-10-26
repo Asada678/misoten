@@ -1,5 +1,5 @@
 <template>
-  <div class="dialog-container">
+  <div class="dialog-container" :class="{ 'dialog-open': dialog }">
     <div class="dialog">
       <div class="dialog__header">
         <p>{{ headerText }}</p>
@@ -19,6 +19,7 @@
 export default {
   components: {},
   props: {
+    dialog: Boolean,
     headerText: String,
     buttonText: String,
     footer: { type: Boolean, default: true },
@@ -31,10 +32,11 @@ export default {
   computed: {},
   methods: {
     closeDialog() {
-      this.dialogContainer.classList.remove("dialog-open");
+      // this.dialogContainer.classList.remove("dialog-open");
+      this.$emit("close");
     },
     doAction() {
-      this.closeDialog();
+      // this.closeDialog();
       this.$emit("action");
     },
   },
@@ -42,11 +44,16 @@ export default {
     this.dialogContainer = document.querySelector(".dialog-container");
     this.dialogContainer.addEventListener("click", (event) => {
       event.stopPropagation();
-      console.log("event.target:", event.target);
+      // console.log("event.target:", event.target);
       if (event.target.classList.contains("dialog-container")) {
-        this.dialogContainer.classList.remove("dialog-open");
+        this.$emit("close");
       }
     });
+  },
+  watch: {
+    dialog() {
+      console.log("this.dialog:", this.dialog);
+    },
   },
 };
 </script>
@@ -96,7 +103,7 @@ export default {
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  transition: opacity .6s, visibility .6s, transform 0.4s;
+  transition: opacity 0.6s, visibility 0.6s, transform 0.4s;
 
   &__header {
     position: relative;

@@ -20,7 +20,7 @@ const routes = [
     path: '/first-access',
     name: 'FirstAccess',
     component: FirstAccess,
-    meta: { pageHierarchy: 0, menuOrder: 0 }
+    meta: { pageHierarchy: 10, menuOrder: 0 }
   },
   {
     path: '/login',

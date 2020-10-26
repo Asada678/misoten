@@ -20,12 +20,7 @@ export default {
   computed: {},
   methods: {
     closeSnackbar() {
-      const snackbar = {
-        text: "",
-        appear: false,
-        color: "",
-      };
-      this.$store.commit("setSnackbar", snackbar);
+      this.$store.commit("closeSnackbar");
     },
   },
   created() {},
@@ -39,9 +34,9 @@ export default {
   top: $userMenuHeight + 10px;
   left: 0;
   right: 0;
-  // display: flex;
-  // justify-content: space-evenly;
-  // align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 95%;
   max-width: 400px;
   min-height: 60px;
@@ -50,7 +45,7 @@ export default {
   padding: 10px 40px;
   text-align: center;
   color: $white;
-  background-color: $orange;
+  background-color: rgba($orange, 0.85);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-50px);
@@ -65,19 +60,19 @@ export default {
 
   &.red {
     border: 1px solid $red;
-    background-color: rgba($red, .85);
+    background-color: rgba($red, 0.85);
   }
   &.blue {
     border: 1px solid $blue;
-    background-color: rgba($blue, .85);
+    background-color: rgba($blue, 0.85);
   }
   &.green {
     border: 1px solid $green;
-    background-color: rgba($green, .85);
+    background-color: rgba($green, 0.85);
   }
   &.black {
     border: 1px solid $black;
-    background-color: rgba($black, .85);
+    background-color: rgba($black, 0.85);
   }
 
   i {

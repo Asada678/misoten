@@ -121,7 +121,6 @@ export default {
       localStorage.setItem(keyName, keyValue);
       const snackbar = {
         text: "始めまして！<br>ご利用方法を選択してください。",
-        appear: true,
         color: "blue",
       };
       this.$router.push({ name: "FirstAccess" });

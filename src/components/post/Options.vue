@@ -1,7 +1,7 @@
 <template>
   <nav class="options">
     <ul>
-      <li v-for="link in links" :key="link.text" @click="console.log('aaa')" class="option">
+      <li v-for="link in links" :key="link.text" @click="onClick(link.icon)" class="option">
         <i :class="`option fas fa-${link.icon}`"></i>
         <span class="option">{{ link.text }}</span>
       </li>
@@ -18,13 +18,27 @@ export default {
       links: [
         { text: "編集", icon: "edit", to: "/coach" },
         { text: "削除", icon: "trash", to: "/title" },
-        { text: "設定", icon: "cog", to: "/config" },
-        { text: "言語", icon: "globe", to: "/language" },
+        // { text: "設定", icon: "cog", to: "/config" },
+        // { text: "言語", icon: "globe", to: "/language" },
       ],
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    onClick(icon) {
+      console.log('icon:', icon);
+      switch(icon) {
+        case 'edit':
+          this.$emit('edit');
+          break;
+        case 'trash':
+          this.$emit('remove');
+          break;
+        default:
+          break;
+      }
+    }
+  },
   mounted() {
     const globalContainer = document.querySelector("#global-container");
     // const container = document.querySelector('#container');

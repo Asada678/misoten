@@ -10,10 +10,14 @@ export default new Vuex.Store({
   },
   mutations: {
     setSnackbar(state, snackbar) {
-      // 0.5秒後にsnackbar表示
+      snackbar = {
+        ...snackbar,
+        appear: true
+      }
+      // 0.1秒後にsnackbar表示
       setTimeout(() => {
         state.snackbar = snackbar;
-      }, 500);
+      }, 100);
       // 5秒後にsnackbar非表示
       setTimeout(() => {
         state.snackbar = {
@@ -21,8 +25,16 @@ export default new Vuex.Store({
           appear: false,
           color: ''
         }
-      }, 5000)
+      }, 5000);
     },
+    closeSnackbar(state) {
+      const snackbar = {
+        text: "",
+        appear: false,
+        color: "",
+      };
+      state.snackbar = snackbar;
+    }
   },
   getters: {
     snackbar(state) {

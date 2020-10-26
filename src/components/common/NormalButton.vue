@@ -34,6 +34,7 @@ export default {
 <style lang="scss" scoped>
 button {
   position: relative;
+  z-index: 10;
   display: inline-block;
   // width: 150px;
   margin: 10px 0;
@@ -52,7 +53,7 @@ button {
   @extend .box-shadow-2;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     z-index: -1;
     top: 0;
@@ -82,10 +83,17 @@ button {
   &.w-50 {
     width: 50%;
   }
+  &.lg {
+    font-size: 24px;
+    padding: 30px 30px;
+  }
+  &.md {
+    font-size: 20px;
+    padding: 20px 30px;
+  }
   &.t-white {
     color: $white;
   }
-
   &.red {
     border: 1px solid rgba($red, 1);
     background-color: rgba($red, 0.7);

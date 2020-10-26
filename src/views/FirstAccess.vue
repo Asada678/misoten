@@ -1,13 +1,13 @@
 <template>
   <div class="first-access">
     <div class="first-access-container">
-      <m-button class="w-100" icon="user-plus" to="/signup"
+      <m-button class="w-100 lg" icon="user-plus" to="/signup"
         >ユーザー登録</m-button
       >
-      <m-button class="w-100 blue" icon="sign-in-alt" to="/login"
+      <m-button class="w-100 lg blue" icon="sign-in-alt" to="/login"
         >ログイン</m-button
       >
-      <m-button class="w-100 grey" icon="user" to="/"
+      <m-button class="w-100 lg grey" icon="user" to="/"
         >ゲストとして利用</m-button
       >
     </div>
@@ -26,8 +26,7 @@ export default {
   },
   created() {
     // const snackbar = {
-    //   text: "始めまして！<br>ご利用方法を選択してください。",
-    //   appear: true,
+    //   text: "",
     //   color: "blue",
     // };
     //   this.$store.commit("setSnackbar", snackbar);

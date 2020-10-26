@@ -5,18 +5,21 @@
     </div>
     <div class="content-wrapper">
       <div class="username">
-        <p>浅田</p>
+        <p>{{ post.username }}</p>
       </div>
       <div class="content">
         <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad, laborum.
+          {{ post.workout }}
         </p>
       </div>
       <div class="actions">
         <i class="fas fa-reply"></i>
         <i class="fas fa-heart"></i>
         <i class="fas fa-ellipsis-h" @click="openOption">
-          <Options />
+          <Options
+            @edit="editContent(post.id)"
+            @remove="removeContent(post.id)"
+          />
         </i>
       </div>
     </div>
@@ -24,28 +27,37 @@
 </template>
 
 <script>
-import Options from '@/components/post/Options'
+import Options from "@/components/post/Options";
 export default {
-  components: {Options},
+  components: { Options },
   props: {
+    post: Object,
   },
   data() {
     return {};
   },
   computed: {},
   methods: {
-    openOption(event){
-      const options = event.target.querySelector('.options');
-      options.classList.remove('open');
+    openOption(event) {
+      const options = event.target.querySelector(".options");
+      if (!options) return;
+      options.classList.remove("open");
       setTimeout(() => {
-        options.classList.add('open');
-        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのwidth + アイコンのwidth)px 
+        options.classList.add("open");
+        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのwidth + アイコンのwidth)px
         // options.style.left = `${event.layerX - event.offsetX - 120 + 16}px`;
-        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのheight + アイコンのheight/4)px 
+        // (post-contentを基準に見たタッチされた相対位置 - アイコン内の相対位置 - オプションのheight + アイコンのheight/4)px
         // options.style.top = `${event.layerY - event.offsetY - 120 + 4}px`;
-      }, 100)
-
-    }
+      }, 100);
+    },
+    editContent(postId) {
+      // console.log("edit postId:", postId);
+      this.$emit("edit", postId);
+    },
+    removeContent(postId) {
+      // console.log("remove: postId", postId);
+      this.$emit("remove", postId);
+    },
   },
 };
 </script>
