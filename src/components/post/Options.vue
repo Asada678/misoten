@@ -40,20 +40,7 @@ export default {
     }
   },
   mounted() {
-    const globalContainer = document.querySelector("#global-container");
-    // const container = document.querySelector('#container');
-    globalContainer.addEventListener("click", (event) => {
-      // console.log("event.target:", event.target);
-      if (!event.target.classList.contains("option")) {
-        // console.log('this is not an option:', );
-        const openedOptions = document.querySelector(".options.open");
-        if(openedOptions) {
-          openedOptions.classList.remove("open");
-        }
-      } else {
-        // console.log('this is an option:', );
-      }
-    });
+    
   },
 };
 </script>

@@ -48,9 +48,12 @@ export default {
       // }
     },
     toggleMenu() {
-      const app = document.querySelector(".user-menu-list");
-      app.classList.toggle("user-menu-open");
+      const userMenuList = document.querySelector(".user-menu-list");
+      userMenuList.classList.toggle("user-menu-open");
     },
+  },
+  mounted() {
+    
   },
   watch: {},
 };

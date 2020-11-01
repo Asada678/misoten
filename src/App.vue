@@ -68,8 +68,8 @@ export default {
   },
   methods: {
     showSnackbar() {
-      const snackbar = document.querySelector(".snackbar");
-      snackbar.classList.toggle("appear");
+      // const snackbar = document.querySelector(".snackbar");
+      // snackbar.classList.toggle("appear");
     },
     swipeLeft() {
       this.swipe = true;
@@ -130,7 +130,31 @@ export default {
       this.pageHierarchy = this.$route.meta.pageHierarchy;
     }
   },
-  mounted() {},
+  mounted() {
+    const globalContainer = document.querySelector("#global-container");
+    globalContainer.addEventListener("click", (event) => {
+      // console.log("event.target:", event.target);
+      event.stopPropagation();
+
+      // user menu list が開いていたら閉じる
+      if (!event.target.classList.contains("user-icon")) {
+        const openedUserMenuList = document.querySelector(
+          ".user-menu-list.user-menu-open"
+        );
+        if (openedUserMenuList) {
+          openedUserMenuList.classList.remove("user-menu-open");
+        }
+      }
+
+      // option が開いていたら閉じる
+      if (!event.target.classList.contains("option")) {
+        const openedOptions = document.querySelector(".options.open");
+        if (openedOptions) {
+          openedOptions.classList.remove("open");
+        }
+      }
+    });
+  },
   watch: {
     $route(to, from) {
       this.pageHierarchy = to.meta.pageHierarchy;
@@ -173,9 +197,21 @@ export default {
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
   font-family: "M PLUS Rounded 1c", sans-serif;
+  // font-family: "M PLUS 1p", sans-serif;
 }
 i {
   cursor: pointer;
+
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0;
+  //   left: -100%;
+  //   transform: translateX(20%);
+  //   width: 200%;
+  //   height: 100%;
+  //   background-color: rgba($white, .3);
+  // }
 }
 body {
   overflow-y: scroll;

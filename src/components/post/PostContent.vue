@@ -9,6 +9,9 @@
       </div>
       <div class="content">
         <p>
+          トレーニング日：{{ post.trainingDate}}
+        </p>
+        <p>
           {{ post.workout }}
         </p>
         <img v-if="post.url" :src="`${post.url}`" alt="image" />

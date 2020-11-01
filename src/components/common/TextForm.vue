@@ -61,8 +61,9 @@ export default {
     & ~ label {
       position: absolute;
       z-index: -1;
-      top: 4px;
+      top: 50%;
       left: 0;
+      transform: translateY(-50%);
       width: 100%;
       transition: 0.3s;
       letter-spacing: 0.5px;
@@ -72,7 +73,7 @@ export default {
     &:focus ~ label,
     &.is-input ~ label {
       font-size: 12px;
-      top: -16px;
+      top: -5px;
       transition: 0.3s;
       font-weight: 600;
     }

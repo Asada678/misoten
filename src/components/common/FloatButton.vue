@@ -68,15 +68,31 @@ export default {
   width: $defaultFloatButtonSize;
   height: $defaultFloatButtonSize;
   border-radius: 50%;
-  background-color: rgba($orange, 0.8);
+  background-color: rgba($orange, 0.85);
   font-size: 24px;
   overflow: hidden;
   cursor: pointer;
   line-height: $defaultFloatButtonSize;
   outline: none;
   text-align: center;
-  box-shadow: 
-  2px 2px 10px 0px rgba($black, 0.4);
+  box-shadow: 2px 2px 10px 0px rgba($black, 0.4);
+
+  &.red {
+    border: 1px solid $red;
+    background-color: rgba($red, 0.85);
+  }
+  &.blue {
+    border: 1px solid $blue;
+    background-color: rgba($blue, 0.85);
+  }
+  &.green {
+    border: 1px solid $green;
+    background-color: rgba($green, 0.85);
+  }
+  &.black {
+    border: 1px solid $black;
+    background-color: rgba($black, 0.85);
+  }
 
   i {
   }

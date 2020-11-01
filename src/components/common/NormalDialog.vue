@@ -51,9 +51,6 @@ export default {
     });
   },
   watch: {
-    dialog() {
-      console.log("this.dialog:", this.dialog);
-    },
   },
 };
 </script>
