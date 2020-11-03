@@ -8,13 +8,12 @@
         <p>{{ post.username }}</p>
       </div>
       <div class="content">
-        <p>
-          トレーニング日：{{ post.trainingDate}}
-        </p>
+        <p>トレーニング日：{{ post.trainingDate }}</p>
         <p>
           {{ post.workout }}
         </p>
         <img v-if="post.url" :src="`${post.url}`" alt="image" />
+        <p>投稿日：{{ post.formattedCreatedAt }}</p>
       </div>
       <div class="actions">
         <i class="fas fa-reply"></i>
@@ -71,7 +70,7 @@ export default {
   display: flex;
   margin: 10px 0;
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 5px;
   background-color: rgba($orange, 0.2);
   @extend .box-shadow-2;
 

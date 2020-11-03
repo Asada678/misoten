@@ -41,8 +41,7 @@ export default {
     },
   },
   mounted() {
-    this.dialogContainer = document.querySelector(".dialog-container");
-    this.dialogContainer.addEventListener("click", (event) => {
+    this.$el.addEventListener("click", (event) => {
       event.stopPropagation();
       // console.log("event.target:", event.target);
       if (event.target.classList.contains("dialog-container")) {
@@ -92,7 +91,7 @@ export default {
   right: 0;
   width: 90%;
   max-width: 600px;
-  min-height: 400px;
+  // max-height: 400px;
   margin: auto;
   background-color: rgba($color: $white, $alpha: 1);
   transform: translate(-50%, -50%) scaleY(0);
@@ -124,7 +123,8 @@ export default {
   }
 
   &__content {
-    height: 280px;
+    min-height: 280px;
+    max-height: 400px;
     padding: 20px;
     overflow-y: auto;
     text-align: center;

@@ -242,6 +242,7 @@ body {
   width: 100%;
   height: calc(100vh - #{$userMenuHeight});
   background-color: $white;
+  overflow-y: auto;
   @extend .container-padding;
 }
 

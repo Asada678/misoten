@@ -7,33 +7,26 @@
       @action="postTodayWorkout"
       @close="dialog = false"
     >
-      <datepicker
-        v-model="trainingDate"
-        :format="format"
-        :language="languages[language]"
-      ></datepicker>
+      <datepicker v-model="trainingDate" label="トレーニング日"></datepicker>
       <m-form v-model="username" label="名前" />
       <m-textarea v-model="workout" label="内容" />
       <input type="file" name="" id="" @change="onFileChange" />
       <m-button class="grey" @click="file = null">選択なし</m-button>
       <!-- <i class="fas fa-image"></i> -->
     </m-dialog>
-    <transition-group tag="div" name="post-content">
+    <transition-group
+      tag="div"
+      name="post-content"
+    >
       <PostContent
-        v-for="post in posts"
+        v-for="(post) in posts"
+        :data-snapshot-index="post.snapshotIndex"
         :key="post.id"
         :post="post"
         @edit="editPost"
         @remove="removePost"
       />
     </transition-group>
-    <float-button
-      class="red"
-      icon="pen"
-      top="100"
-      right="20"
-      @click="fetchNextPosts"
-    />
     <float-button icon="pen" right="20" @click="openDialog" />
     <div id="scroll-observer"></div>
   </div>
@@ -42,8 +35,7 @@
 <script>
 import { db, storage } from "@/firebase/firebase";
 import PostContent from "@/components/post/PostContent";
-import Datepicker from "vuejs-datepicker";
-import * as languages from "vuejs-datepicker/src/locale";
+import Datepicker from "@/components/common/Datepicker";
 import dayjs from "dayjs";
 
 export default {
@@ -61,9 +53,6 @@ export default {
       file: null,
       dialog: false,
       lastPost: null,
-      language: "ja",
-      languages,
-      format: "YYYY-MM-DD",
     };
   },
   computed: {},
@@ -94,15 +83,22 @@ export default {
 
       // 入力チェック
       let isValid = true;
+      if (!this.trainingDate) {
+        isValid = false;
+        snackbar.text += "トレーニング日";
+      }
       if (!this.username) {
+        if (!isValid) {
+          snackbar.text += "<br>";
+        }
         isValid = false;
         snackbar.text += "ユーザ名";
       }
       if (!this.workout) {
-        isValid = false;
-        if (!this.username) {
+        if (!isValid) {
           snackbar.text += "<br>";
         }
+        isValid = false;
         snackbar.text += "内容";
       }
       if (!isValid) {
@@ -136,15 +132,18 @@ export default {
       db.collection("posts")
         .add(data)
         .then(() => {
+          // 追加に成功
           snackbar.text += "今日の頑張りを投稿しました。";
           snackbar.color = "blue";
           this.$store.commit("setSnackbar", snackbar);
+          this.trainingDate = null;
           this.username = null;
           this.workout = null;
           this.file = null;
           this.dialog = false;
         })
         .catch((err) => {
+          // 追加に失敗
           console.log("err:", err);
           snackbar.text += "投稿に失敗しました。";
           snackbar.color = "blue";
@@ -173,26 +172,40 @@ export default {
         .then(this.onGetSnapshot);
     },
     // firestore getでsnapshotを取得したときのcallback
-    onGetSnapshot(snapshot) {
+    onGetSnapshot(snapshot, newPost = false) {
       this.lastPost = snapshot.docs[snapshot.docs.length - 1];
-      snapshot.docChanges().forEach((change) => {
+      snapshot.docChanges().forEach((change, index) => {
+        // console.log("index:", index);
         if (change.type === "added") {
-          // 日時をフォーマット通りに変換
-          let t; // 一時変数
-          let trainingDate;
-          try {
-            t = change.doc.data().trainingDate.toDate();
-            trainingDate = dayjs(t).format("YYYY-MM-DD");
-          } catch (err) {
-            console.log("err:", err);
-          }
           const post = {
             ...change.doc.data(),
             id: change.doc.id,
-            trainingDate,
+            snapshotIndex: index,
           };
-          // 投稿を下に追加
-          this.posts = [...this.posts, post];
+          // 日時をフォーマット通りに変換
+          try {
+            // データ追加日時の取得
+            let t = change.doc.data().createdAt;
+            post.formattedCreatedAt = this.fromTimestampToFormattedDate(t);
+
+            // トレーニング日時の取得
+            t = change.doc.data().trainingDate;
+            post.trainingDate = this.fromTimestampToFormattedDate(t);
+          } catch {
+            post.trainingDate = "";
+            post.formattedCreatedAt = "";
+          }
+          if (newPost) {
+            // 投稿を上に追加
+            if (
+              this.posts.length > 0 &&
+              post.createdAt > this.posts[0].createdAt
+            )
+              this.posts = [post, ...this.posts];
+          } else {
+            // 投稿を下に追加
+            this.posts = [...this.posts, post];
+          }
         }
       });
     },
@@ -203,27 +216,14 @@ export default {
         .orderBy("createdAt", "desc")
         .limit(1)
         .onSnapshot((snapshot) => {
-          snapshot.docChanges().forEach((change) => {
-            if (change.type === "added") {
-              const post = {
-                ...change.doc.data(),
-                id: change.doc.id,
-              };
-              if (
-                this.posts.length > 0 &&
-                post.createdAt > this.posts[0].createdAt
-              ) {
-                // 新規投稿時刻が現在表示中の先頭の投稿時刻より新しい場合
-                // 新しい投稿が追加される場合
-                this.posts = [post, ...this.posts];
-              }
-            }
-          });
+          this.onGetSnapshot(snapshot, true);
         });
     },
+    // 投稿の編集
     editPost(postId) {
       console.log("edit postId from post:", postId);
     },
+    // 投稿の削除
     removePost(postId) {
       // console.log("remove: postId from post", postId);
       db.collection("posts")
@@ -235,23 +235,43 @@ export default {
           this.posts = this.posts.filter((post) => post.id !== postId);
         });
     },
-    scroll(entries) {
-      console.log("entries:", entries);
+    // 時刻のフォーマット
+    fromTimestampToFormattedDate(timestamp) {
+      return dayjs(timestamp.toDate()).format("YYYY-MM-DD");
     },
+    // スクロールの検知
+    initScrollObserver() {
+      const options = {
+        root: null,
+        rootMargin: "500px 0px",
+        threshold: 0,
+      };
+      const observer = new IntersectionObserver(this.fetchNextPosts, options);
+      const scrollObserver = document.querySelector("#scroll-observer");
+      observer.observe(scrollObserver);
+    },
+    // enter(el, done) {
+    //   // console.log("el:", el);
+    //   console.log("done:", done);
+    //   const delay = el.dataset.snapshotIndex * 150;
+    //   el.style.transitionDelay = `${delay}ms`;
+    //   // setTimeout(() => {
+    //   //   Velocity(
+    //   //     el,
+    //   //     {
+    //   //       opacity: 1
+    //   //     }
+    //   //   )
+    //   // })
+    // },
+    // leave() {},
   },
   created() {
     this.firstFetchPosts();
     this.listenNewPost();
   },
   mounted() {
-    const options = {
-      root: null,
-      rootMargin: "500px 0px",
-      threshold: 0,
-    };
-    const observer = new IntersectionObserver(this.fetchNextPosts, options);
-    const scrollObserver = document.querySelector("#scroll-observer");
-    observer.observe(scrollObserver);
+    this.initScrollObserver();
   },
 };
 </script>
@@ -263,7 +283,7 @@ export default {
 }
 .post-content-enter {
   opacity: 0;
-  // transform: translateX(-100px);
+  // transform: translateY(30px);
 }
 .post-content-enter-active {
   transition: all 0.5s ease-out;
