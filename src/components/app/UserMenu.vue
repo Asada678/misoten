@@ -66,7 +66,7 @@ export default {
   top: 0;
   width: 100%;
   height: $userMenuHeight;
-  background-color: rgba($orange, 0.9);
+  background-color: rgba($orange, 1);
 
   &-inner {
     position: relative;
@@ -170,7 +170,7 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
 }
 
 @media (min-width: 1200px) {

@@ -226,7 +226,7 @@ body {
   max-width: $containerWidth;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 80px 0 200px 0;
+  padding: ($userMenuHeight + $mobileMainMenuHeight + 20px) 0 200px 0;
   background-color: rgba($orange, 0.1);
   overflow-x: hidden;
 }
@@ -274,7 +274,7 @@ small {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   #container {
     position: relative;
     // left: $mainMenuWidth;

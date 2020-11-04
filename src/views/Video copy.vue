@@ -150,7 +150,7 @@ video {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
 }
 
 @media (min-width: 1200px) {

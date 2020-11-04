@@ -36,9 +36,11 @@ export default {
 .main-menu {
   position: fixed;
   z-index: 1000;
-  bottom: 0;
+  top: $userMenuHeight;
+  // bottom: 0;
   width: 100%;
-  box-shadow: 0px 5px 10px 3px rgba($black, 0.4);
+  // box-shadow: 0px 2px 100px 3px rgba($black, 0.4);
+  @extend .box-shadow-2;
 
   ul {
     display: flex;
@@ -135,7 +137,7 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .main-menu {
     width: $mainMenuWidth;
     min-height: calc(100vh - #{$userMenuHeight});

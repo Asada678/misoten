@@ -15,6 +15,7 @@
         <img v-if="post.url" :src="`${post.url}`" alt="image" />
         <p>投稿日：{{ post.formattedCreatedAt }}</p>
       </div>
+    
       <div class="actions">
         <i class="fas fa-reply"></i>
         <i class="fas fa-heart"></i>
@@ -133,7 +134,7 @@ export default {
 @media (min-width: 600px) {
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
 }
 
 @media (min-width: 1200px) {
