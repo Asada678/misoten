@@ -1,13 +1,14 @@
 <template>
-  <div class="first-access">
-    <m-button class="w-100 lg" icon="user-plus" to="/signup"
-      >ユーザー登録</m-button
-    >
-    <m-button class="w-100 lg blue" icon="sign-in-alt" to="/login"
-      >ログイン</m-button
+  <div class="complete-user-register">
+    <m-header>
+      <span>ユーザー登録完了！</span>
+    </m-header>
+
+    <m-button class="w-100 lg green" icon="sign-in-alt" to="/user/set-target"
+      >目標設定へ進む</m-button
     >
     <m-button class="w-100 lg grey" icon="user" to="/"
-      >ゲストとして利用</m-button
+      >目標は後で設定する</m-button
     >
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.first-access {
+.complete-user-register {
   @extend .fixed-page;
   display: flex;
   flex-direction: column;

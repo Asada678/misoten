@@ -1,6 +1,7 @@
 $red: #e53935;
 $pink: #ff4081;
 $orange: #ffa931;
+$lightOrange: #f8e7cf;
 $blue: #64b5f6;
 $indigo: #3949ab;
 $green: #66bb6a;
@@ -30,6 +31,7 @@ $defaultFloatButtonSize: 50px;
 .fixed-page {
   position: relative;
   z-index: 2000;
+  // top: -40px;
   top: 0;
   left: 0;
   width: 100%;
@@ -37,21 +39,20 @@ $defaultFloatButtonSize: 50px;
   min-height: 100vh;
   padding: 0px 10px 200px;
   text-align: center;
-  overflow-y: auto;
+  // overflow-y: auto;
 }
 
-.fixed-page-container {
-  max-width: 700px;
-  margin: 0 auto;
-}
 
-.blue {
-  background-color: royalblue;
-
-  &-l {
-    background-color: rgba(royalblue, 0.7);
-  }
+.flex {
+  display: flex;
 }
+// .blue {
+//   background-color: royalblue;
+
+//   &-l {
+//     background-color: rgba(royalblue, 0.7);
+//   }
+// }
 
 @media (min-width: 480px) {
 }

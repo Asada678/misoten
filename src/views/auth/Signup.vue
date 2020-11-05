@@ -1,108 +1,125 @@
 <template>
   <div class="sign-up">
-    <div class="sign-up-container">
-      <header>
-        <transition name="fade">
-          <i
-            v-if="currentPage > 0"
-            class="fas fa-chevron-left prev"
-            @click="prev"
-          ></i>
-        </transition>
-        <span class="current"> {{ Number(currentPage) + 1 }} / 4</span>
-        <transition name="fade">
-          <i
-            v-if="currentPage < 3"
-            class="fas fa-chevron-right next"
-            @click="next"
-          ></i>
-        </transition>
-      </header>
-      <div class="progress-bar">
-        <div class="step current">
-          <p>ユーザ情報</p>
-          <div class="bar"></div>
-          <div class="bullet">
-            <span>1</span>
-          </div>
-          <div class="check fas fa-check"></div>
-        </div>
-        <div class="step">
-          <p>体型</p>
-          <div class="bar"></div>
-          <div class="bullet">
-            <span>2</span>
-          </div>
-          <div class="check fas fa-check"></div>
-        </div>
-        <div class="step">
-          <p>目標設定</p>
-          <div class="bar"></div>
-          <div class="bullet">
-            <span>3</span>
-          </div>
-          <div class="check fas fa-check"></div>
-        </div>
-        <div class="step">
-          <p>確認</p>
-          <div class="bullet">
-            <span>4</span>
-          </div>
-          <div class="check fas fa-check"></div>
-        </div>
-      </div>
-      <div class="form-container">
-        <form action="#">
-          <div class="page slide-page">
-            <!-- <h2>Basic Info</h2> -->
-            <m-form label="username"></m-form>
-            <m-form label="email"></m-form>
-            <m-form label="gender"></m-form>
-            <m-form label="year" type="number"></m-form>
-            <m-form label="month" type="number"></m-form>
-            <m-form label="date" type="number"></m-form>
-            <m-form label="email"></m-form>
-          </div>
-          <div class="page">
-            <!-- <h2>Contact Info:</h2> -->
-            <m-form label="height"></m-form>
-            <m-form label="weight"></m-form>
-            <m-form label="fat percentage"></m-form>
-            <m-form label="muscle mass"></m-form>
-          </div>
-          <div class="page">
-            <!-- <h2>Date of Birth Info</h2> -->
-            <div class="swiper-container">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <h3>痩せ型</h3>
-                  <img src="/img/body-type-m1.png" alt="">
-                  </div>
-                <div class="swiper-slide">
-                  <h3>普通</h3>
-                  <img src="/img/body-type-m2.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <h3>ガッシリ</h3>
-                  <img src="/img/body-type-m3.png" alt="">
-                </div>
-              </div>
-            </div>
-            <p>詳細設定</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam optio obcaecati reiciendis voluptates cumque? Error consectetur ratione molestiae praesentium hic amet, porro nihil illo veniam! Facere ipsum aliquam excepturi perspiciatis?</p>
-          </div>
-          <div class="page">
-            <!-- <h2>User Details</h2> -->
-            <m-button class="w-100">submit</m-button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <m-header prev>
+      <span>ユーザー登録</span>
+    </m-header>
+
+    <form action="#">
+      <!-- 1.username -->
+      <m-form-group>
+        <m-form
+          v-model="username"
+          label="username"
+          :class="{ error: $v.username.$error }"
+          @blur="$v.username.$touch()"
+        ></m-form>
+        <m-error-message v-if="$v.username.$error">
+          <span v-if="!$v.username.maxLength">
+            ユーザ名は{{
+              $v.username.$params.maxLength.max
+            }}文字以下でなければいけません。
+          </span>
+          <span v-if="!$v.username.required">必須項目です。</span>
+        </m-error-message>
+      </m-form-group>
+      <!-- 2.email -->
+      <m-form-group>
+        <m-form
+          v-model="email"
+          label="email"
+          type="email"
+          :class="{ error: $v.email.$error }"
+          @blur="$v.email.$touch()"
+        ></m-form>
+        <m-error-message v-if="$v.email.$error">
+          <span v-if="!$v.email.email"> 正しいEmailを入力して下さい。 </span>
+          <span v-if="!$v.email.required">必須項目です。</span>
+        </m-error-message>
+      </m-form-group>
+      <!-- 3.password -->
+      <m-form-group>
+        <m-form
+          v-model="password"
+          label="password"
+          type="password"
+          autocomplete
+          :class="{ error: $v.password.$error }"
+          @blur="$v.password.$touch()"
+        ></m-form>
+        <m-error-message v-if="$v.password.$error">
+          <span v-if="!$v.password.maxLength || !$v.password.minLength">
+            パスワードは{{ $v.password.$params.minLength.min }}～{{
+              $v.password.$params.maxLength.max
+            }}文字でないといけません。
+          </span>
+          <span v-if="!$v.password.required">必須項目です。</span>
+        </m-error-message>
+      </m-form-group>
+      <!-- 4.gender -->
+      <m-form-group>
+        <m-radio
+          v-model="gender"
+          name="gender"
+          :options="genderOptions"
+        ></m-radio>
+        <m-error-message v-if="$v.gender.$error">
+          <span v-if="!$v.gender.required"> 必須項目です。 </span>
+        </m-error-message>
+      </m-form-group>
+      <!-- 5.birthday -->
+      <m-form-group class="flex">
+        <m-select
+          v-model="year"
+          class="w-40"
+          label="年"
+          name="year"
+          :options="yearOptions"
+        >
+          <m-error-message v-if="$v.year.$error">
+            <span v-if="!$v.year.required"> 必須項目です。 </span>
+          </m-error-message>
+        </m-select>
+        <m-select
+          v-model="month"
+          class="w-30"
+          label="月"
+          name="month"
+          :options="monthOptions"
+        >
+          <m-error-message v-if="$v.month.$error">
+            <span v-if="!$v.month.required"> 必須項目です。 </span>
+          </m-error-message>
+        </m-select>
+        <m-select
+          v-model="date"
+          class="w-30"
+          label="日"
+          name="date"
+          :class="{ disabled: !year || !month }"
+          :options="dateOptions"
+        >
+          <m-error-message v-if="$v.date.$error">
+            <span v-if="!$v.date.required"> 必須項目です。 </span>
+          </m-error-message>
+        </m-select>
+      </m-form-group>
+      <!-- 6.button -->
+      <m-form-group>
+        <m-button class="w-50" @click="signup">登録</m-button>
+      </m-form-group>
+    </form>
   </div>
 </template>
 
 <script>
-import Swiper from "swiper";
+import firebase from "firebase";
+import { db } from "@/firebase/firebase";
+import {
+  required,
+  maxLength,
+  minLength,
+  email,
+} from "vuelidate/lib/validators";
 
 export default {
   components: {},
@@ -113,7 +130,48 @@ export default {
       slidePage: null,
       steps: null,
       swiper: null,
+      username: null,
+      email: null,
+      password: null,
+      gender: null,
+      year: null,
+      month: null,
+      date: null,
+      genderOptions: [
+        { label: "男性", value: "male", color: "indigo", icon: "male" },
+        { label: "女性", value: "female", color: "pink", icon: "female" },
+      ],
+      yearOptions: [],
+      monthOptions: [],
+      dateOptions: [],
     };
+  },
+  validations: {
+    username: {
+      required,
+      maxLength: maxLength(10),
+    },
+    email: {
+      required,
+      email,
+    },
+    password: {
+      required,
+      minLength: minLength(6),
+      maxLength: maxLength(10),
+    },
+    gender: {
+      required,
+    },
+    year: {
+      required,
+    },
+    month: {
+      required,
+    },
+    date: {
+      required,
+    },
   },
   computed: {
     // currentStep() {
@@ -121,29 +179,120 @@ export default {
     // }
   },
   methods: {
-    prev() {
-      const target = this.currentPage - 1;
-      this.steps[target].classList.remove("done");
-      this.setCurrentPage(target);
+    signup() {
+      // console.log('this.username:', this.username);
+      // console.log('this.email:', this.email);
+      // console.log('this.password:', this.password);
+      // console.log('this.gender:', this.gender);
+      // console.log("this.year:", this.year);
+      // console.log("this.month:", this.month);
+      // console.log("this.date:", this.date);
+      // console.log("firebase.auth():", firebase.auth());
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then((cred) => {
+          // await console.log("cred:", cred);
+          cred.user.sendEmailVerification().then(() => {
+            console.log("email sent:");
+            const snackbar = {
+              text:
+                "ユーザ登録を完了しました！<br>続いて目標値を設定してください。",
+              color: "green",
+            };
+            this.$store.commit("setSnackbar", snackbar);
+            db.collection("users")
+              .doc(cred.user.uid)
+              .set(
+                {
+                  username: this.username,
+                  email: this.email,
+                  gender: this.gender,
+                  birthYear: this.year,
+                  birthMonth: this.month,
+                  birthDate: this.date,
+                  createdAt: new Date(),
+                },
+                { merge: true }
+              )
+              .then(() => {
+                console.log("then after set :");
+                this.$router.push({ name: "CompleteSignup" });
+              });
+          });
+        })
+        .catch((err) => {
+          let text = "登録に失敗しました。";
+          switch (err.code) {
+            case "auth/email-already-in-use":
+              text += "既に使われているEmailです。";
+              break;
+            case "auth/invalid-email":
+              text += "不適切なEmailです。";
+              break;
+            case "auth/operation-not-allowed":
+              text += "不適切な操作です。";
+              break;
+            case "auth/weak-password":
+              text += "パスワードが脆弱です。";
+              break;
+          }
+          const snackbar = {
+            text,
+            color: "red",
+          };
+          this.$store.commit("setSnackbar", snackbar);
+        });
     },
-    next() {
-      const target = this.currentPage + 1;
-      this.steps[target - 1].classList.add("done");
-      this.setCurrentPage(target);
-    },
-    setCurrentPage(target) {
-      this.slidePage.style.marginLeft = `-${target * 25}%`;
-      const currentStep = document.querySelector(".step.current");
-      currentStep.classList.remove("current");
-      this.steps[target].classList.add("current");
-      this.currentPage = target;
+    setDate() {
+      if (this.year && this.month) {
+        this.dateOptions = [];
+        const lastDate = new Date(this.year, this.month, 0).getDate();
+        // console.log("lastDate:", lastDate);
+        for (let i = 1; i <= lastDate; i++) {
+          const option = {
+            label: "日",
+            text: i,
+            value: i,
+          };
+          this.dateOptions = [...this.dateOptions, option];
+        }
+      }
     },
   },
-  mounted() {
-    this.slidePage = document.querySelector(".slide-page");
-    this.steps = document.querySelectorAll(".step");
-
-    this.swiper = new Swiper(".swiper-container", {});
+  created() {
+    const year = new Date().getFullYear();
+    //  console.log('year:', year);
+    for (let i = year - 99; i <= year; i++) {
+      const option = {
+        label: "年",
+        text: i,
+        value: i,
+      };
+      this.yearOptions = [option, ...this.yearOptions];
+    }
+    for (let i = 1; i <= 12; i++) {
+      const option = {
+        label: "月",
+        text: i,
+        value: i,
+      };
+      this.monthOptions = [...this.monthOptions, option];
+    }
+  },
+  watch: {
+    year() {
+      // console.log("watch this.year:", this.year);
+      this.setDate();
+    },
+    month() {
+      // console.log("watch this.month:", this.month);
+      this.setDate();
+    },
   },
 };
 </script>
@@ -151,177 +300,17 @@ export default {
 <style lang="scss" scoped>
 .sign-up {
   @extend .fixed-page;
+  // header {
+  //   @extend .fixed-page-header;
 
-  &-container {
-    @extend .fixed-page-container;
-  }
-
-  header {
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1050px;
-    height: 60px;
-    margin: 0 auto;
-    padding: 0 10px;
-    background-color: rgba($blue, 0.9);
-    color: $white;
-
-    i {
-      position: absolute;
-      font-size: 30px;
-
-      &.prev {
-        left: 10px;
-      }
-      &.next {
-        right: 10px;
-      }
-    }
-
-    span {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 30px;
-      font-weight: 700;
-    }
-  }
-
-  .progress-bar {
-    display: flex;
-    margin-bottom: 10px;
-    text-align: left;
-
-    .step {
-      position: relative;
-      width: 100%;
-      text-align: center;
-      color: $grey;
-
-      // 入力が完了したステップ
-      &.done {
-        color: $blue;
-        .bar::after {
-          background-color: $blue;
-          // transform-origin: left;
-          // animation: tonext 0.3s linear forwards;
-          transform: scaleX(1);
-          // transform: none;
-          transition: transform 0.7s, transform-origin 0s;
-        }
-        .bullet {
-          border-color: $blue;
-          background-color: $blue;
-          span {
-            display: none;
-            // color: white;
-          }
-        }
-        .check {
-          // display: block;
-          opacity: 1;
-          color: $white;
-          transform: translate(-50%, -50%);
-          transition: transform 0.3s, opacity 0.5s;
-        }
-      }
-
-      // 入力中のステップ
-      &.current {
-        color: $black;
-        p {
-          font-weight: 700;
-        }
-        .bullet {
-          border: 2px solid $black;
-        }
-      }
-
-      p {
-        margin-bottom: 8px;
-      }
-
-      .bar {
-        position: absolute;
-        top: 11px;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        &::before,
-        &::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          // bottom: 0;
-          // right: 0;
-          // right: -51px;
-          height: 3px;
-          width: 100%;
-          background-color: rgba($grey, 0.7);
-        }
-        &::after {
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.7s, transform-origin 0s,
-            background-color 0.7s 1s;
-          transition: all 0.7s;
-        }
-      }
-
-      .bullet {
-        position: relative;
-        display: inline-block;
-        width: 25px;
-        height: 25px;
-        border: 2px solid $grey;
-        border-radius: 50%;
-        background-color: $white;
-        transition: 0.3s;
-
-        span {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          // transform: translateY(-50%);
-          font-size: 17px;
-          font-weight: 700;
-          line-height: 25px;
-        }
-      }
-
-      .check {
-        position: absolute;
-        left: 50%;
-        top: 70%;
-        transform: translate(-50%, -50%) rotate(-90deg);
-        font-size: 15px;
-        opacity: 0;
-        transition: transform 0.3s, opacity 0s;
-      }
-    }
-  }
-
-  .form-container {
-    width: 100%;
-    overflow: hidden;
-    form {
-      display: flex;
-      width: 400%;
-
-      .page {
-        width: 25%;
-        transition: margin-left 0.3s ease-in-out;
-      }
-    }
-  }
+  //   span {
+  //     position: absolute;
+  //     left: 50%;
+  //     transform: translateX(-50%);
+  //     font-size: 30px;
+  //     font-weight: 700;
+  //   }
+  // }
 }
 
 @media (min-width: 480px) {

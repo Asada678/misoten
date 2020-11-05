@@ -166,23 +166,34 @@ export default {
           ripple.remove();
         }, 1000);
       }
-      console.log("to, from:", to, from);
+      // console.log("to, from:", to, from);
 
-      if (to.path === "/" || to.path === "/first-access") {
+      if (
+        to.path === "/" ||
+        to.path === "/first-access" ||
+        to.path === "/login" ||
+        to.path === "/signup" ||
+        from.path === "/login" ||
+        from.path === "/signup"
+      ) {
         this.fadeIn();
         return;
       }
 
       const toPageHierarchy = to.meta.pageHierarchy;
       const fromPageHierarchy = from.meta.pageHierarchy;
-      if (toPageHierarchy < fromPageHierarchy) {
-        // 浅い階層へ進むとき
-        this.leftIn();
-      } else if (toPageHierarchy > fromPageHierarchy) {
-        // 深い階層へ進むとき
-        this.rightIn();
+      if (toPageHierarchy > 10 && fromPageHierarchy > 10) {
+        if (toPageHierarchy < fromPageHierarchy) {
+          // 浅い階層へ進むとき
+          this.leftIn();
+          return;
+        } else if (toPageHierarchy > fromPageHierarchy) {
+          // 深い階層へ進むとき
+          this.rightIn();
+          return;
+        }
       } else {
-        // 同階層へ進むとき
+        // 遷移先・遷移元ともに階層が浅いとき
         this.fadeIn();
       }
     },

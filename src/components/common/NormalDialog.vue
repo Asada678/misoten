@@ -1,7 +1,7 @@
 <template>
   <div class="dialog-container" :class="{ 'dialog-open': dialog }">
     <div class="dialog">
-      <div class="dialog__header">
+      <div class="dialog__header" :class="color">
         <p>{{ headerText }}</p>
         <i class="fas fa-times" @click="closeDialog"></i>
       </div>
@@ -9,7 +9,8 @@
         <slot></slot>
       </div>
       <div v-if="footer" class="dialog__footer">
-        <m-button @click="doAction">{{ buttonText }}</m-button>
+        <m-button class="grey w-25" @click="closeDialog">キャンセル</m-button>
+        <m-button class="w-25" :class="color" @click="doAction">{{ buttonText }}</m-button>
       </div>
     </div>
   </div>
@@ -20,8 +21,9 @@ export default {
   components: {},
   props: {
     dialog: Boolean,
+    color: String,
     headerText: String,
-    buttonText: String,
+    buttonText: { type: String, default: "OK" },
     footer: { type: Boolean, default: true },
   },
   data() {
@@ -49,8 +51,7 @@ export default {
       }
     });
   },
-  watch: {
-  },
+  watch: {},
 };
 </script>
 
@@ -91,7 +92,7 @@ export default {
   right: 0;
   width: 90%;
   max-width: 600px;
-  // max-height: 400px;
+  max-height: 80%;
   margin: auto;
   background-color: rgba($color: $white, $alpha: 1);
   transform: translate(-50%, -50%) scaleY(0);
@@ -113,6 +114,21 @@ export default {
     padding: 0 20px;
     background-color: rgba($color: $orange, $alpha: 0.9);
 
+    &.red {
+      color: $white;
+      background-color: rgba($color: $red, $alpha: 0.9);
+    }
+    &.blue {
+      color: $white;
+      background-color: rgba($color: $blue, $alpha: 0.9);
+    }
+    &.green {
+      background-color: rgba($color: $green, $alpha: 0.9);
+    }
+    &.indigo {
+      background-color: rgba($color: $indigo, $alpha: 0.9);
+    }
+
     p {
       font-weight: 700;
     }
@@ -123,16 +139,29 @@ export default {
   }
 
   &__content {
-    min-height: 280px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // min-height: 280px;
     max-height: 400px;
     padding: 20px;
+    padding: 20px 20px 100px 20px;
     overflow-y: auto;
     text-align: center;
+
+    p {
+      font-size: 20px;
+      font-weight: 700;
+    }
   }
 
   &__footer {
-    position: relative;
-    top: 0;
+    // position: relative;
+    position: absolute;
+    z-index: 10;
+    // top: 0;
+    bottom: 0;
     left: 0;
     display: flex;
     justify-content: flex-end;
@@ -140,7 +169,8 @@ export default {
     width: 100%;
     min-height: 60px;
     padding: 10px 20px;
-    background-color: rgba($color: $orange, $alpha: 0.2);
+    // background-color: rgba($color: $orange, $alpha: 0.2);
+    background-color: $lightOrange;
   }
 }
 

@@ -4,7 +4,9 @@
       :value="value"
       :type="type ? type : 'text'"
       :class="{ 'is-input': inputText }"
+      :autocomplete="autocomplete"
       @input="onInput"
+      @blur="onBlur"
     />
     <label>{{ label }}</label>
     <span class="focus-line"></span>
@@ -15,22 +17,41 @@
 export default {
   components: {},
   props: {
-    value: String,
+    value: {
+      type: String,
+      // default: "",
+    },
     label: String,
     type: String,
+    autocomplete: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
-    return {};
+    return {
+      // errorMessage: null,
+    };
   },
   computed: {
     inputText() {
       return this.value;
     },
+    // errorMessage() {
+
+    //   return message;
+    // },
   },
   methods: {
+    onBlur() {
+      this.$emit("blur");
+    },
     onInput(event) {
       this.$emit("input", event.target.value);
     },
+  },
+  mounted() {
+    // console.log('required:', required);
   },
 };
 </script>
@@ -38,25 +59,56 @@ export default {
 <style lang="scss" scoped>
 .m-form {
   position: relative;
-  margin: 30px 0;
-  padding: 0;
   display: block;
   width: 100%;
+  padding: 0;
+  border: 2px solid transparent;
   // transform: translate3d(0, 0, -1000px);
   // opacity: 0;
-  // transition: transform 0.3s, opacity 0.4s;
+  transition: all 0.3s;
 
-  input[type="text"] {
+  &.error {
+    border: 2px solid rgba($red, 0.6);
+    border-radius: 5px;
+    background-color: rgba($red, 0.2);
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      @extend .box-shadow-2;
+      & ~ label {
+        top: -10px;
+        font-size: 12px;
+        font-weight: 600;
+        color: $red;
+        transition: 0.3s;
+      }
+      &:focus ~ label {
+        color: $red;
+      }
+      & ~ .focus-line {
+        background-color: rgba($red, 0.3);
+      }
+    }
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
     font-size: 20px;
     font-family: inherit;
     width: 100%;
     box-sizing: border-box;
     letter-spacing: 1px;
     outline: none;
-    padding: 4px 0;
+    padding: 4px;
     border: 0;
     border-bottom: 1px solid #aaaaaa;
     background-color: transparent;
+
+    &:focus {
+      @extend .box-shadow-2;
+    }
 
     & ~ label {
       position: absolute;
@@ -73,7 +125,7 @@ export default {
     &:focus ~ label,
     &.is-input ~ label {
       font-size: 12px;
-      top: -5px;
+      top: -10px;
       transition: 0.3s;
       font-weight: 600;
     }

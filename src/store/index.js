@@ -5,10 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: null,
+    user: {},
     snackbar: {},
   },
   mutations: {
+    setUser(state, user) {
+      state.user = user;
+    },
     setSnackbar(state, snackbar) {
       snackbar = {
         ...snackbar,
@@ -37,9 +40,12 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    user(state) {
+      return state.user;
+    },
     snackbar(state) {
       return state.snackbar;
-    }
+    },
   },
   actions: {
   },

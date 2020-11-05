@@ -1,10 +1,11 @@
 <template>
-  <div class="textarea">
+  <div class="m-textarea">
     <textarea
       :value="value"
       type="text"
       :class="{ 'is-input': inputText }"
       @input="onInput"
+      @blur="onBlur"
     />
     <label>{{ label }}</label>
     <span class="focus-line"></span>
@@ -27,23 +28,52 @@ export default {
     },
   },
   methods: {
+    onBlur() {
+      this.$emit("blur");
+    },
     onInput(event) {
       this.$emit("input", event.target.value);
     },
   },
+  mounted() {
+    // console.log('this.value:', this.value);
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.textarea {
+.m-textarea {
   position: relative;
-  margin: 20px 0;
+  // margin: 20px 0;
   padding: 0;
   display: block;
   width: 100%;
   // transform: translate3d(0, 0, -1000px);
   // opacity: 0;
   // transition: transform 0.3s, opacity 0.4s;
+
+  &.error {
+    
+    textarea {
+    border: 2px solid rgba($red, 0.6);
+    border-radius: 5px;
+    background-color: rgba($red, 0.2);
+      @extend .box-shadow-2;
+      & ~ label {
+        top: -18px;
+        font-size: 12px;
+        font-weight: 600;
+        color: $red;
+        transition: 0.3s;
+      }
+      &:focus ~ label {
+        color: $red;
+      }
+      & ~ .focus-line {
+        background-color: rgba($red, 0.3);
+      }
+    }
+  }
 
   textarea {
     font-size: 20px;
@@ -58,6 +88,10 @@ export default {
     background-color: transparent;
     resize: none;
 
+    &:focus {
+      @extend .box-shadow-2;
+    }
+
     & ~ label {
       position: absolute;
       z-index: -1;
@@ -71,10 +105,10 @@ export default {
     }
     &:focus ~ label,
     &.is-input ~ label {
+      top: -18px;
       font-size: 12px;
-      top: -16px;
-      transition: 0.3s;
       font-weight: 600;
+      transition: 0.3s;
     }
     &:focus ~ label {
       color: $blue;

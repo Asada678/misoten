@@ -1,10 +1,12 @@
 <template>
   <div class="m-datepicker">
     <datepicker
-      :value="value"
+      :class="{ 'is-input': inputText }"
       :format="format"
       :language="languages[language]"
+      :value="value"
       @input="onInput"
+      @blur="onBlur"
     ></datepicker>
   </div>
 </template>
@@ -26,14 +28,19 @@ export default {
       language: "ja",
       languages,
       format: "yyyy-MM-dd",
+      inputText: false,
     };
   },
   computed: {
-    inputText() {
-      return this.value;
-    },
+    // inputText() {
+    //   return this.value;
+    // },
   },
   methods: {
+    onBlur() {
+      // console.log('datepicker blur:', );
+      this.$emit("blur");
+    },
     onInput(event) {
       if (event) {
         this.inputForm.classList.add("is-input");
@@ -51,6 +58,10 @@ export default {
     span.classList.add("focus-line");
     this.inputForm.parentElement.appendChild(label);
     this.inputForm.parentElement.appendChild(span);
+    
+    if (this.value) {
+      this.inputText = !!this.value;
+    }
   },
 };
 </script>
@@ -58,13 +69,20 @@ export default {
 <style lang="scss">
 .m-datepicker {
   position: relative;
-  margin: 30px 0;
   padding: 0;
   display: block;
   width: 100%;
-  // transform: translate3d(0, 0, -1000px);
-  // opacity: 0;
-  // transition: transform 0.3s, opacity 0.4s;
+
+  .is-input {
+    input[type="text"] {
+      & ~ label {
+        font-size: 12px;
+        top: -5px;
+        transition: 0.3s;
+        font-weight: 600;
+      }
+    }
+  }
 
   input[type="text"] {
     font-size: 20px;
@@ -90,8 +108,7 @@ export default {
       color: #aaaaaa;
       text-align: left;
     }
-    &:focus ~ label,
-    &.is-input ~ label {
+    &:focus ~ label {
       font-size: 12px;
       top: -5px;
       transition: 0.3s;

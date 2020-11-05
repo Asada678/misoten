@@ -7,19 +7,41 @@
       @action="postTodayWorkout"
       @close="dialog = false"
     >
-      <datepicker v-model="trainingDate" label="トレーニング日"></datepicker>
-      <m-form v-model="username" label="名前" />
-      <m-textarea v-model="workout" label="内容" />
+      <m-form-group>
+        <m-datepicker
+          v-model="trainingDate"
+          label="トレーニング日"
+        ></m-datepicker>
+        <m-error-message v-if="$v.trainingDate.$error">
+          <span v-if="!$v.trainingDate.required">必須項目です。</span>
+        </m-error-message>
+      </m-form-group>
+      <m-form-group>
+        <m-form v-model="username" label="名前" />
+      </m-form-group>
+      <m-form-group>
+        <m-textarea
+          v-model="workout"
+          label="内容"
+          :class="{ error: $v.workout.$error }"
+          @blur="$v.workout.$touch()"
+        ></m-textarea>
+        <m-error-message v-if="$v.workout.$error">
+          <span v-if="!$v.workout.maxLength">
+            トレーニング内容は{{
+              $v.workout.$params.maxLength.max
+            }}文字以下でなければいけません。
+          </span>
+          <span v-if="!$v.workout.required">必須項目です。</span>
+        </m-error-message>
+      </m-form-group>
       <input type="file" name="" id="" @change="onFileChange" />
       <m-button class="grey" @click="file = null">選択なし</m-button>
       <!-- <i class="fas fa-image"></i> -->
     </m-dialog>
-    <transition-group
-      tag="div"
-      name="post-content"
-    >
+    <transition-group tag="div" name="post-content">
       <PostContent
-        v-for="(post) in posts"
+        v-for="post in posts"
         :data-snapshot-index="post.snapshotIndex"
         :key="post.id"
         :post="post"
@@ -35,25 +57,33 @@
 <script>
 import { db, storage } from "@/firebase/firebase";
 import PostContent from "@/components/post/PostContent";
-import Datepicker from "@/components/common/Datepicker";
 import dayjs from "dayjs";
+import {
+  required,
+  maxLength,
+  minLength,
+  email,
+} from "vuelidate/lib/validators";
 
 export default {
   components: {
     PostContent,
-    Datepicker,
   },
   props: {},
   data() {
     return {
       posts: [],
-      trainingDate: null,
+      trainingDate: new Date(),
       username: null,
       workout: null,
       file: null,
       dialog: false,
       lastPost: null,
     };
+  },
+  validations: {
+    trainingDate: { required },
+    workout: { required, maxLength: maxLength(8) },
   },
   computed: {},
   methods: {
@@ -75,6 +105,7 @@ export default {
     },
     // 投稿
     async postTodayWorkout() {
+      // console.log('this.trainingDate:', this.trainingDate);
       // snackbar の初期化
       const snackbar = {
         text: "",

@@ -19,7 +19,8 @@ export default {
   },
   computed: {},
   methods: {
-    onClick() {
+    onClick(event) {
+      event.preventDefault();
       if (this.to) {
         console.log("to:");
         this.$router.push({ path: this.to });
@@ -36,8 +37,8 @@ button {
   position: relative;
   z-index: 10;
   display: inline-block;
-  // width: 150px;
-  margin: 10px 0;
+  min-width: 100px;
+  margin: 10px;
   padding: 10px 30px;
   outline: none;
   cursor: pointer;
@@ -45,7 +46,7 @@ button {
   border: 1px solid $orange;
   background-color: rgba($orange, 0.7);
   color: $black;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   word-break: break-word;
   overflow: hidden;
@@ -76,12 +77,22 @@ button {
       opacity: 1;
     }
   }
+  i {
+    position: relative;
+    left: -10px;
+  }
 
   &.w-100 {
-    width: 100%;
+    width: calc(100% - 20px);
+  }
+  &.w-50 {
+    width: 75%;
   }
   &.w-50 {
     width: 50%;
+  }
+  &.w-25 {
+    // width: 25%;
   }
   &.lg {
     font-size: 24px;
@@ -113,14 +124,6 @@ button {
   &.grey {
     border: 1px solid rgba($grey, 1);
     background-color: rgba($grey, 0.7);
-  }
-
-  i {
-    position: relative;
-    left: -10px;
-  }
-  span {
-    // position: relative;
   }
 }
 
