@@ -2,9 +2,9 @@
   <div class="user-menu-container">
     <nav class="user-menu">
       <div class="user-menu-inner">
-        {{ user.username }}
+       <m-form class="w-50 bg-white" icon="search"></m-form>
         <!-- <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i> -->
-        <img class="user-icon" src="/img/kuma.png" alt="" @click="toggleMenu" />
+        <img class="user-icon" :src="userIcon" alt="" @click="toggleMenu" />
       </div>
     </nav>
     <div class="list-container">
@@ -61,6 +61,8 @@ export default {
     return {
       dialog: false,
       commonLinks: [
+        { text: "プロフィール", icon: "id-card", to: "/profile" },
+        { text: "アイコン設定", icon: "portrait", to: "/set-icon" },
         { text: "AIコーチ", icon: "user-graduate", to: "/coach" },
         { text: "称号", icon: "crown", to: "/title" },
         { text: "設定", icon: "cog", to: "/config" },
@@ -83,6 +85,10 @@ export default {
     user() {
       return this.$store.getters.user;
     },
+    userIcon() {
+      return this.user.userIcon ? this.user.userIcon : '/img/kuma.png';
+    },
+
   },
   methods: {
     back() {

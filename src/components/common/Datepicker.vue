@@ -58,7 +58,7 @@ export default {
     span.classList.add("focus-line");
     this.inputForm.parentElement.appendChild(label);
     this.inputForm.parentElement.appendChild(span);
-    
+
     if (this.value) {
       this.inputText = !!this.value;
     }
@@ -95,6 +95,11 @@ export default {
     border: 0;
     border-bottom: 1px solid #aaaaaa;
     background-color: transparent;
+    transition: .3s;
+
+    &:focus, &:hover {
+      @extend .box-shadow-2;
+    }
 
     & ~ label {
       position: absolute;

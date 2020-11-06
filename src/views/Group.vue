@@ -1,52 +1,61 @@
 <template>
   <div>
-    <p>This is a Group page!</p>
-    <float-button icon="user" size="70" right="40" color="#E53935" />
-    <m-button @click="dialog1 = true">test 1</m-button>
-    <m-button @click="dialog2 = true">test 2</m-button>
+    <!-- <input type="file" @change="croppie" />
+    <vue-croppie
+      ref="croppieRef"
+      :boundary="{ width: 450, height: 300 }"
+      :viewport="{ width: 200, height: 200, type: 'circle' }"
+    ></vue-croppie>
 
-    <m-dialog
-      :dialog="dialog1"
-      header-text="今日の頑張り 1"
-      button-text="投稿"
-      @close="dialog1 = false"
-    >
-    </m-dialog>
-    <m-dialog
-      :dialog="dialog2"
-      header-text="今日の頑張り 2"
-      button-text="投稿"
-      @close="dialog2 = false"
-    >
-    <p>dialog 2</p>
-    </m-dialog>
+    <img :src="cropped" alt="" />
+    <m-button @click="crop">Crop</m-button>
+
+   <m-form icon="search"></m-form> -->
+
   </div>
 </template>
 
 <script>
-
 export default {
-  components: {
-  },
+  components: {},
   props: {},
   data() {
     return {
-      dialog1: false,
-      dialog2: false,
+      croppieImage: null,
+      cropped: null,
     };
   },
   computed: {},
   methods: {
-    test() {
-      console.log('this.name, this.area:', this.name, this.area);
+    croppie(event) {
+      const files = event.target.files || event.dataTransfer.files;
+      if (!files.length) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        console.log('event.target.result:', event.target.result);
+        this.$refs.croppieRef.bind({
+          url: event.target.result,
+        });
+      };
+      reader.readAsDataURL(files[0]);
+    },
+    crop() {
+      const options = {
+        type: 'base64',
+        size: {width: 200, height: 200},
+        format: 'png',
+      };
+      this.$refs.croppieRef.result(options, output => {
+        this.cropped = this.croppieImage = output;
+        console.log('this.croppieImage:', this.croppieImage);
+      })
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
-
 @media (min-width: 480px) {
 }
 

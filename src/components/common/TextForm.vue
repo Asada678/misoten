@@ -8,6 +8,7 @@
       @input="onInput"
       @blur="onBlur"
     />
+    <i v-if="icon" :class="`fas fa-${icon}`"></i>
     <label>{{ label }}</label>
     <span class="focus-line"></span>
   </div>
@@ -21,6 +22,7 @@ export default {
       type: String,
       // default: "",
     },
+    icon: String,
     label: String,
     type: String,
     autocomplete: {
@@ -92,6 +94,14 @@ export default {
     }
   }
 
+  i {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    transition: 0.3s;
+  }
+
   input[type="text"],
   input[type="email"],
   input[type="password"] {
@@ -105,8 +115,10 @@ export default {
     border: 0;
     border-bottom: 1px solid #aaaaaa;
     background-color: transparent;
+    transition: 0.3s;
 
-    &:focus {
+    &:focus,
+    &:hover {
       @extend .box-shadow-2;
     }
 
@@ -121,15 +133,16 @@ export default {
       letter-spacing: 0.5px;
       color: #aaaaaa;
       text-align: left;
+      transition: 0.3s;
     }
     &:focus ~ label,
-    &.is-input ~ label {
+    &:focus ~ i,
+    &.is-input ~ label, &.is-input ~ i {
       font-size: 12px;
       top: -10px;
-      transition: 0.3s;
       font-weight: 600;
     }
-    &:focus ~ label {
+    &:focus ~ label, &:focus ~ i {
       color: $blue;
     }
     & ~ .focus-line {
@@ -146,6 +159,13 @@ export default {
       width: 100%;
       transition: width 0.4s, left 0.4s;
     }
+  }
+
+  &.w-50 {
+    width: 50%;
+  }
+  &.bg-white {
+    background-color: rgba($white, 0.6);
   }
 }
 @media (min-width: 480px) {

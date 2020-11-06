@@ -1,7 +1,7 @@
 <template>
   <div class="post-content">
     <div class="user-icon">
-      <img src="/img/kuma.png" alt="" />
+      <img :src="post.userIcon ? post.userIcon : '/img/kuma.png'" alt="" />
     </div>
     <div class="content-wrapper">
       <div class="username">
@@ -15,7 +15,7 @@
         <img v-if="post.url" :src="`${post.url}`" alt="image" />
         <p>投稿日：{{ post.formattedCreatedAt }}</p>
       </div>
-    
+
       <div class="actions">
         <i class="fas fa-reply"></i>
         <i class="fas fa-heart"></i>
@@ -40,7 +40,11 @@ export default {
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    // userIcon() {
+    //   return ;
+    // }
+  },
   methods: {
     openOption(event) {
       const options = event.target.querySelector(".options");
@@ -62,7 +66,10 @@ export default {
       // console.log("remove: postId", postId);
       this.$emit("remove", postId);
     },
+    
   },
+  created() {
+  }
 };
 </script>
 

@@ -7,6 +7,7 @@
       @action="postTodayWorkout"
       @close="dialog = false"
     >
+      <!-- 1.trainingDate -->
       <m-form-group>
         <m-datepicker
           v-model="trainingDate"
@@ -16,9 +17,11 @@
           <span v-if="!$v.trainingDate.required">必須項目です。</span>
         </m-error-message>
       </m-form-group>
+      <!-- 2.username -->
       <m-form-group>
         <m-form v-model="username" label="名前" />
       </m-form-group>
+      <!-- 3.workout -->
       <m-form-group>
         <m-textarea
           v-model="workout"
@@ -35,8 +38,17 @@
           <span v-if="!$v.workout.required">必須項目です。</span>
         </m-error-message>
       </m-form-group>
-      <input type="file" name="" id="" @change="onFileChange" />
-      <m-button class="grey" @click="file = null">選択なし</m-button>
+      <!-- 4.file -->
+      <m-form-group>
+        <input
+          type="file"
+          name=""
+          id=""
+          @change="onFileChange"
+          class="input-file"
+        />
+        <m-button class="grey" @click="file = null">選択なし</m-button>
+      </m-form-group>
       <!-- <i class="fas fa-image"></i> -->
     </m-dialog>
     <transition-group tag="div" name="post-content">
@@ -58,12 +70,7 @@
 import { db, storage } from "@/firebase/firebase";
 import PostContent from "@/components/post/PostContent";
 import dayjs from "dayjs";
-import {
-  required,
-  maxLength,
-  minLength,
-  email,
-} from "vuelidate/lib/validators";
+import { required, maxLength } from "vuelidate/lib/validators";
 
 export default {
   components: {
@@ -97,6 +104,7 @@ export default {
       //   document.querySelector("#preview").src = fileReader.result;
       // };
       fileReader.readAsDataURL(this.file);
+      console.log("this.file:", this.file);
     },
     removeFile() {
       // const fileReader = new FileReader();
@@ -143,6 +151,7 @@ export default {
       // アップロードしたファイルのURLの取得
       let url = "";
       if (this.file) {
+        // console.log('this.file:', this.file);
         const storageRef = storage.ref();
         const fileRef = storageRef.child(this.file.name);
         await fileRef.put(this.file).then();
@@ -150,6 +159,10 @@ export default {
       }
 
       // collection"posts"へ格納するデータ
+      console.log(
+        "db.doc(`users/${this.$store.getters.user.uid}`):",
+        db.doc(`users/${this.$store.getters.user.uid}`)
+      );
       const data = {
         trainingDate: this.trainingDate,
         username: this.username,
@@ -157,8 +170,9 @@ export default {
         url,
         deleteFlg: false,
         createdAt: new Date(),
+        user: db.doc(`users/${this.$store.getters.user.uid}`),
       };
-      console.log("data:", data);
+      // console.log("data:", data);
       // データの追加
       db.collection("posts")
         .add(data)
@@ -182,8 +196,9 @@ export default {
         });
     },
     // 初回読み込み
-    firstFetchPosts() {
-      db.collection("posts")
+    async firstFetchPosts() {
+      console.log('first fetch:', );
+     await  db.collection("posts")
         .where("deleteFlg", "==", false)
         .orderBy("createdAt", "desc")
         .limit(10)
@@ -191,10 +206,11 @@ export default {
         .then(this.onGetSnapshot);
     },
     // スクロール時読み込み
-    fetchNextPosts() {
+    async fetchNextPosts() {
+      console.log('next fetch:', );
       // lastPostが無いときリターン
       if (!this.lastPost) return;
-      db.collection("posts")
+      await db.collection("posts")
         .where("deleteFlg", "==", false)
         .orderBy("createdAt", "desc")
         .limit(10)
@@ -203,16 +219,28 @@ export default {
         .then(this.onGetSnapshot);
     },
     // firestore getでsnapshotを取得したときのcallback
-    onGetSnapshot(snapshot, newPost = false) {
+    async onGetSnapshot(snapshot, newPost = false) {
       this.lastPost = snapshot.docs[snapshot.docs.length - 1];
-      snapshot.docChanges().forEach((change, index) => {
+      await snapshot.docChanges().forEach(async (change, index) => {
         // console.log("index:", index);
         if (change.type === "added") {
-          const post = {
+          let post = {
             ...change.doc.data(),
             id: change.doc.id,
             snapshotIndex: index,
           };
+          const postedUser = change.doc.data().user;
+          if (postedUser) {
+            // 認証済みユーザのとき、ユーザ情報を取得
+          await change.doc
+              .data()
+              .user.get()
+              .then((userRef) => {
+                // console.log('userRef:', userRef);
+                // console.log('userRef.data():', userRef.data());
+                post.userIcon = userRef.data().userIcon;
+              });
+          }
           // 日時をフォーマット通りに変換
           try {
             // データ追加日時の取得
@@ -226,6 +254,7 @@ export default {
             post.trainingDate = "";
             post.formattedCreatedAt = "";
           }
+          console.log('post.userIcon:', post.userIcon);
           if (newPost) {
             // 投稿を上に追加
             if (
@@ -237,17 +266,19 @@ export default {
             // 投稿を下に追加
             this.posts = [...this.posts, post];
           }
+          console.log("posted!:");
         }
       });
     },
     // 新しい読み込みのリスナ
-    listenNewPost() {
-      db.collection("posts")
+    async listenNewPost() {
+      console.log('listen post:', );
+      await db.collection("posts")
         .where("deleteFlg", "==", false)
         .orderBy("createdAt", "desc")
         .limit(1)
-        .onSnapshot((snapshot) => {
-          this.onGetSnapshot(snapshot, true);
+        .onSnapshot(async (snapshot) => {
+          await this.onGetSnapshot(snapshot, true);
         });
     },
     // 投稿の編集
@@ -297,17 +328,24 @@ export default {
     // },
     // leave() {},
   },
-  created() {
-    this.firstFetchPosts();
-    this.listenNewPost();
+  async created() {
+    await this.firstFetchPosts();
+    // await console.log('first fetch:', );
+    await this.listenNewPost();
+    // console.log('listen post:', );
   },
   mounted() {
-    this.initScrollObserver();
+    // this.initScrollObserver();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.input-file {
+  // width: 100%;
+  // height: 10px;
+  background-color: $grey;
+}
 #scroll-observer {
   // height: 5px;
   // background-color: red;

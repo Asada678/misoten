@@ -12,13 +12,16 @@ import Signup from '../views/auth/Signup.vue'
 import Calendar from '../views/Calendar.vue'
 import FirstAccess from '../views/FirstAccess.vue'
 import Group from '../views/Group.vue'
+import NotFound from '../views/NotFound.vue'
 import Post from '../views/Post.vue'
 import Video from '../views/Video.vue'
 // views user page
 import Coach from '../views/user-page/Coach.vue'
 import CompleteSignup from '../views/CompleteSignup.vue'
 import Config from '../views/user-page/Config.vue'
+import Profile from '../views/user-page/Profile.vue'
 import Language from '../views/user-page/Language.vue'
+import SetIcon from '../views/user-page/SetIcon.vue'
 import SetTarget from '../views/user-page/SetTarget.vue'
 import Title from '../views/user-page/Title.vue'
 
@@ -57,6 +60,12 @@ const routes = [
     , meta: { pageHierarchy: 10, menuOrder: 0 }
   },
   {
+    path: '/user/set-icon',
+    name: 'SetIcon',
+    component: SetIcon
+    , meta: { pageHierarchy: 40, menuOrder: 0 }
+  },
+  {
     path: '/',
     name: 'Post',
     component: Post,
@@ -87,6 +96,12 @@ const routes = [
     , meta: { pageHierarchy: 40, menuOrder: 0 }
   },
   {
+    path: '/user/profile',
+    name: 'Profile',
+    component: Profile
+    , meta: { pageHierarchy: 40, menuOrder: 0 }
+  },
+  {
     path: '/user/title',
     name: 'Title',
     component: Title
@@ -104,6 +119,12 @@ const routes = [
     component: Language
     , meta: { pageHierarchy: 40, menuOrder: 0 }
   },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: NotFound
+    , meta: { pageHierarchy: 0, menuOrder: 0 }
+  },
 ]
 
 const router = new VueRouter({
@@ -113,7 +134,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('to, from, next:', to, from, next);
+  console.log('to, from, next:', to, from);
   firebase.auth().onAuthStateChanged(async (authUser) => {
     if(authUser && !store.state.user.username) {
       // console.log('store.state.user:', store.state.user);
@@ -121,6 +142,7 @@ router.beforeEach((to, from, next) => {
         // console.log('doc.data():', doc.data());
         authUser.username = doc.data().username;
         authUser.useremail = doc.data().email;
+        authUser.userIcon = doc.data().userIcon;
       });
       store.commit('setUser', authUser);
       
@@ -136,7 +158,7 @@ router.beforeEach((to, from, next) => {
     //   }
     // }
       next()
-    console.log('authUser:', authUser);
+    // console.log('authUser:', authUser);
   })
 })
 

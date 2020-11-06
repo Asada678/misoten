@@ -12,6 +12,9 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user;
     },
+    updateUser(state, options) {
+      state.user = Object.assign(state.user, options);
+    },
     setSnackbar(state, snackbar) {
       snackbar = {
         ...snackbar,

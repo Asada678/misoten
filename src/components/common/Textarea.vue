@@ -87,8 +87,9 @@ export default {
     border-bottom: 1px solid #aaaaaa;
     background-color: transparent;
     resize: none;
+    transition: .3s;
 
-    &:focus {
+    &:focus, &:hover {
       @extend .box-shadow-2;
     }
 

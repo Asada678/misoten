@@ -7,10 +7,14 @@ import animateCss from 'animate.css'
 import Vue2TouchEvents from 'vue2-touch-events'
 import 'swiper/swiper-bundle.css';
 import Vuelidate from 'vuelidate'
+import VueCroppie from 'vue-croppie';
+import 'croppie/croppie.css'
+console.log('VueCroppie:', VueCroppie);
 
 
 // common components
 import Datepicker from "@/components/common/Datepicker";
+import DropZone from "@/components/common/DropZone";
 import ErrorMessage from './components/common/ErrorMessage'
 import FloatButton from './components/common/FloatButton'
 import FormGroup from './components/common/FormGroup'
@@ -26,8 +30,10 @@ Vue.config.productionTip = false
 Vue.use(animateCss);
 Vue.use(Vue2TouchEvents);
 Vue.use(Vuelidate);
+Vue.use(VueCroppie);
 
 Vue.component('m-button', NormalButton);
+Vue.component('m-drop-zone', DropZone);
 Vue.component('m-datepicker', Datepicker);
 Vue.component('float-button', FloatButton);
 Vue.component('m-dialog', NormalDialog);
