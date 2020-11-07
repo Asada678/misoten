@@ -1,47 +1,51 @@
 <template>
   <div class="m-drop-zone">
-    <span class="m-drop-zone__prompt">Drop file here or click to upload</span>
-    <input
-      type="file"
-      name="file"
-      class="m-drop-zone__input"
-    />
+    <span v-if="!filesExists" class="m-drop-zone__prompt">Drop file here or click to upload</span>
+    <input type="file" name="file" class="m-drop-zone__input" />
+    <i v-if="filesExists" class="fas fa-times unselect" @click="unselectFile"></i>
   </div>
 </template>
 
 <script>
 export default {
   components: {},
-  props: {
-  },
+  props: {},
   data() {
     return {
       dropZone: null,
       input: null,
+      thumbnail: null,
+      filesExists: false
     };
   },
   computed: {},
   methods: {
     onInputChange() {
+      // console.log("on input change:");
       this.$emit("change", this.input.files);
-      this.updateThumbnail(this.dropZone, null)
+      // this.updateThumbnail(this.dropZone, null);
+    },
+    unselectFile() {
+      this.input.files = null;
+      this.thumbnail.remove();
+      this.filesExists = false;
     },
     updateThumbnail(dropZone, file) {
       // console.log("dropZone, file:", dropZone, file);
-      let thumbnail = dropZone.querySelector(".m-drop-zone__thumb");
+      this.thumbnail = dropZone.querySelector(".m-drop-zone__thumb");
 
-      if (dropZone.querySelector(".m-drop-zone__prompt")) {
-        dropZone.querySelector(".m-drop-zone__prompt").remove();
+      // if (dropZone.querySelector(".m-drop-zone__prompt")) {
+      //   dropZone.querySelector(".m-drop-zone__prompt").remove();
+      // }
+
+      if (!this.thumbnail) {
+        this.thumbnail = document.createElement("div");
+        this.thumbnail.classList.add("m-drop-zone__thumb");
+        dropZone.appendChild(this.thumbnail);
       }
 
-      if (!thumbnail) {
-        thumbnail = document.createElement("div");
-        thumbnail.classList.add("m-drop-zone__thumb");
-        dropZone.appendChild(thumbnail);
-      }
-
-      if(file) {
-        thumbnail.dataset.label = file.name;
+      if (file) {
+        this.thumbnail.dataset.label = file.name;
       }
 
       if (file && file.type.startsWith("image/")) {
@@ -49,11 +53,11 @@ export default {
 
         reader.readAsDataURL(file);
         reader.onload = () => {
-          thumbnail.style.backgroundImage = `url(${reader.result})`;
+          this.thumbnail.style.backgroundImage = `url(${reader.result})`;
         };
       } else {
-        console.log('else:', );
-        thumbnail.style.backgroundImage = null;
+        // console.log('else:', );
+        this.thumbnail.style.backgroundImage = null;
       }
     },
   },
@@ -61,12 +65,19 @@ export default {
     this.dropZone = this.$el;
     this.input = this.$el.querySelector(".m-drop-zone__input");
 
-    this.dropZone.addEventListener("click", () => {
+    this.dropZone.addEventListener("click", (event) => {
+      console.log('event.target:', event.target);
+      if(event.target.classList.contains('unselect'))  {
+        this.unselectFile();
+        console.log('unselect:', );
+        return;
+      }
       this.input.click();
     });
 
     this.input.addEventListener("change", () => {
       if (this.input.files.length) {
+        this.filesExists = true;
         this.updateThumbnail(this.dropZone, this.input.files[0]);
         this.onInputChange();
       }
@@ -88,6 +99,7 @@ export default {
 
       if (event.dataTransfer.files.length) {
         this.input.files = event.dataTransfer.files;
+        this.filesExists = true;
         this.updateThumbnail(this.dropZone, event.dataTransfer.files[0]);
         this.onInputChange();
       }
@@ -99,6 +111,7 @@ export default {
 
 <style lang="scss" scoped>
 .m-drop-zone {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,6 +155,16 @@ export default {
       font-size: 14px;
       text-align: center;
     }
+  }
+
+  i {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: $red;
+    /* width: 150%; */
+    font-size: 30px;
+    line-height: 30px;
   }
 }
 

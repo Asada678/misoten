@@ -54,21 +54,16 @@ export default {
       };
       let url = "";
       this.$refs.croppieRef.result(options).then(async (output) => {
-        console.log("output:", output);
+        // console.log("output:", output);
         this.cropped = this.croppieImage = output;
+        // outputをBlobへと変換
         const byteString = atob(output.split(",")[1]);
-        console.log("byteString:", byteString);
         const content = new Uint8Array(byteString.length);
         for (let i = 0; i < byteString.length; i++) {
           content[i] = byteString.charCodeAt(i);
         }
-
         const blob = new Blob([content], { type: "image/png" });
-        // const file = new File([output], 'sample.png', { type: 'image/png'})
-        // console.log("this.croppieImage:", this.croppieImage);
-        // console.log('blob:', blob);
-        // console.log('this.$store.getters.user.uid:', this.$store.getters.user.uid);
-        // console.log("blob:", blob);
+
         const storageRef = storage.ref();
         const fileRef = storageRef.child(`user-icons/${this.$store.getters.user.uid}-icon.png`);
         // console.log("fileRef:", fileRef);
@@ -84,7 +79,7 @@ export default {
   mounted() {},
   watch: {
     files() {
-      console.log("this.files:", this.files);
+      // console.log("this.files:", this.files);
     },
   },
 };

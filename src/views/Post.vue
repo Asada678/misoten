@@ -40,6 +40,7 @@
       </m-form-group>
       <!-- 4.file -->
       <m-form-group>
+        <m-drop-zone></m-drop-zone>
         <input
           type="file"
           name=""
@@ -148,29 +149,26 @@ export default {
       }
 
       // 添付ファイルの有無のチェックとファイルアップロード
+      // ファイルは/posts/へ格納。ファイル名は先頭に「現在時刻-」を付ける。
       // アップロードしたファイルのURLの取得
-      let url = "";
+      let fileUrl = "";
       if (this.file) {
         // console.log('this.file:', this.file);
         const storageRef = storage.ref();
-        const fileRef = storageRef.child(this.file.name);
-        await fileRef.put(this.file).then();
-        url = await fileRef.getDownloadURL();
+        const fileRef = storageRef.child(`posts/${Date.now()}-${this.file.name}`);
+        await fileRef.put(this.file);
+        fileUrl = await fileRef.getDownloadURL();
       }
 
       // collection"posts"へ格納するデータ
-      console.log(
-        "db.doc(`users/${this.$store.getters.user.uid}`):",
-        db.doc(`users/${this.$store.getters.user.uid}`)
-      );
       const data = {
         trainingDate: this.trainingDate,
         username: this.username,
         workout: this.workout,
-        url,
+        fileUrl,
         deleteFlg: false,
         createdAt: new Date(),
-        user: db.doc(`users/${this.$store.getters.user.uid}`),
+        fromUser: db.doc(`users/${this.$store.getters.user.uid}`),
       };
       // console.log("data:", data);
       // データの追加
@@ -196,9 +194,8 @@ export default {
         });
     },
     // 初回読み込み
-    async firstFetchPosts() {
-      console.log('first fetch:', );
-     await  db.collection("posts")
+    firstFetchPosts() {
+      db.collection("posts")
         .where("deleteFlg", "==", false)
         .orderBy("createdAt", "desc")
         .limit(10)
@@ -206,11 +203,11 @@ export default {
         .then(this.onGetSnapshot);
     },
     // スクロール時読み込み
-    async fetchNextPosts() {
-      console.log('next fetch:', );
+    fetchNextPosts() {
+      // console.log("next fetch:");
       // lastPostが無いときリターン
       if (!this.lastPost) return;
-      await db.collection("posts")
+      db.collection("posts")
         .where("deleteFlg", "==", false)
         .orderBy("createdAt", "desc")
         .limit(10)
@@ -219,28 +216,19 @@ export default {
         .then(this.onGetSnapshot);
     },
     // firestore getでsnapshotを取得したときのcallback
-    async onGetSnapshot(snapshot, newPost = false) {
+    onGetSnapshot(snapshot, newPost = false) {
       this.lastPost = snapshot.docs[snapshot.docs.length - 1];
-      await snapshot.docChanges().forEach(async (change, index) => {
+      // console.log('this.lastPost:', this.lastPost);
+      snapshot.docChanges().forEach((change, index) => {
         // console.log("index:", index);
+        const fromUser = change.doc.data().fromUser;
         if (change.type === "added") {
-          let post = {
+          const post = {
             ...change.doc.data(),
             id: change.doc.id,
             snapshotIndex: index,
+            fromUser,
           };
-          const postedUser = change.doc.data().user;
-          if (postedUser) {
-            // 認証済みユーザのとき、ユーザ情報を取得
-          await change.doc
-              .data()
-              .user.get()
-              .then((userRef) => {
-                // console.log('userRef:', userRef);
-                // console.log('userRef.data():', userRef.data());
-                post.userIcon = userRef.data().userIcon;
-              });
-          }
           // 日時をフォーマット通りに変換
           try {
             // データ追加日時の取得
@@ -254,7 +242,7 @@ export default {
             post.trainingDate = "";
             post.formattedCreatedAt = "";
           }
-          console.log('post.userIcon:', post.userIcon);
+
           if (newPost) {
             // 投稿を上に追加
             if (
@@ -266,19 +254,17 @@ export default {
             // 投稿を下に追加
             this.posts = [...this.posts, post];
           }
-          console.log("posted!:");
         }
       });
     },
     // 新しい読み込みのリスナ
-    async listenNewPost() {
-      console.log('listen post:', );
-      await db.collection("posts")
+    listenNewPost() {
+      db.collection("posts")
         .where("deleteFlg", "==", false)
         .orderBy("createdAt", "desc")
         .limit(1)
-        .onSnapshot(async (snapshot) => {
-          await this.onGetSnapshot(snapshot, true);
+        .onSnapshot((snapshot) => {
+          this.onGetSnapshot(snapshot, true);
         });
     },
     // 投稿の編集
@@ -312,30 +298,13 @@ export default {
       const scrollObserver = document.querySelector("#scroll-observer");
       observer.observe(scrollObserver);
     },
-    // enter(el, done) {
-    //   // console.log("el:", el);
-    //   console.log("done:", done);
-    //   const delay = el.dataset.snapshotIndex * 150;
-    //   el.style.transitionDelay = `${delay}ms`;
-    //   // setTimeout(() => {
-    //   //   Velocity(
-    //   //     el,
-    //   //     {
-    //   //       opacity: 1
-    //   //     }
-    //   //   )
-    //   // })
-    // },
-    // leave() {},
   },
-  async created() {
-    await this.firstFetchPosts();
-    // await console.log('first fetch:', );
-    await this.listenNewPost();
-    // console.log('listen post:', );
+  created() {
+    this.firstFetchPosts();
+    this.listenNewPost();
   },
   mounted() {
-    // this.initScrollObserver();
+    this.initScrollObserver();
   },
 };
 </script>

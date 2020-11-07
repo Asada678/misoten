@@ -1,7 +1,7 @@
 <template>
   <div class="post-content">
     <div class="user-icon">
-      <img :src="post.userIcon ? post.userIcon : '/img/kuma.png'" alt="" />
+      <img :src="userIcon" alt="" />
     </div>
     <div class="content-wrapper">
       <div class="username">
@@ -12,7 +12,7 @@
         <p>
           {{ post.workout }}
         </p>
-        <img v-if="post.url" :src="`${post.url}`" alt="image" />
+        <img v-if="post.fileUrl" :src="`${post.fileUrl}`" alt="image" />
         <p>投稿日：{{ post.formattedCreatedAt }}</p>
       </div>
 
@@ -38,7 +38,9 @@ export default {
     post: Object,
   },
   data() {
-    return {};
+    return {
+      userIcon: "/img/kuma.png",
+    };
   },
   computed: {
     // userIcon() {
@@ -66,10 +68,15 @@ export default {
       // console.log("remove: postId", postId);
       this.$emit("remove", postId);
     },
-    
   },
   created() {
-  }
+    if (this.post.fromUser) {
+      // 認証済みユーザのとき、ユーザ情報を取得
+      this.post.fromUser.get().then((userRef) => {
+        this.userIcon = userRef.data().userIcon;
+      });
+    }
+  },
 };
 </script>
 
@@ -78,7 +85,7 @@ export default {
   display: flex;
   margin: 10px 0;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: rgba($orange, 0.2);
   @extend .box-shadow-2;
 

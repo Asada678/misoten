@@ -142,7 +142,7 @@ export default {
     width: $mainMenuWidth;
     min-height: calc(100vh - #{$userMenuHeight});
     background-color: rgba($orange, 0.4);
-    box-shadow: 2px 0px 10px -2px rgba($black, 0.4);
+    box-shadow: 2px 0px 10px -2px rgba($black, 0.4), 2px 0px 10px -2px rgba($black, 0.4);
 
     ul {
       flex-direction: column;

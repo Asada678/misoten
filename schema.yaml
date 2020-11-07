@@ -1,0 +1,63 @@
+# [rc] == root collection 
+# [sc] == sub collection 
+
+users: # [rc]
+  documentId: userId == auth.uid
+  groupCount: Int # 作成できるグループ数を制限？  
+  username: String
+  userIcon: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
+
+  belongingGroups: # [sc]
+    documentId: groupId
+    groupRef: groups ref
+    unreadMessageCount: Int
+    latestReadMessageId: String or messages ref
+    updatedAt: Timestamp
+
+groups: # [rc]
+  documentId: auto
+  groupName: String
+  groupLeaderName: String
+  groupIcon: String
+  groupTagIds: [String]
+  userCount: Int
+  userIds: [String]
+  latestMessage: String
+  participantApplications: [userId]
+  createdAt: Timestamp
+  updatedAt: Timestamp
+
+  groupUsers: # [sc]
+    documentId: userId
+    userId: userId
+    userRef: users ref
+    username: String # グループ内での名前
+    isAdmin: Boolean
+    createdAt(joinedAt): Timestamp
+
+  messages: # [sc] onCreate -> userIdsのそれぞれのbelongingGroups(updatedAt, unreadMessageCount)を更新。
+    documentId: auto
+    fileURL: String #download URL
+    content: String
+    fromUser: users ref
+    createdAt: Timestamp
+    
+groupTags: auto
+  tagName: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
+
+posts: # [rc]
+  username: String
+  fromUser: users ref
+  trainingDate: Timestamp
+  workout: String or [String]
+  createdAt: Timestamp
+  fileUrl: String
+
+menus: # [rc]
+  trainingName: String
+  createdAt: Timestamp
+  updatedAt: Timestamp

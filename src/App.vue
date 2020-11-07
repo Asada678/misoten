@@ -207,8 +207,8 @@ export default {
   padding: 0;
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
-  font-family: "M PLUS Rounded 1c", sans-serif;
-  // font-family: "M PLUS 1p", sans-serif;
+  // font-family: "M PLUS Rounded 1c", sans-serif;
+  font-family: "M PLUS 1p", sans-serif;
 }
 i {
   cursor: pointer;
@@ -229,8 +229,11 @@ body {
 }
 
 #global-container {
+  position: relative;
+  z-index: 100;
   width: 100%;
   min-height: 100vh;
+ 
 }
 #container {
   width: 100%;

@@ -9,7 +9,6 @@ import 'swiper/swiper-bundle.css';
 import Vuelidate from 'vuelidate'
 import VueCroppie from 'vue-croppie';
 import 'croppie/croppie.css'
-console.log('VueCroppie:', VueCroppie);
 
 
 // common components
@@ -23,6 +22,10 @@ import NormalButton from './components/common/NormalButton'
 import NormalDialog from './components/common/NormalDialog'
 import RadioButton from './components/common/RadioButton'
 import SelectBox from './components/common/SelectBox'
+import Tab from './components/common/Tab'
+import Tabs from './components/common/Tabs'
+import TabContent from './components/common/TabContent'
+import TabContents from './components/common/TabContents'
 import Textarea from './components/common/Textarea'
 import TextForm from './components/common/TextForm'
 
@@ -43,6 +46,10 @@ Vue.component('m-form-group', FormGroup);
 Vue.component('m-header', Header);
 Vue.component('m-radio', RadioButton);
 Vue.component('m-select', SelectBox);
+Vue.component('m-tab', Tab);
+Vue.component('m-tabs', Tabs);
+Vue.component('m-tab-content', TabContent);
+Vue.component('m-tab-contents', TabContents);
 Vue.component('m-textarea', Textarea);
 
 new Vue({

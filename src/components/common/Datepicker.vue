@@ -77,7 +77,7 @@ export default {
     input[type="text"] {
       & ~ label {
         font-size: 12px;
-        top: -5px;
+        top: -10px;
         transition: 0.3s;
         font-weight: 600;
       }
@@ -115,7 +115,7 @@ export default {
     }
     &:focus ~ label {
       font-size: 12px;
-      top: -5px;
+      top: -10px;
       transition: 0.3s;
       font-weight: 600;
     }
