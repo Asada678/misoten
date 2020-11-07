@@ -10,9 +10,13 @@
       </div>
       <div v-if="footer" class="dialog__footer">
         <m-button class="grey w-25" @click="closeDialog">キャンセル</m-button>
-        <m-button class="w-25" :class="color" :disabled="disabled" @click="doAction">{{
-          buttonText
-        }}</m-button>
+        <m-button
+          class="w-25"
+          :class="color"
+          :disabled="disabled"
+          @click="doAction"
+          >{{ buttonText }}</m-button
+        >
       </div>
     </div>
   </div>
@@ -65,6 +69,7 @@ export default {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, -50%) scaleY(1);
+    transition: opacity 0.6s, visibility 0.6s, transform 0.4s;
   }
 }
 .dialog-container {
@@ -78,14 +83,15 @@ export default {
   height: 100vh;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s .5s;
+  transition: opacity 0.3s 0.5s, visibility 0.3s 0.5s, z-index 0s .5s,
+    background-color 0.5s;
 
   &.dialog-open {
     z-index: 1100;
     background-color: rgba(20, 20, 20, 0.4);
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, visibility 0.3s, z-index 0s, background-color 0s;
   }
 }
 

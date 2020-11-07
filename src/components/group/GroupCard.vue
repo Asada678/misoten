@@ -33,7 +33,7 @@ export default {
   margin: 10px 0;
   padding: 10px;
   border-radius: 2px;
-  background-color: rgba($black, 0.6);
+  background-color: rgba($black, 0.8);
   box-shadow: 0px 1px 2px 1px rgba($color: $white, $alpha: 0.4),
     0px -1px 2px 1px rgba($color: $white, $alpha: 0.2);
 
