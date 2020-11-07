@@ -10,7 +10,9 @@
       </div>
       <div v-if="footer" class="dialog__footer">
         <m-button class="grey w-25" @click="closeDialog">キャンセル</m-button>
-        <m-button class="w-25" :class="color" @click="doAction">{{ buttonText }}</m-button>
+        <m-button class="w-25" :class="color" :disabled="disabled" @click="doAction">{{
+          buttonText
+        }}</m-button>
       </div>
     </div>
   </div>
@@ -25,6 +27,7 @@ export default {
     headerText: String,
     buttonText: { type: String, default: "OK" },
     footer: { type: Boolean, default: true },
+    disabled: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -75,13 +78,14 @@ export default {
   height: 100vh;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s .5s;
 
   &.dialog-open {
     z-index: 1100;
     background-color: rgba(20, 20, 20, 0.4);
     opacity: 1;
     visibility: visible;
+    transition: opacity 0.3s;
   }
 }
 
@@ -96,7 +100,7 @@ export default {
   margin: auto;
   background-color: rgba($color: $white, $alpha: 1);
   transform: translate(-50%, -50%) scaleY(0);
-  border-radius: 10px;
+  border-radius: 2px;
   opacity: 0;
   visibility: hidden;
   overflow: hidden;

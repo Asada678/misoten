@@ -18,8 +18,8 @@ import ErrorMessage from './components/common/ErrorMessage'
 import FloatButton from './components/common/FloatButton'
 import FormGroup from './components/common/FormGroup'
 import Header from './components/common/Header'
-import NormalButton from './components/common/NormalButton'
-import NormalDialog from './components/common/NormalDialog'
+import Button from './components/common/Button'
+import Dialog from './components/common/Dialog'
 import RadioButton from './components/common/RadioButton'
 import SelectBox from './components/common/SelectBox'
 import Tab from './components/common/Tab'
@@ -35,11 +35,11 @@ Vue.use(Vue2TouchEvents);
 Vue.use(Vuelidate);
 Vue.use(VueCroppie);
 
-Vue.component('m-button', NormalButton);
+Vue.component('m-button', Button);
 Vue.component('m-drop-zone', DropZone);
 Vue.component('m-datepicker', Datepicker);
 Vue.component('float-button', FloatButton);
-Vue.component('m-dialog', NormalDialog);
+Vue.component('m-dialog', Dialog);
 Vue.component('m-error-message', ErrorMessage);
 Vue.component('m-form', TextForm);
 Vue.component('m-form-group', FormGroup);

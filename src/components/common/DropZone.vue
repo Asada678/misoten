@@ -1,15 +1,17 @@
 <template>
   <div class="m-drop-zone">
-    <span v-if="!filesExists" class="m-drop-zone__prompt">Drop file here or click to upload</span>
+    <span v-if="!value" class="m-drop-zone__prompt">Drop file here or click to upload</span>
     <input type="file" name="file" class="m-drop-zone__input" />
-    <i v-if="filesExists" class="fas fa-times unselect" @click="unselectFile"></i>
+    <i v-if="value" class="fas fa-times unselect" @click="unselectFile"></i>
   </div>
 </template>
 
 <script>
 export default {
   components: {},
-  props: {},
+  props: {
+    value: File
+  },
   data() {
     return {
       dropZone: null,
@@ -22,13 +24,15 @@ export default {
   methods: {
     onInputChange() {
       // console.log("on input change:");
-      this.$emit("change", this.input.files);
+      this.$emit("change", this.input.files[0]);
       // this.updateThumbnail(this.dropZone, null);
     },
     unselectFile() {
       this.input.files = null;
       this.thumbnail.remove();
       this.filesExists = false;
+      this.$emit("unselect");
+      
     },
     updateThumbnail(dropZone, file) {
       // console.log("dropZone, file:", dropZone, file);
@@ -60,16 +64,19 @@ export default {
         this.thumbnail.style.backgroundImage = null;
       }
     },
+    removeThumbnail() {
+
+    }
   },
   mounted() {
     this.dropZone = this.$el;
     this.input = this.$el.querySelector(".m-drop-zone__input");
 
     this.dropZone.addEventListener("click", (event) => {
-      console.log('event.target:', event.target);
+      // console.log('event.target:', event.target);
       if(event.target.classList.contains('unselect'))  {
         this.unselectFile();
-        console.log('unselect:', );
+        // console.log('unselect:', );
         return;
       }
       this.input.click();
@@ -106,6 +113,13 @@ export default {
       this.dropZone.classList.remove("m-drop-zone--over");
     });
   },
+  watch: {
+    value() {
+      if(!this.value && this.thumbnail) {
+        this.thumbnail.remove();
+      }
+    }
+  }
 };
 </script>
 
@@ -115,7 +129,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 200px;
+  // max-width: 200px;
   height: 200px;
   padding: 25px;
   text-align: center;
@@ -139,8 +153,9 @@ export default {
     height: 100%;
     border-radius: 10px;
     background-color: $grey;
-    background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
     overflow: hidden;
 
     &::after {

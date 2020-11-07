@@ -2,6 +2,7 @@
   <div>
     <m-dialog
       :dialog="dialog"
+      :disabled="$v.$invalid"
       header-text="今日の頑張り"
       button-text="投稿"
       @action="postTodayWorkout"
@@ -40,15 +41,19 @@
       </m-form-group>
       <!-- 4.file -->
       <m-form-group>
-        <m-drop-zone></m-drop-zone>
-        <input
+        <m-drop-zone
+          :value="file"
+          @change="onFileChange"
+          @unselect="file = null"
+        ></m-drop-zone>
+        <!-- <input
           type="file"
           name=""
           id=""
           @change="onFileChange"
           class="input-file"
-        />
-        <m-button class="grey" @click="file = null">選択なし</m-button>
+        /> -->
+        <!-- <m-button class="grey" @click="file = null">選択なし</m-button> -->
       </m-form-group>
       <!-- <i class="fas fa-image"></i> -->
     </m-dialog>
@@ -98,23 +103,11 @@ export default {
     openDialog() {
       this.dialog = true;
     },
-    onFileChange(event) {
-      this.file = event.target.files[0];
-      const fileReader = new FileReader();
-      // fileReader.onload = () => {
-      //   document.querySelector("#preview").src = fileReader.result;
-      // };
-      fileReader.readAsDataURL(this.file);
-      console.log("this.file:", this.file);
-    },
-    removeFile() {
-      // const fileReader = new FileReader();
-      // this.file = null;
-      // fileReader.readAsDataURL(this.file);
+    onFileChange(file) {
+      this.file = file;
     },
     // 投稿
     async postTodayWorkout() {
-      // console.log('this.trainingDate:', this.trainingDate);
       // snackbar の初期化
       const snackbar = {
         text: "",
@@ -155,7 +148,9 @@ export default {
       if (this.file) {
         // console.log('this.file:', this.file);
         const storageRef = storage.ref();
-        const fileRef = storageRef.child(`posts/${Date.now()}-${this.file.name}`);
+        const fileRef = storageRef.child(
+          `posts/${Date.now()}-${this.file.name}`
+        );
         await fileRef.put(this.file);
         fileUrl = await fileRef.getDownloadURL();
       }
@@ -179,10 +174,11 @@ export default {
           snackbar.text += "今日の頑張りを投稿しました。";
           snackbar.color = "blue";
           this.$store.commit("setSnackbar", snackbar);
-          this.trainingDate = null;
+          this.trainingDate = new Date();
           this.username = null;
           this.workout = null;
           this.file = null;
+          this.$v.$reset();
           this.dialog = false;
         })
         .catch((err) => {

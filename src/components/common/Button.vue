@@ -1,5 +1,5 @@
 <template>
-  <button @click="onClick">
+  <button :disabled="disabled" @click="onClick">
     <i :class="`fas fa-${icon}`"></i>
     <span>
       <slot></slot>
@@ -13,6 +13,10 @@ export default {
   props: {
     icon: String,
     to: String,
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {};
@@ -42,7 +46,7 @@ button {
   padding: 10px 30px;
   outline: none;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 2px;
   border: 1px solid $orange;
   background-color: rgba($orange, 0.7);
   color: $black;
@@ -76,6 +80,10 @@ button {
       transform: scaleY(2);
       opacity: 1;
     }
+  }
+  &:disabled {
+    opacity: .4;
+    pointer-events: none;
   }
   i {
     position: relative;

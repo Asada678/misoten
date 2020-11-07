@@ -40,6 +40,26 @@ export default new Vuex.Store({
         color: "",
       };
       state.snackbar = snackbar;
+    },
+    isAuthenticated(state) {
+      console.log('is authenticated:',);
+      if (!state.user.username) {
+        console.log('this:', this);
+        const snackbar = {
+          text: "ログインしてください。",
+          appear: true,
+          color: "red",
+        };
+        state.snackbar = snackbar;
+        setTimeout(() => {
+          state.snackbar = {
+            text: '',
+            appear: false,
+            color: ''
+          }
+        }, 5000);
+        return false;
+      }
     }
   },
   getters: {

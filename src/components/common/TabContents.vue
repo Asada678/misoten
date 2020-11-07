@@ -26,7 +26,8 @@ export default {
   @extend .box-shadow-1;
 
   &-slide {
-    transition: 0.8s;
+    position: relative;
+    transition: 0.6s;
   }
 }
 @media (min-width: 480px) {

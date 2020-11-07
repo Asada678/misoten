@@ -1,15 +1,25 @@
 <template>
   <div class="set-icon">
-    <m-drop-zone @change="onFileChange"></m-drop-zone>
+    <m-drop-zone v-if="!file" @change="onFileChange"></m-drop-zone>
     <vue-croppie
+    v-else
       ref="croppieRef"
       :boundary="{ height: 300 }"
       :viewport="{ width: 200, height: 200, type: 'circle' }"
       :enableResize="false"
       :enforceBoundary="false"
     ></vue-croppie>
-    <img :src="cropped" alt="" />
-    <m-button class="w-100" @click="setIcon">設定</m-button>
+    <m-dialog
+      :dialog="dialog"
+      header-text="確認"
+      button-text="設定"
+      @action="uploadIcon"
+      @close="dialog = false"
+    >
+      <p>このアイコンを設定します。</p>
+      <img :src="cropped" alt="cropped image" />
+    </m-dialog>
+    <m-button :disabled="!file" class="w-100" @click="crop">切り取り</m-button>
   </div>
 </template>
 
@@ -20,66 +30,80 @@ export default {
   props: {},
   data() {
     return {
-      croppieImage: null,
       cropped: null,
-      files: null,
+      file: null,
+      dialog: false,
     };
   },
   computed: {},
   methods: {
-    onFileChange(files) {
+    onFileChange(file) {
       const reader = new FileReader();
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(file[0]);
       reader.onload = (event) => {
         this.$refs.croppieRef.bind({
           url: event.target.result,
         });
       };
-      this.files = files;
+      this.file = file;
     },
-    setIcon() {
-      if (!this.$store.getters.user.username) {
-        const snackbar = {
-          text: "ログインしてください。",
-          color: "red",
-        };
-        this.$store.commit("setSnackbar", snackbar);
-        return;
-      }
-
+    crop() {
       const options = {
         type: "base64",
         size: { width: 200, height: 200 },
         format: "png",
       };
-      let url = "";
       this.$refs.croppieRef.result(options).then(async (output) => {
         // console.log("output:", output);
-        this.cropped = this.croppieImage = output;
-        // outputをBlobへと変換
-        const byteString = atob(output.split(",")[1]);
-        const content = new Uint8Array(byteString.length);
-        for (let i = 0; i < byteString.length; i++) {
-          content[i] = byteString.charCodeAt(i);
-        }
-        const blob = new Blob([content], { type: "image/png" });
-
-        const storageRef = storage.ref();
-        const fileRef = storageRef.child(`user-icons/${this.$store.getters.user.uid}-icon.png`);
-        // console.log("fileRef:", fileRef);
-        await fileRef.put(blob).then();
-        url = await fileRef.getDownloadURL();
-
-        const updateData = {userIcon: url};
-        await db.collection("users").doc(this.$store.getters.user.uid).update(updateData);
-        this.$store.commit("updateUser", updateData);
+        this.cropped = output;
+        this.dialog = true;
       });
+    },
+    async uploadIcon() {
+      // outputをBlobへと変換
+      const byteString = atob(this.cropped.split(",")[1]);
+      const content = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++) {
+        content[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([content], { type: "image/png" });
+
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child(
+        `user-icons/${this.$store.getters.user.uid}-icon.png`
+      );
+      // console.log("fileRef:", fileRef);
+      await fileRef.put(blob).then();
+      const url = await fileRef.getDownloadURL();
+
+      const updateData = { userIcon: url };
+      await db
+        .collection("users")
+        .doc(this.$store.getters.user.uid)
+        .update(updateData)
+        .then((result) => {
+          console.log("result:", result);
+          this.dialog = false;
+          this.$store.commit("updateUser", updateData);
+          const snackbar = {
+            text: "アイコンを設定しました。",
+            color: "green",
+          };
+          this.$store.commit("setSnackbar", snackbar);
+        })
+        .catch(() => {
+          const snackbar = {
+            text: "アイコンの設定に失敗しました。",
+            color: "red",
+          };
+          this.$store.commit("setSnackbar", snackbar);
+        });
     },
   },
   mounted() {},
   watch: {
-    files() {
-      // console.log("this.files:", this.files);
+    file() {
+      // console.log("this.file:", this.file);
     },
   },
 };

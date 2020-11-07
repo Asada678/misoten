@@ -18,11 +18,15 @@
 </template>
 
 <script>
+import { required, maxLength } from "vuelidate/lib/validators";
 export default {
   components: {},
   props: {},
   data() {
     return {};
+  },
+  validations: {
+    sample: { required, maxLength: maxLength(8) },
   },
   computed: {},
   methods: {},
