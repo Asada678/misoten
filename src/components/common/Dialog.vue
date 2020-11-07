@@ -83,11 +83,11 @@ export default {
   height: 100vh;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s 0.5s, visibility 0.3s 0.5s, z-index 0s .5s,
+  transition: opacity 0.3s 0.5s, visibility 0.3s 0.5s, z-index 0s 0.5s,
     background-color 0.5s;
 
   &.dialog-open {
-    z-index: 1100;
+    z-index: 1200;
     background-color: rgba(20, 20, 20, 0.4);
     opacity: 1;
     visibility: visible;
@@ -100,10 +100,14 @@ export default {
   top: 50%;
   left: 50%;
   right: 0;
+  display: flex;
+  flex-direction: column;
   width: 90%;
   max-width: 600px;
-  max-height: 80%;
+  max-height: 600px;
+  max-height: 90%;
   margin: auto;
+  padding-bottom: 75px;
   background-color: rgba($color: $white, $alpha: 1);
   transform: translate(-50%, -50%) scaleY(0);
   border-radius: 2px;
@@ -120,7 +124,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 60px;
+    height: 40px;
     padding: 0 20px;
     background-color: rgba($color: $orange, $alpha: 0.9);
 
@@ -151,12 +155,12 @@ export default {
   &__content {
     position: relative;
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
-    // min-height: 280px;
-    max-height: 400px;
-    padding: 20px;
-    padding: 20px 20px 100px 20px;
+    width: 100%;
+    max-height: calc(100% - 40px);
+    padding: 20px 20px 60px 20px;
     overflow-y: auto;
     text-align: center;
 
@@ -178,7 +182,7 @@ export default {
     align-items: center;
     width: 100%;
     min-height: 60px;
-    padding: 10px 20px;
+    padding: 5px 20px;
     // background-color: rgba($color: $orange, $alpha: 0.2);
     background-color: $lightOrange;
   }
