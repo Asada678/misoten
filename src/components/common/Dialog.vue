@@ -87,7 +87,7 @@ export default {
     background-color 0.5s;
 
   &.dialog-open {
-    z-index: 1200;
+    z-index: 1300;
     background-color: rgba(20, 20, 20, 0.4);
     opacity: 1;
     visibility: visible;
@@ -104,8 +104,7 @@ export default {
   flex-direction: column;
   width: 90%;
   max-width: 600px;
-  max-height: 600px;
-  max-height: 90%;
+  max-height: calc(100% - 85px);
   margin: auto;
   padding-bottom: 75px;
   background-color: rgba($color: $white, $alpha: 1);
@@ -124,8 +123,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 40px;
-    padding: 0 20px;
+    // height: 40px;
+    padding: 5px 20px;
     background-color: rgba($color: $orange, $alpha: 0.9);
 
     &.red {
@@ -160,7 +159,7 @@ export default {
     align-items: center;
     width: 100%;
     max-height: calc(100% - 40px);
-    padding: 20px 20px 60px 20px;
+    padding: 20px;
     overflow-y: auto;
     text-align: center;
 
@@ -185,6 +184,12 @@ export default {
     padding: 5px 20px;
     // background-color: rgba($color: $orange, $alpha: 0.2);
     background-color: $lightOrange;
+  }
+}
+
+.p-0 {
+  .dialog__content {
+    padding: 0;
   }
 }
 

@@ -1,14 +1,6 @@
 <template>
   <div class="set-icon">
-    <m-drop-zone v-if="!file" @change="onFileChange"></m-drop-zone>
-    <vue-croppie
-    v-else
-      ref="croppieRef"
-      :boundary="{ height: 300 }"
-      :viewport="{ width: 200, height: 200, type: 'circle' }"
-      :enableResize="false"
-      :enforceBoundary="false"
-    ></vue-croppie>
+    <m-input-icon @result="fetchResult"></m-input-icon>
     <m-dialog
       :dialog="dialog"
       header-text="確認"
@@ -17,9 +9,9 @@
       @close="dialog = false"
     >
       <p>このアイコンを設定します。</p>
-      <img :src="cropped" alt="cropped image" />
+      <img :src="cropped" alt="cropped image" class="cropped"/>
     </m-dialog>
-    <m-button :disabled="!file" class="w-100" @click="crop">切り取り</m-button>
+    
   </div>
 </template>
 
@@ -31,6 +23,7 @@ export default {
   data() {
     return {
       cropped: null,
+      blob: null,
       file: null,
       dialog: false,
     };
@@ -38,14 +31,26 @@ export default {
   computed: {},
   methods: {
     onFileChange(file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file[0]);
-      reader.onload = (event) => {
-        this.$refs.croppieRef.bind({
-          url: event.target.result,
-        });
-      };
+      // console.log("file:", file);
       this.file = file;
+    },
+    afterEnter() {
+      if (this.$refs.croppieRef) {
+        console.log("this.$refs.croppieRef:", this.$refs.croppieRef);
+        const reader = new FileReader();
+        reader.readAsDataURL(this.file);
+        reader.onload = (event) => {
+          this.$refs.croppieRef.bind({
+            url: event.target.result,
+          });
+        };
+      } else {
+        console.log("this.$refs.dropZone.$el:", this.$refs.dropZone.$el);
+        this.$refs.dropZone.$el.click()
+      }
+    },
+    resetFile() {
+      this.file = null;
     },
     crop() {
       const options = {
@@ -59,21 +64,18 @@ export default {
         this.dialog = true;
       });
     },
+    fetchResult(result) {
+      this.cropped = result.cropped;
+      this.blob = result.blob;
+      this.dialog = true;
+    },
     async uploadIcon() {
-      // outputをBlobへと変換
-      const byteString = atob(this.cropped.split(",")[1]);
-      const content = new Uint8Array(byteString.length);
-      for (let i = 0; i < byteString.length; i++) {
-        content[i] = byteString.charCodeAt(i);
-      }
-      const blob = new Blob([content], { type: "image/png" });
-
       const storageRef = storage.ref();
       const fileRef = storageRef.child(
         `user-icons/${this.$store.getters.user.uid}-icon.png`
       );
       // console.log("fileRef:", fileRef);
-      await fileRef.put(blob).then();
+      await fileRef.put(this.blob).then();
       const url = await fileRef.getDownloadURL();
 
       const updateData = { userIcon: url };
@@ -115,6 +117,21 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.cropped {
+  width: 200px;
+  height: 200px;
+}
+
+.reset {
+  position: absolute;
+  top: 0;
+}
+.set-icon-enter-active {
+  transition: opacity 0.5s;
+}
+.set-icon-enter, .set-icon-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 @media (min-width: 480px) {
 }

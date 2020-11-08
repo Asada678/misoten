@@ -33,7 +33,7 @@ groups: # [rc]
     documentId: userId
     userId: userId
     userRef: users ref
-    username: String # グループ内での名前
+    usernameInGroup: String # グループ内での名前
     isAdmin: Boolean
     createdAt(joinedAt): Timestamp
 
@@ -41,15 +41,17 @@ groups: # [rc]
     documentId: auto
     fileURL: String #download URL
     content: String
-    fromUser: users ref
+    fromUser: groupUsers ref
     createdAt: Timestamp
     
-groupTags: auto
+groupTags: # [rc]
+  documentId: auto
   tagName: String
   createdAt: Timestamp
   updatedAt: Timestamp
 
 posts: # [rc]
+  documentId: auto
   username: String
   fromUser: users ref
   trainingDate: Timestamp
@@ -58,6 +60,7 @@ posts: # [rc]
   fileUrl: String
 
 menus: # [rc]
+  documentId: auto
   trainingName: String
   createdAt: Timestamp
   updatedAt: Timestamp

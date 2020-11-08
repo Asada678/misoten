@@ -1,6 +1,8 @@
 <template>
   <div class="m-drop-zone">
-    <span v-if="!value" class="m-drop-zone__prompt">Drop file here or click to upload</span>
+    <span v-if="!value" class="m-drop-zone__prompt"
+      >Drop file here or click to upload</span
+    >
     <input type="file" name="file" class="m-drop-zone__input" />
     <i v-if="value" class="fas fa-times unselect" @click="unselectFile"></i>
   </div>
@@ -10,14 +12,14 @@
 export default {
   components: {},
   props: {
-    value: File
+    value: File,
   },
   data() {
     return {
       dropZone: null,
       input: null,
       thumbnail: null,
-      filesExists: false
+      filesExists: false,
     };
   },
   computed: {},
@@ -32,7 +34,6 @@ export default {
       this.thumbnail.remove();
       this.filesExists = false;
       this.$emit("unselect");
-      
     },
     updateThumbnail(dropZone, file) {
       // console.log("dropZone, file:", dropZone, file);
@@ -64,9 +65,7 @@ export default {
         this.thumbnail.style.backgroundImage = null;
       }
     },
-    removeThumbnail() {
-
-    }
+    removeThumbnail() {},
   },
   mounted() {
     this.dropZone = this.$el;
@@ -74,7 +73,7 @@ export default {
 
     this.dropZone.addEventListener("click", (event) => {
       // console.log('event.target:', event.target);
-      if(event.target.classList.contains('unselect'))  {
+      if (event.target.classList.contains("unselect")) {
         this.unselectFile();
         // console.log('unselect:', );
         return;
@@ -115,11 +114,11 @@ export default {
   },
   watch: {
     value() {
-      if(!this.value && this.thumbnail) {
+      if (!this.value && this.thumbnail) {
         this.thumbnail.remove();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -136,9 +135,16 @@ export default {
   font-size: 20px;
   font-weight: 700;
   color: $grey;
+  color: rgba($color: $black, $alpha: 0.5);
   border: 4px dashed $blue;
   border-radius: 10px;
   cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: rgba($blue, 0.2);
+    color: rgba($color: $black, $alpha: 0.8);
+  }
 
   &--over {
     border-style: solid;

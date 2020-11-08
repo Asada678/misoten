@@ -26,7 +26,7 @@ export default {
 
       const resultTabs = [].slice.call(document.querySelectorAll(".m-tab"));
       const index = resultTabs.indexOf(targetTab);
-      console.log("index:", index);
+      // console.log("index:", index);
 
       activeTab.classList.remove("active");
       targetTab.classList.add("active");

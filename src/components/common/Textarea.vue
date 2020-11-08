@@ -79,6 +79,7 @@ export default {
     font-size: 20px;
     font-family: inherit;
     width: 100%;
+    height: 150px;
     box-sizing: border-box;
     letter-spacing: 1px;
     outline: none;

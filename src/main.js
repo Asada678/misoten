@@ -18,6 +18,7 @@ import ErrorMessage from './components/common/ErrorMessage'
 import FloatButton from './components/common/FloatButton'
 import FormGroup from './components/common/FormGroup'
 import Header from './components/common/Header'
+import InputIcon from './components/common/InputIcon'
 import Button from './components/common/Button'
 import Dialog from './components/common/Dialog'
 import RadioButton from './components/common/RadioButton'
@@ -44,6 +45,7 @@ Vue.component('m-error-message', ErrorMessage);
 Vue.component('m-form', TextForm);
 Vue.component('m-form-group', FormGroup);
 Vue.component('m-header', Header);
+Vue.component('m-input-icon', InputIcon);
 Vue.component('m-radio', RadioButton);
 Vue.component('m-select', SelectBox);
 Vue.component('m-tab', Tab);

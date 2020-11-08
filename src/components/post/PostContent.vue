@@ -87,6 +87,7 @@ export default {
   padding: 10px;
   border-radius: 3px;
   background-color: rgba($orange, 0.2);
+  // background-color: rgba($black, 0.4);
   @extend .box-shadow-2;
 
   .user-icon {

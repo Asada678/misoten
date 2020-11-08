@@ -123,8 +123,8 @@ export default {
         text: "始めまして！<br>ご利用方法を選択してください。",
         color: "blue",
       };
-      this.$router.push({ name: "FirstAccess" });
       this.$store.commit("setSnackbar", snackbar);
+      this.$router.push({ name: "FirstAccess" });
     } else {
       // console.log('not first:', );
       this.pageHierarchy = this.$route.meta.pageHierarchy;
@@ -212,17 +212,9 @@ export default {
 }
 i {
   cursor: pointer;
-
-  // &::after {
-  //   content: '';
-  //   position: absolute;
-  //   top: 0;
-  //   left: -100%;
-  //   transform: translateX(20%);
-  //   width: 200%;
-  //   height: 100%;
-  //   background-color: rgba($white, .3);
-  // }
+}
+a {
+  text-decoration: none;
 }
 body {
   overflow-y: scroll;
@@ -242,10 +234,12 @@ body {
   margin: 0 auto;
   padding: ($userMenuHeight + $mobileMainMenuHeight + 20px) 0 200px 0;
   background-color: rgba($orange, 0.1);
+  // background: linear-gradient(315deg, rgba(0,29,48,0.8) 0%, rgba(0,29,48,0.6867121848739496) 51%, rgba(0,29,48,0.9472163865546218) 100%);
+  // color: $white;
   overflow-x: hidden;
 }
 #content-wrapper {
-  width: 95%;
+  width: 99%;
   margin: 0 auto;
 }
 .user-page {

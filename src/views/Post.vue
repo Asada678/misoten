@@ -20,7 +20,20 @@
       </m-form-group>
       <!-- 2.username -->
       <m-form-group>
-        <m-form v-model="username" label="名前" />
+        <m-form
+          v-model="username"
+          label="名前"
+          :class="{ error: $v.username.$error }"
+          @input="$v.username.$touch()"
+        />
+        <m-error-message v-if="$v.username.$error">
+          <span v-if="!$v.username.maxLength">
+            トレーニング内容は{{
+              $v.username.$params.maxLength.max
+            }}文字以下でなければいけません。
+          </span>
+          <span v-if="!$v.workout.required">必須項目です。</span>
+        </m-error-message>
       </m-form-group>
       <!-- 3.workout -->
       <m-form-group>
@@ -28,7 +41,7 @@
           v-model="workout"
           label="内容"
           :class="{ error: $v.workout.$error }"
-          @blur="$v.workout.$touch()"
+          @input="$v.workout.$touch()"
         ></m-textarea>
         <m-error-message v-if="$v.workout.$error">
           <span v-if="!$v.workout.maxLength">
@@ -87,7 +100,9 @@ export default {
     return {
       posts: [],
       trainingDate: new Date(),
-      username: null,
+      username: this.$store.getters.user.username
+        ? this.$store.getters.user.username
+        : "ゲストさん",
       workout: null,
       file: null,
       dialog: false,
@@ -96,7 +111,8 @@ export default {
   },
   validations: {
     trainingDate: { required },
-    workout: { required, maxLength: maxLength(8) },
+    username: { required, maxLength: maxLength(20) },
+    workout: { required, maxLength: maxLength(100) },
   },
   computed: {},
   methods: {

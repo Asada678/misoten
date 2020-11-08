@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <div class="group-card">
+  <div class="group-card">
+    <router-link :to="`/group/room/${group.id}`">
       <div class="icon-box">
-        <img src="/img/kuma.png" alt="" />
+        <img :src="group.userIcon" alt="group icon" />
       </div>
       <div class="content-box">
-        <h2 class="group-name">グループ名</h2>
-        <p class="latest-message">最新メッセージ</p>
+        <h2 class="group-name">{{ group.groupName }}</h2>
+        <p class="latest-message">{{ group.latestMessage }}</p>
       </div>
-    </div>
+    </router-link>
   </div>
 </template>
 
 <script>
 export default {
   components: {},
-  props: {},
+  props: {
+    group: Object,
+  },
   data() {
     return {};
   },
@@ -30,12 +32,23 @@ export default {
   display: flex;
   width: 100%;
   max-height: 200px;
-  margin: 10px 0;
+  margin: 5px 0;
   padding: 10px;
   border-radius: 2px;
-  background-color: rgba($black, 0.8);
-  box-shadow: 0px 1px 2px 1px rgba($color: $white, $alpha: 0.4),
-    0px -1px 2px 1px rgba($color: $white, $alpha: 0.2);
+  background-color: rgba($orange, 0.2);
+  // background-color: rgba($black, 0.2);
+  color: $black;
+  @extend .box-shadow-2;
+
+  a {
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    color: $black;
+  }
 
   .icon-box {
     display: flex;
@@ -53,12 +66,10 @@ export default {
 
     .group-name {
       font-weight: 900;
-      color: $white;
-      border-bottom: 1px solid $white;
+      border-bottom: 1px solid $orange;
     }
     .latest-message {
       padding: 10px;
-      color: $white;
     }
   }
 }

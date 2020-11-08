@@ -11,7 +11,7 @@
           v-model="username"
           label="username"
           :class="{ error: $v.username.$error }"
-          @blur="$v.username.$touch()"
+          @input="$v.username.$touch()"
         ></m-form>
         <m-error-message v-if="$v.username.$error">
           <span v-if="!$v.username.maxLength">
@@ -105,7 +105,7 @@
       </m-form-group>
       <!-- 6.button -->
       <m-form-group>
-        <m-button class="w-50" @click="signup">登録</m-button>
+        <m-button :disabled="$v.$invalid" class="w-50" @click="signup">登録</m-button>
       </m-form-group>
     </form>
   </div>
@@ -149,7 +149,7 @@ export default {
   validations: {
     username: {
       required,
-      maxLength: maxLength(10),
+      maxLength: maxLength(20),
     },
     email: {
       required,
@@ -158,7 +158,7 @@ export default {
     password: {
       required,
       minLength: minLength(6),
-      maxLength: maxLength(10),
+      maxLength: maxLength(18),
     },
     gender: {
       required,

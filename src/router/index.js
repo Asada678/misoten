@@ -12,18 +12,19 @@ import Signup from '../views/auth/Signup.vue'
 import Calendar from '../views/Calendar.vue'
 import FirstAccess from '../views/FirstAccess.vue'
 import Group from '../views/Group.vue'
+import GroupRoom from '../views/group/GroupRoom.vue'
 import NotFound from '../views/NotFound.vue'
 import Post from '../views/Post.vue'
 import Video from '../views/Video.vue'
 // views user page
-import Coach from '../views/user-page/Coach.vue'
+import Coach from '../views/user/Coach.vue'
 import CompleteSignup from '../views/CompleteSignup.vue'
-import Config from '../views/user-page/Config.vue'
-import Profile from '../views/user-page/Profile.vue'
-import Language from '../views/user-page/Language.vue'
-import SetIcon from '../views/user-page/SetIcon.vue'
-import SetTarget from '../views/user-page/SetTarget.vue'
-import Title from '../views/user-page/Title.vue'
+import Config from '../views/user/Config.vue'
+import Profile from '../views/user/Profile.vue'
+import Language from '../views/user/Language.vue'
+import SetIcon from '../views/user/SetIcon.vue'
+import SetTarget from '../views/user/SetTarget.vue'
+import Title from '../views/user/Title.vue'
 
 Vue.use(VueRouter)
 
@@ -76,6 +77,12 @@ const routes = [
     name: 'Group',
     component: Group
     , meta: { pageHierarchy: 20, menuOrder: 20, prevPageName: 'Post', nextPageName: 'Video' }
+  },
+  {
+    path: '/group/room/:id',
+    name: 'GroupRoom',
+    component: GroupRoom
+    , meta: { pageHierarchy: 25, menuOrder: 20, prevPageName: 'Post', nextPageName: 'Video' }
   },
   {
     path: '/video',

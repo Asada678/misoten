@@ -21,8 +21,10 @@ export default {
 <style lang="scss" scoped>
 .m-tab-contents {
   position: relative;
-  background-color: rgba($white, 0.9);
-  overflow: hidden;
+  width: 100%;
+  // background-color: rgba($white, 0.9);
+  overflow-x: hidden;
+  overflow-y: auto;
   @extend .box-shadow-1;
 
   &-slide {

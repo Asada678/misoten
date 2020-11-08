@@ -15,7 +15,7 @@ export default {
   methods: {},
   mounted() {
     this.$el.firstChild.classList.add('active');
-    console.log('this.$el.childNodes.length:', this.$el.childNodes.length);
+    // console.log('this.$el.childNodes.length:', this.$el.childNodes.length);
     this.$el.childNodes.forEach(el => {
       el.style.width = `${100 / this.$el.childNodes.length}%`;
     })
