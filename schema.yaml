@@ -22,6 +22,7 @@ groups: # [rc]
   groupLeaderName: String
   groupIcon: String
   groupTagIds: [String]
+  groupTagNames: [String]
   userCount: Int
   userIds: [String]
   latestMessage: String
@@ -42,11 +43,15 @@ groups: # [rc]
     fileURL: String #download URL
     content: String
     fromUser: groupUsers ref
+    fromUserId: userId
+    fromUserName: String
+    fromUserIcon: String
     createdAt: Timestamp
     
 groupTags: # [rc]
   documentId: auto
   tagName: String
+  createUser: users ref
   createdAt: Timestamp
   updatedAt: Timestamp
 

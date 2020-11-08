@@ -14,7 +14,8 @@
         <transition name="fade">
           <MainMenu v-if="menuVisible" />
         </transition>
-        <transition name="fade">
+        <!-- coach button -->
+        <!-- <transition name="fade">
           <float-button
             v-if="menuVisible"
             icon="chalkboard-teacher"
@@ -23,7 +24,7 @@
             size="70"
             @click="showSnackbar"
           />
-        </transition>
+        </transition> -->
         <div id="content-wrapper">
           <transition
             name="fade"

@@ -40,7 +40,7 @@
       :dialog="dialog"
       :header-text="user.username ? 'ログアウト' : 'ログイン'"
       @close="dialog = false"
-      @action="loginOrLogout"
+      @action="logout"
     >
       <p v-if="user.username">ログアウトしますか？</p>
       <div v-else>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 import Login from "@/views/auth/Login";
 export default {
   components: {
@@ -100,9 +101,15 @@ export default {
       const userMenuList = document.querySelector(".user-menu-list");
       userMenuList.classList.toggle("user-menu-open");
     },
-    loginOrLogout() {
+    logout() {
       console.log("this.user.username:", this.user.username);
       if (this.user.username) {
+        firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.push({ name: "Login" });
+        });
         // logout 処理
       } else {
         // login 処理

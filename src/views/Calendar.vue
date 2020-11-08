@@ -12,15 +12,7 @@
       <p>{{ user.name }}</p>
       <img :src="`${user.icon}`" alt="" width="300" height="200">
     </div> -->
-    <m-select
-      v-model="year"
-      search
-      :options="options"
-      class="w-40"
-      label="年"
-      name="year"
-    >
-    </m-select>
+
   </div>
 </template>
 
@@ -31,20 +23,6 @@ export default {
   props: {},
   data() {
     return {
-      options: [
-        { text: "tom", value: "male", color: "indigo", icon: "male" },
-        { text: "bob", value: "male11", color: "indigo", icon: "male" },
-        { text: "asada", value: "male22", color: "indigo", icon: "male" },
-        { text: "tomoya", value: "male222", color: "indigo", icon: "male" },
-        { text: "あああ", value: "male111", color: "indigo", icon: "male" },
-        { text: "dfarabr", value: "male22233", color: "indigo", icon: "male" },
-        { text: "tebseroia", value: "maly4wehe", color: "indigo", icon: "male" },
-        { text: "grbevaoi", value: "male1bfaf", color: "indigo", icon: "male" },
-        { text: "agvironraeb", value: "male2fvae", color: "indigo", icon: "male" },
-        { text: "nobj;stbkn;", value: "maleves", color: "indigo", icon: "male" },
-        { text: "beionnte", value: "male1vava", color: "indigo", icon: "male" },
-        { text: "fbesbeuiiimude", value: "malavae2", color: "indigo", icon: "male" },
-      ],
       url: null,
       year: null,
     };

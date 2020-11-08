@@ -28,7 +28,7 @@
         />
         <m-error-message v-if="$v.username.$error">
           <span v-if="!$v.username.maxLength">
-            トレーニング内容は{{
+            名前は{{
               $v.username.$params.maxLength.max
             }}文字以下でなければいけません。
           </span>

@@ -2,7 +2,7 @@
   <div class="group-card">
     <router-link :to="`/group/room/${group.id}`">
       <div class="icon-box">
-        <img :src="group.userIcon" alt="group icon" />
+        <img :src="group.groupIcon" alt="group icon" />
       </div>
       <div class="content-box">
         <h2 class="group-name">{{ group.groupName }}</h2>

@@ -9,7 +9,6 @@
     <!-- tab-contents start -->
     <m-tab-contents>
       <m-tab-content class="active" id="group-list">
-
         <group-card
           v-for="group in belongingGroups"
           :key="group.id"
@@ -170,6 +169,16 @@ export default {
               };
               this.$store.commit("setSnackbar", snackbar);
             });
+          console.log("1:");
+          await docRef
+            .collection("messages")
+            .add({
+              fromUserName: "Ever Fit Up",
+              content: "こんにちは！",
+              createdAt: new Date(),
+            })
+            .then(() => {});
+          console.log("2:");
 
           this.$router.push({ name: "GroupRoom", params: { id: docRef.id } });
         });

@@ -77,7 +77,7 @@ export default {
   },
   mounted() {
     this.addEventToOptions();
-    console.log("this.options:", this.options);
+    // console.log("this.options:", this.options);
     this.optionsClone = this.options;
   },
 };

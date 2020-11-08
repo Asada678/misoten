@@ -22,6 +22,7 @@ export default {
 <style lang="scss" scoped>
 .m-error-message {
   position: absolute;
+  top: 100%;
   color: rgba($color: $red, $alpha: 0.8);
   font-size: 14px;
   font-weight: 600;

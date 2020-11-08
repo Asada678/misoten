@@ -12,15 +12,16 @@ import 'croppie/croppie.css'
 
 
 // common components
+import Button from './components/common/Button'
+import Chip from "@/components/common/Chip";
 import Datepicker from "@/components/common/Datepicker";
+import Dialog from './components/common/Dialog'
 import DropZone from "@/components/common/DropZone";
 import ErrorMessage from './components/common/ErrorMessage'
 import FloatButton from './components/common/FloatButton'
 import FormGroup from './components/common/FormGroup'
 import Header from './components/common/Header'
 import InputIcon from './components/common/InputIcon'
-import Button from './components/common/Button'
-import Dialog from './components/common/Dialog'
 import RadioButton from './components/common/RadioButton'
 import SelectBox from './components/common/SelectBox'
 import Tab from './components/common/Tab'
@@ -37,6 +38,7 @@ Vue.use(Vuelidate);
 Vue.use(VueCroppie);
 
 Vue.component('m-button', Button);
+Vue.component('m-chip', Chip);
 Vue.component('m-drop-zone', DropZone);
 Vue.component('m-datepicker', Datepicker);
 Vue.component('float-button', FloatButton);

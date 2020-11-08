@@ -133,6 +133,9 @@ button {
     border: 1px solid rgba($grey, 1);
     background-color: rgba($grey, 0.7);
   }
+  &.m-0 {
+    margin: 0;
+  }
 }
 
 @media (min-width: 480px) {

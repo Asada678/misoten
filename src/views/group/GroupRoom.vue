@@ -1,13 +1,52 @@
 <template>
   <div class="group-room">
-    {{ $route.params.id }}
+    <header class="room-header">
+      <i class="fas fa-chevron-left prev" @click="$router.go(-1)"></i>
+      <div class="icon-and-name">
+        <img :src="groupInfo.groupIcon" alt="" />
+        <h2>{{ groupInfo.groupName }}</h2>
+      </div>
+      <i class="fas fa-bars" @click="dialog = true"></i>
+    </header>
+
+    <div class="messages">
+      <group-room-message
+        v-for="message in messages"
+        :key="message.id"
+        :message="message"
+      ></group-room-message>
+    </div>
+
+    <div class="message-form">
+      <m-form-group class="flex">
+        <m-form
+          v-model="newMessage"
+          label="newMessage"
+          :class="{ error: $v.newMessage.$error }"
+          @input="$v.newMessage.$touch()"
+        ></m-form>
+        <m-error-message v-if="$v.newMessage.$error">
+          <span v-if="!$v.newMessage.maxLength">
+            メッセージは{{
+              $v.newMessage.$params.maxLength.max
+            }}文字以下でなければいけません。
+          </span>
+        </m-error-message>
+        <m-button
+          :disabled="$v.$invalid || !newMessage"
+          class="w-25 m-0"
+          @click="sendMessage"
+          >送信</m-button
+        >
+      </m-form-group>
+    </div>
     <m-dialog
       class="p-0"
-      :dialog="unsetExists"
-      header-text="アイコンとタグ設定"
+      :dialog="dialog"
+      header-text="設定"
       button-text="設定"
       @action="setIconAndTags"
-      @close="unsetExists = false"
+      @close="dialog = false"
     >
       <m-tabs>
         <m-tab v-for="tab in tabs" :key="tab.target" :target="tab.target">{{
@@ -17,6 +56,10 @@
       <m-tab-contents>
         <!-- 1.icon -->
         <m-tab-content class="active" id="icon">
+          <div v-if="groupInfo.groupIcon" class="flex">
+            <h2>設定中アイコン</h2>
+            <img :src="groupInfo.groupIcon" alt="group icon" width="40" height="40" />
+          </div>
           <m-input-icon @result="fetchResult"></m-input-icon>
           <img
             v-if="cropped"
@@ -26,32 +69,130 @@
           />
         </m-tab-content>
         <!-- 2.tag -->
-        <m-tab-content id="tag"></m-tab-content>
+        <m-tab-content id="tag">
+          <div>
+            <transition-group
+              tag="div"
+              name="selected-tag"
+              class="selected-tags"
+            >
+              <m-chip
+                v-for="(tag, index) in selectedTags"
+                :key="index"
+                @remove="removeTag(index)"
+                >{{ tag }}</m-chip
+              >
+            </transition-group>
+          </div>
+          <m-form-group class="flex">
+            <m-form
+              v-model="newTagName"
+              label="new tag name"
+              :class="{ error: $v.newTagName.$error }"
+              @input="$v.newTagName.$touch()"
+            ></m-form>
+            <m-error-message v-if="$v.newTagName.$error">
+              <span v-if="!$v.newTagName.maxLength">
+                タグ名は{{
+                  $v.newTagName.$params.maxLength.max
+                }}文字以下でなければいけません。
+              </span>
+              <span v-if="!$v.newTagName.minLength">
+                タグ名は{{
+                  $v.newTagName.$params.minLength.min
+                }}文字以上でなければいけません。
+              </span>
+            </m-error-message>
+            <m-button
+              class="m-0 blue t-white"
+              :disabled="$v.$invalid || !newTagName"
+              @click="addTag"
+              >追加</m-button
+            >
+          </m-form-group>
+          <!-- <m-form-group>
+          </m-form-group> -->
+          <m-form-group>
+            <m-select
+              :value="selectBoxTag"
+              class="w-4"
+              label="既存タグ"
+              name="tag"
+              search
+              :options="groupTags"
+              @input="onInput"
+            >
+            </m-select>
+          </m-form-group>
+        </m-tab-content>
       </m-tab-contents>
     </m-dialog>
   </div>
 </template>
 
 <script>
-import { db } from "@/firebase/firebase";
+import { db, storage } from "@/firebase/firebase";
+import { maxLength } from "vuelidate/lib/validators";
+import GroupRoomMessage from "@/components/group/GroupRoomMessage";
+import dayjs from "dayjs";
+
 export default {
-  components: {},
+  components: {
+    GroupRoomMessage,
+  },
   props: {},
   data() {
     return {
+      lastMessage: null,
       groupInfo: {},
       file: null,
       cropped: null,
       blob: null,
-      unsetExists: false,
+      newTagName: null,
+      selectBoxTag: null,
+      selectedTags: [],
+      groupTags: [
+        { value: "aaaa", text: "aaaa" },
+        { value: "aa2", text: "aa2" },
+        { value: "aa3a", text: "aa3a" },
+        { value: "aa2222aa", text: "aa2222aa" },
+      ],
+      newMessage: null,
+      messages: [],
+      dialog: false,
       tabs: [
         { text: "アイコン", target: "icon" },
         { text: "タグ", target: "tag" },
       ],
     };
   },
+  validations: {
+    newTagName: { maxLength: maxLength(10) },
+    newMessage: { maxLength: maxLength(100) },
+  },
   computed: {},
   methods: {
+    async sendMessage() {
+      if (!this.newMessage) {
+        const snackbar = {
+          text: "メッセージを入力してください。",
+          color: "red",
+        };
+        this.$store.commit("setSnackbar", snackbar);
+        return;
+      }
+
+      const message = {
+        content: this.newMessage,
+        fromUserId: this.$store.getters.user.uid,
+        fromUserName: this.$store.getters.user.username,
+        fromUserIcon: this.$store.getters.user.userIcon,
+        createdAt: new Date()
+      }
+
+      await db.collection("groups").doc(this.$route.params.id).collection("messages").add(message);
+      this.newMessage = null;
+    },
     fetchResult(result) {
       // console.log("result:", result);
       this.cropped = result.cropped;
@@ -62,36 +203,149 @@ export default {
         .doc(this.$route.params.id)
         .get()
         .then((doc) => {
-          console.log("doc:", doc);
+          // console.log("doc:", doc);
           if (doc.exists) {
-            console.log("doc.data():", doc.data());
-            this.groupInfo = doc.data();
-            console.log(
-              "this.groupInfo.adminUserIds:",
-              this.groupInfo.adminUserIds
-            );
+            // console.log("doc.data():", doc.data());
+            // console.log("doc.id:", doc.id);
+            this.groupInfo = {
+              ...doc.data(),
+              id: doc.id,
+            };
+            this.selectedTags = this.groupInfo.groupTagNames;
             if (
               this.groupInfo.adminUserIds.includes(
                 this.$store.getters.user.uid
               ) &&
-              !(this.groupInfo.groupIcon && this.groupInfo.groupTagIds)
+              !(this.groupInfo.groupIcon && this.groupInfo.groupTagNames)
             ) {
               const snackbar = {
-                text: "未設定の項目があります。<br>設定してしまいましょう。",
+                text: "未設定の項目があります。",
                 color: "blue",
               };
               this.$store.commit("setSnackbar", snackbar);
-              console.log("un setted:");
-              this.unsetExists = true;
+              this.dialog = true;
             }
           }
         });
     },
-    fetchMessages() {},
-    setIconAndTags() {},
+    async firstFetchMessages() {
+      await db.collection("groups")
+        .doc(this.$route.params.id)
+        .collection("messages")
+        .orderBy("createdAt", "desc")
+        .limit(10)
+        .get()
+        .then(this.onGetSnapshot);
+    },
+    // スクロール時読み込み
+    fetchNextMessages() {
+      // console.log("next fetch:");
+      // lastMessageが無いときリターン
+      if (!this.lastMessage) return;
+      db.collection("groups")
+        .doc(this.$route.params.id)
+        .collection("messages")
+        // .where("deleteFlg", "==", false)
+        .orderBy("createdAt", "desc")
+        .limit(10)
+        .startAfter(this.lastMessage)
+        .get()
+        .then(this.onGetSnapshot);
+    },
+    // firestore getでsnapshotを取得したときのcallback
+    onGetSnapshot(snapshot, newMessage = false) {
+      this.lastMessage = snapshot.docs[snapshot.docs.length - 1];
+      // console.log('this.lastMessage:', this.lastMessage);
+      snapshot.docChanges().forEach((change) => {
+        console.log('change:', change);
+        // console.log("index:", index);
+        // const fromUser = change.doc.data().fromUser;
+        if (change.type === "added") {
+          const message = {
+            ...change.doc.data(),
+            id: change.doc.id,
+            // snapshotIndex: index,
+            // fromUser,
+          };
+          // 日時をフォーマット通りに変換
+          try {
+            // データ追加日時の取得
+            let t = change.doc.data().createdAt;
+            message.formattedCreatedAt = this.fromTimestampToFormattedDate(t);
+          } catch {
+            message.formattedCreatedAt = "";
+          }
+
+          if (newMessage) {
+            // 投稿を上に追加
+            if (
+              this.messages.length > 0 &&
+              message.createdAt > this.messages[0].createdAt
+            )
+              this.messages = [message, ...this.messages];
+          } else {
+            // 投稿を下に追加
+            this.messages = [...this.messages, message];
+          }
+        }
+      });
+    },
+    // 新しい読み込みのリスナ
+    async listenNewMessage() {
+      console.log('listen:', );
+      await db.collection("groups")
+        .doc(this.$route.params.id)
+        .collection("messages")
+        // .where("deleteFlg", "==", false)
+        .orderBy("createdAt", "desc")
+        .limit(1)
+        .onSnapshot((snapshot) => {
+          this.onGetSnapshot(snapshot, true);
+        });
+    },
+    // 時刻のフォーマット
+    fromTimestampToFormattedDate(timestamp) {
+      return dayjs(timestamp.toDate()).format("YYYY-MM-DD");
+    },
+    fetchGroupTags() {},
+    addTag() {
+      console.log("this.newTagName:", this.newTagName);
+      let trimmed = this.newTagName.replace(/\s+/g, "");
+      this.newTagName = null;
+      if (this.selectedTags.includes(trimmed)) return;
+      this.selectedTags = [...this.selectedTags, trimmed];
+    },
+    removeTag(index) {
+      console.log("index:", index);
+      this.selectedTags = this.selectedTags.filter((tag, i) => i !== index);
+    },
+    onInput(tagName) {
+      if (this.selectedTags.includes(tagName)) return;
+      this.selectedTags = [...this.selectedTags, tagName];
+    },
+    async setIconAndTags() {
+      const data = {};
+      if (this.blob) {
+        console.log("this.blob:", this.blob);
+        console.log("this.cropped:", this.cropped);
+        const storageRef = storage.ref();
+        const fileRef = storageRef.child(
+          `group-icons/${this.$route.params.id}-icon.png`
+        );
+        await fileRef.put(this.blob).then();
+        const url = await fileRef.getDownloadURL();
+        data.groupIcon = url;
+      }
+
+      data.groupTagNames = this.selectedTags;
+
+      db.collection("groups").doc(this.$route.params.id).update(data);
+    },
   },
-  created() {
+  async created() {
     this.fetchRoomInfo();
+    await this.firstFetchMessages();
+    await this.listenNewMessage();
   },
 };
 </script>
@@ -101,15 +355,69 @@ export default {
   width: 100px;
   height: 100px;
 }
-// .group-room {
-//   position: fixed;
-//   top: 100px;
-//   left: 0;
-//   height: calc(100vh - 100px);
-//   width: 100%;
-//   // background-color: $indigo;
-//   overflow: scroll;
-// }
+.group-room {
+  position: relative;
+  width: 100%;
+
+  .room-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    padding: 0 10px;
+    background-color: rgba($indigo, 0.7);
+    color: $white;
+
+    .icon-and-name {
+      display: flex;
+      img {
+        height: 40px;
+        margin-right: 20px;
+      }
+    }
+
+    i {
+      font-size: 20px;
+    }
+  }
+  .selected-tags {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .message-form {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 10px 0 10px;
+    background-color: rgba($white, 1);
+    @extend .box-shadow-1;
+
+    input {
+      // background-color: $white;
+    }
+  }
+}
+
+.selected-tag-enter-active {
+  transition: all 0.5s ease-out;
+}
+.selected-tag-enter,
+.selected-tag-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.selected-tag-leave-active {
+  position: absolute;
+  transition: all 0.5s ease-in;
+}
+.selected-tag-move {
+  transition: transform 0.8s ease;
+}
 
 @media (min-width: 480px) {
 }

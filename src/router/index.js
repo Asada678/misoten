@@ -143,6 +143,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   console.log('to, from, next:', to, from);
   firebase.auth().onAuthStateChanged(async (authUser) => {
+    console.log('authUser:', authUser);
     if(authUser && !store.state.user.username) {
       // console.log('store.state.user:', store.state.user);
       await db.collection('users').doc(authUser.uid).get().then(doc => {
@@ -156,14 +157,10 @@ router.beforeEach((to, from, next) => {
       // console.log('store.state.user:', store.state.user);
       // console.log('store.state.user.username:', store.state.user.username);
     }
-    // if (authUser) {
-    // } else {
-    //   if (to.matched.some(record => record.meta.requiresAuth)) {
-    //     neuserxt({
-    //       name: 'FirstAccess'
-    //     })
-    //   }
-    // }
+    
+    if(!authUser && store.state.user.username) {
+      store.commit('setUser', {});
+    }
       next()
     // console.log('authUser:', authUser);
   })

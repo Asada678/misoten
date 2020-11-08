@@ -4,7 +4,7 @@
       v-model="smaple"
       label="smaple"
       :class="{ error: $v.smaple.$error }"
-      @blur="$v.smaple.$touch()"
+      @input="$v.smaple.$touch()"
     ></m-form>
     <m-error-message v-if="$v.smaple.$error">
       <span v-if="!$v.smaple.maxLength">
@@ -20,16 +20,9 @@
 <script>
 import { required, maxLength } from "vuelidate/lib/validators";
 export default {
-  components: {},
-  props: {},
-  data() {
-    return {};
-  },
   validations: {
-    sample: { required, maxLength: maxLength(8) },
+    sample: { required, maxLength: maxLength(10) },
   },
-  computed: {},
-  methods: {},
 };
 </script>
 
