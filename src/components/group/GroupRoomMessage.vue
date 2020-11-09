@@ -7,6 +7,7 @@
     <p class="content">
       {{ message.content }}
     </p>
+    <p>{{ message.formattedCreatedAt }}</p>
   </div>
 </template>
 
@@ -27,6 +28,7 @@ export default {
 <style lang="scss" scoped>
 .m-group-room-message {
   display: flex;
+  justify-content: space-between;
   width: 100%;
   margin-top: 5px;
 
@@ -34,7 +36,6 @@ export default {
     flex-direction: row-reverse;
 
     .content {
-      width: 60%;
       background-color: rgba($orange, 0.4);
     }
   }
@@ -45,10 +46,11 @@ export default {
     margin: 0 5px;
     border: 1px solid $black;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   .content {
-    width: 100%;
+    width: 60%;
     padding: 5px 20px;
     border: 1px solid rgba($orange, 0.8);
     border-radius: 20px;

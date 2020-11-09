@@ -4,7 +4,7 @@
 users: # [rc]
   documentId: userId == auth.uid
   groupCount: Int # 作成できるグループ数を制限？  
-  username: String
+  username: String(20)
   userIcon: String
   createdAt: Timestamp
   updatedAt: Timestamp
@@ -18,8 +18,9 @@ users: # [rc]
 
 groups: # [rc]
   documentId: auto
-  groupName: String
+  groupName: String(20)
   groupLeaderName: String
+  groupDescription: String(100)
   groupIcon: String
   groupTagIds: [String]
   groupTagNames: [String]
@@ -57,10 +58,11 @@ groupTags: # [rc]
 
 posts: # [rc]
   documentId: auto
-  username: String
+  fromUsername: String(20)
+  fromUserIcon: String
   fromUser: users ref
   trainingDate: Timestamp
-  workout: String or [String]
+  workout: String(100) or [String]
   createdAt: Timestamp
   fileUrl: String
 

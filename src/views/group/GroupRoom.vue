@@ -6,7 +6,7 @@
         <img :src="groupInfo.groupIcon" alt="" />
         <h2>{{ groupInfo.groupName }}</h2>
       </div>
-      <i class="fas fa-bars" @click="dialog = true"></i>
+      <i class="fas fa-bars" @click="groupConfigDialog = true"></i>
     </header>
 
     <div class="messages">
@@ -42,11 +42,11 @@
     </div>
     <m-dialog
       class="p-0"
-      :dialog="dialog"
+      :dialog="groupConfigDialog"
       header-text="設定"
       button-text="設定"
-      @action="setIconAndTags"
-      @close="dialog = false"
+      @action="updateConfig"
+      @close="groupConfigDialog = false"
     >
       <m-tabs>
         <m-tab v-for="tab in tabs" :key="tab.target" :target="tab.target">{{
@@ -58,7 +58,12 @@
         <m-tab-content class="active" id="icon">
           <div v-if="groupInfo.groupIcon" class="flex">
             <h2>設定中アイコン</h2>
-            <img :src="groupInfo.groupIcon" alt="group icon" width="40" height="40" />
+            <img
+              :src="groupInfo.groupIcon"
+              alt="group icon"
+              width="40"
+              height="40"
+            />
           </div>
           <m-input-icon @result="fetchResult"></m-input-icon>
           <img
@@ -125,6 +130,57 @@
             </m-select>
           </m-form-group>
         </m-tab-content>
+        <!-- 3.detail -->
+        <m-tab-content id="detail">
+          <m-form-group>
+            <m-form
+              v-model="groupName"
+              label="group name"
+              :class="{ error: $v.groupName.$error }"
+              @input="$v.groupName.$touch()"
+            ></m-form>
+            <m-error-message v-if="$v.groupName.$error">
+              <span v-if="!$v.groupName.maxLength">
+                グループ名は{{
+                  $v.groupName.$params.maxLength.max
+                }}文字以下でなければいけません。
+              </span>
+              <span v-if="!$v.groupName.required">必須項目です。</span>
+            </m-error-message>
+          </m-form-group>
+          <m-form-group>
+            <m-form
+              v-model="groupLeaderName"
+              label="group leader name"
+              :class="{ error: $v.groupLeaderName.$error }"
+              @input="$v.groupLeaderName.$touch()"
+            ></m-form>
+            <m-error-message v-if="$v.groupLeaderName.$error">
+              <span v-if="!$v.groupLeaderName.maxLength">
+                グループリーダー名は{{
+                  $v.groupLeaderName.$params.maxLength.max
+                }}文字以下でなければいけません。
+              </span>
+              <span v-if="!$v.groupLeaderName.required">必須項目です。</span>
+            </m-error-message>
+          </m-form-group>
+          <m-form-group>
+            <m-textarea
+              v-model="groupDescription"
+              label="group description"
+              :class="{ error: $v.groupDescription.$error }"
+              @input="$v.groupDescription.$touch()"
+            ></m-textarea>
+            <m-error-message v-if="$v.groupDescription.$error">
+              <span v-if="!$v.groupDescription.maxLength">
+                グループ説明は{{
+                  $v.groupDescription.$params.maxLength.max
+                }}文字以下でなければいけません。
+              </span>
+              <span v-if="!$v.groupDescription.required">必須項目です。</span>
+            </m-error-message>
+          </m-form-group>
+        </m-tab-content>
       </m-tab-contents>
     </m-dialog>
   </div>
@@ -132,7 +188,7 @@
 
 <script>
 import { db, storage } from "@/firebase/firebase";
-import { maxLength } from "vuelidate/lib/validators";
+import { required, maxLength } from "vuelidate/lib/validators";
 import GroupRoomMessage from "@/components/group/GroupRoomMessage";
 import dayjs from "dayjs";
 
@@ -159,16 +215,23 @@ export default {
       ],
       newMessage: null,
       messages: [],
-      dialog: false,
+      groupConfigDialog: false,
+      groupName: null,
+      groupLeaderName: null,
+      groupDescription: null,
       tabs: [
         { text: "アイコン", target: "icon" },
         { text: "タグ", target: "tag" },
+        { text: "詳細", target: "detail" },
       ],
     };
   },
   validations: {
     newTagName: { maxLength: maxLength(10) },
     newMessage: { maxLength: maxLength(100) },
+    groupName: { required, maxLength: maxLength(20) },
+    groupLeaderName: { required, maxLength: maxLength(20) },
+    groupDescription: { required, maxLength: maxLength(100) },
   },
   computed: {},
   methods: {
@@ -187,10 +250,14 @@ export default {
         fromUserId: this.$store.getters.user.uid,
         fromUserName: this.$store.getters.user.username,
         fromUserIcon: this.$store.getters.user.userIcon,
-        createdAt: new Date()
-      }
+        createdAt: new Date(),
+      };
 
-      await db.collection("groups").doc(this.$route.params.id).collection("messages").add(message);
+      await db
+        .collection("groups")
+        .doc(this.$route.params.id)
+        .collection("messages")
+        .add(message);
       this.newMessage = null;
     },
     fetchResult(result) {
@@ -211,7 +278,13 @@ export default {
               ...doc.data(),
               id: doc.id,
             };
-            this.selectedTags = this.groupInfo.groupTagNames;
+            this.groupName = this.groupInfo.groupName;
+            this.groupLeaderName = this.groupInfo.groupLeaderName;
+            this.groupDescription = this.groupInfo.groupDescription;
+
+            if (this.groupInfo.groupTagNames) {
+              this.selectedTags = this.groupInfo.groupTagNames;
+            }
             if (
               this.groupInfo.adminUserIds.includes(
                 this.$store.getters.user.uid
@@ -223,13 +296,14 @@ export default {
                 color: "blue",
               };
               this.$store.commit("setSnackbar", snackbar);
-              this.dialog = true;
+              this.groupConfigDialog = true;
             }
           }
         });
     },
     async firstFetchMessages() {
-      await db.collection("groups")
+      await db
+        .collection("groups")
         .doc(this.$route.params.id)
         .collection("messages")
         .orderBy("createdAt", "desc")
@@ -257,7 +331,7 @@ export default {
       this.lastMessage = snapshot.docs[snapshot.docs.length - 1];
       // console.log('this.lastMessage:', this.lastMessage);
       snapshot.docChanges().forEach((change) => {
-        console.log('change:', change);
+        console.log("change:", change);
         // console.log("index:", index);
         // const fromUser = change.doc.data().fromUser;
         if (change.type === "added") {
@@ -292,8 +366,9 @@ export default {
     },
     // 新しい読み込みのリスナ
     async listenNewMessage() {
-      console.log('listen:', );
-      await db.collection("groups")
+      console.log("listen:");
+      await db
+        .collection("groups")
         .doc(this.$route.params.id)
         .collection("messages")
         // .where("deleteFlg", "==", false)
@@ -305,7 +380,7 @@ export default {
     },
     // 時刻のフォーマット
     fromTimestampToFormattedDate(timestamp) {
-      return dayjs(timestamp.toDate()).format("YYYY-MM-DD");
+      return dayjs(timestamp.toDate()).format("MM-DD hh:mm");
     },
     fetchGroupTags() {},
     addTag() {
@@ -323,8 +398,23 @@ export default {
       if (this.selectedTags.includes(tagName)) return;
       this.selectedTags = [...this.selectedTags, tagName];
     },
-    async setIconAndTags() {
-      const data = {};
+    async updateConfig() {
+      if (this.$v.$invalid) {
+        const snackbar = {
+          text: "エラーが発生しました。",
+          color: "red",
+        };
+        this.$store.commit("setSnackbar", snackbar);
+        return;
+      }
+      const data = {
+        ...this.groupInfo,
+        groupName: this.groupName,
+        groupLeaderName: this.groupLeaderName,
+        groupDescription: this.groupDescription,
+        groupTagNames: this.selectedTags,
+        updatedAt: new Date(),
+      };
       if (this.blob) {
         console.log("this.blob:", this.blob);
         console.log("this.cropped:", this.cropped);
@@ -337,9 +427,26 @@ export default {
         data.groupIcon = url;
       }
 
-      data.groupTagNames = this.selectedTags;
-
-      db.collection("groups").doc(this.$route.params.id).update(data);
+      db.collection("groups")
+        .doc(this.$route.params.id)
+        .update(data)
+        .then(() => {
+          this.groupInfo = data;
+          const snackbar = {
+            text: "設定を更新しました。",
+            color: "blue",
+          };
+          this.$store.commit("setSnackbar", snackbar);
+          this.groupConfigDialog = false;
+        })
+        .catch((err) => {
+          console.log("err:", err);
+          const snackbar = {
+            text: "設定に失敗しました。",
+            color: "red",
+          };
+          this.$store.commit("setSnackbar", snackbar);
+        });
     },
   },
   async created() {

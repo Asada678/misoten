@@ -57,7 +57,9 @@ export default {
 
     img {
       width: 50px;
+      height: 50px;
       border-radius: 50%;
+      object-fit: cover;
     }
   }
   .content-box {
@@ -65,7 +67,7 @@ export default {
     padding: 0 10px;
 
     .group-name {
-      font-weight: 900;
+      font-weight: 700;
       border-bottom: 1px solid $orange;
     }
     .latest-message {
