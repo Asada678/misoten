@@ -3,7 +3,7 @@
     class="m-group-room-message"
     :class="{ mine: message.fromUserId === $store.getters.user.uid }"
   >
-    <img :src="message.fromUserIcon" alt="" />
+    <img :src="iconSrc" alt="" />
     <p class="content">
       {{ message.content }}
     </p>
@@ -18,10 +18,23 @@ export default {
     message: Object,
   },
   data() {
-    return {};
+    return {
+      iconSrc: null
+    };
+    
   },
   computed: {},
   methods: {},
+  created() {
+    this.message.fromUserRef.get().then(doc => {
+      console.log('doc.data():', doc.data());
+      if(doc.exists) {
+        if(doc.data().userIcon) {
+          this.iconSrc = doc.data().userIcon;
+        }
+      } 
+    })
+  }
 };
 </script>
 

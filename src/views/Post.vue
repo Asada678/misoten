@@ -179,7 +179,7 @@ export default {
         fileUrl,
         deleteFlg: false,
         createdAt: new Date(),
-        fromUser: db.doc(`users/${this.$store.getters.user.uid}`),
+        fromUserRef: db.doc(`users/${this.$store.getters.user.uid}`),
       };
       // console.log("data:", data);
       // データの追加

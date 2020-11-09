@@ -70,9 +70,9 @@ export default {
     },
   },
   created() {
-    if (this.post.fromUser) {
+    if (this.post.fromUserRef) {
       // 認証済みユーザのとき、ユーザ情報を取得
-      this.post.fromUser.get().then((userRef) => {
+      this.post.fromUserRef.get().then((userRef) => {
         this.userIcon = userRef.data().userIcon;
       });
     }

@@ -43,7 +43,7 @@
     <m-dialog
       class="p-0"
       :dialog="groupConfigDialog"
-      header-text="設定"
+      header-text="グループ設定"
       button-text="設定"
       @action="updateConfig"
       @close="groupConfigDialog = false"
@@ -248,8 +248,7 @@ export default {
       const message = {
         content: this.newMessage,
         fromUserId: this.$store.getters.user.uid,
-        fromUserName: this.$store.getters.user.username,
-        fromUserIcon: this.$store.getters.user.userIcon,
+        fromUserRef: db.doc(`users/${this.$store.getters.user.uid}`),
         createdAt: new Date(),
       };
 
@@ -331,7 +330,7 @@ export default {
       this.lastMessage = snapshot.docs[snapshot.docs.length - 1];
       // console.log('this.lastMessage:', this.lastMessage);
       snapshot.docChanges().forEach((change) => {
-        console.log("change:", change);
+        // console.log("change:", change);
         // console.log("index:", index);
         // const fromUser = change.doc.data().fromUser;
         if (change.type === "added") {
@@ -354,12 +353,13 @@ export default {
             // 投稿を上に追加
             if (
               this.messages.length > 0 &&
-              message.createdAt > this.messages[0].createdAt
+              message.createdAt >
+                this.messages[this.messages.length - 1].createdAt
             )
-              this.messages = [message, ...this.messages];
+              this.messages = [...this.messages, message];
           } else {
             // 投稿を下に追加
-            this.messages = [...this.messages, message];
+            this.messages = [message, ...this.messages];
           }
         }
       });

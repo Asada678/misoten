@@ -41,12 +41,11 @@ groups: # [rc]
 
   messages: # [sc] onCreate -> userIdsのそれぞれのbelongingGroups(updatedAt, unreadMessageCount)を更新。
     documentId: auto
-    fileURL: String #download URL
     content: String
-    fromUser: groupUsers ref
-    fromUserId: userId
-    fromUserName: String
-    fromUserIcon: String
+    fromUserId: userId # usersとgroupUsersを参照するためのuserId。アイコンとグループ内での名前を取得する。
+    fromUserRef: users ref
+    fileURL: String #download URL
+    # fromUserIcon: String
     createdAt: Timestamp
     
 groupTags: # [rc]
@@ -58,13 +57,12 @@ groupTags: # [rc]
 
 posts: # [rc]
   documentId: auto
-  fromUsername: String(20)
-  fromUserIcon: String
-  fromUser: users ref
+  username: String(20)
+  fromUserRef: users ref
   trainingDate: Timestamp
   workout: String(100) or [String]
-  createdAt: Timestamp
   fileUrl: String
+  createdAt: Timestamp
 
 menus: # [rc]
   documentId: auto

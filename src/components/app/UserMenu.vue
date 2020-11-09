@@ -64,8 +64,9 @@ export default {
       commonLinks: [
         { text: "プロフィール", icon: "id-card", to: "/profile" },
         { text: "アイコン設定", icon: "portrait", to: "/set-icon" },
+        { text: "目標設定", icon: "signal", to: "/set-target" },
         { text: "AIコーチ", icon: "user-graduate", to: "/coach" },
-        { text: "称号", icon: "crown", to: "/title" },
+        { text: "称号", icon: "trophy", to: "/title" },
         { text: "設定", icon: "cog", to: "/config" },
         { text: "言語", icon: "globe", to: "/language" },
       ],

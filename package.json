@@ -10,6 +10,7 @@
     "fb-index": ""
   },
   "dependencies": {
+    "algoliasearch": "^4.6.0",
     "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
     "dayjs": "^1.9.4",

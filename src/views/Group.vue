@@ -8,6 +8,7 @@
     </m-tabs>
     <!-- tab-contents start -->
     <m-tab-contents>
+      <!-- 1.group-list -->
       <m-tab-content class="active" id="group-list">
         <group-card
           v-for="group in belongingGroups"
@@ -18,16 +19,26 @@
           参加中のグループはありません。<br />グループを検索してみましょう。
         </p>
       </m-tab-content>
-      <m-tab-content id="search">
+      <!-- 2.search-group -->
+      <m-tab-content id="search-group">
         <m-form-group>
-          <m-form v-model="searchWord" icon="search"></m-form>
+          <m-form
+            v-model="searchWord"
+            icon="search"
+            @input="searchGroup"
+          ></m-form>
         </m-form-group>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod,
-          voluptates sapiente a doloremque, necessitatibus aliquam
-          exercitationem soluta odio voluptatem eum ducimus optio eaque sequi
-          fugit quos mollitia incidunt, maiores nam.
-        </p>
+        <!-- <m-form-group>
+          <m-button @click="addObject">search</m-button>
+        </m-form-group> -->
+        <div>
+          <div v-for="result in searchResult" :key="result.objectID">
+            <img :src="result.image" alt="" />
+            <p>{{ result.groupName }}</p>
+            <p>{{ result.groupLeaderName }}</p>
+            <p>{{ result.groupDescription }}</p>
+          </div>
+        </div>
       </m-tab-content>
     </m-tab-contents>
     <!-- dialog start -->
@@ -40,6 +51,7 @@
       @action="createGroup"
       @close="dialog = false"
     >
+      <!-- 1.group name -->
       <m-form-group>
         <m-form
           v-model="groupName"
@@ -56,22 +68,7 @@
           <span v-if="!$v.groupName.required">必須項目です。</span>
         </m-error-message>
       </m-form-group>
-      <!-- <m-form-group>
-        <m-form
-          v-model="groupLeaderName"
-          label="group name"
-          :class="{ error: $v.groupLeaderName.$error }"
-          @input="$v.groupLeaderName.$touch()"
-        ></m-form>
-        <m-error-message v-if="$v.groupLeaderName.$error">
-          <span v-if="!$v.groupLeaderName.maxLength">
-            グループリーダー名は{{
-              $v.groupLeaderName.$params.maxLength.max
-            }}文字以下でなければいけません。
-          </span>
-          <span v-if="!$v.groupLeaderName.required">必須項目です。</span>
-        </m-error-message>
-      </m-form-group> -->
+      <!-- 2.group description -->
       <m-form-group>
         <m-textarea
           v-model="groupDescription"
@@ -106,6 +103,8 @@
 import GroupCard from "@/components/group/GroupCard";
 import { required, maxLength } from "vuelidate/lib/validators";
 import { db } from "@/firebase/firebase";
+import algolia from "@/algolia/algolia";
+
 export default {
   components: {
     GroupCard,
@@ -119,9 +118,10 @@ export default {
       groupDescription: null,
       dialog: false,
       searchWord: null,
+      searchResult: [],
       tabs: [
         { text: "グループ一覧", target: "group-list" },
-        { text: "検索", target: "search" },
+        { text: "検索", target: "search-group" },
       ],
     };
   },
@@ -173,6 +173,8 @@ export default {
           await docRef
             .collection("messages")
             .add({
+              fromUserRef: db.doc(`users/Ever Fit Up`),
+              fromUserId: 'Ever Fit Up',
               fromUserName: "Ever Fit Up",
               content: "こんにちは！",
               createdAt: new Date(),
@@ -183,6 +185,25 @@ export default {
           this.$router.push({ name: "GroupRoom", params: { id: docRef.id } });
         });
     },
+    searchGroup() {
+      console.log("this.searchWord:", this.searchWord);
+      if (!this.searchWord) return;
+      algolia.search(this.searchWord).then((result) => {
+        // console.log('result:', result);
+        console.log('result.hits:', result.hits);
+        this.searchResult = result.hits;
+      });
+    },
+    addObject() {
+      algolia.saveObject({
+        name: 'misoten',
+        objectID: `misoten-${new Date()}`
+      }).then(objectID => {
+        console.log('objectID:', objectID);
+      }).catch(err => {
+        console.log('err:', err);
+      })
+    },
     fetchBelongingGroups() {
       db.collection("groups")
         .where("userIds", "array-contains", this.$store.getters.user.uid)
@@ -191,7 +212,7 @@ export default {
         .then((snapshot) => {
           // console.log("snapshot:", snapshot);
           snapshot.docChanges().forEach((change) => {
-            console.log("change:", change);
+            console.log("change.doc.data():", change.doc.data());
             // const group = change.doc.data().fromUser;
             if (change.type === "added") {
               const group = {
@@ -207,6 +228,7 @@ export default {
 
   created() {
     this.fetchBelongingGroups();
+    // console.log('algolia:', algolia);
   },
 };
 </script>

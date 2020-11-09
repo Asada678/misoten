@@ -1,0 +1,53 @@
+[debug] [2020-11-09T14:36:40.065Z] ----------------------------------------------------------------------
+[debug] [2020-11-09T14:36:40.068Z] Command:       C:\Program Files (x86)\Nodist\v-x64\12.13.1\node.exe C:\Program Files (x86)\Nodist\bin\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2020-11-09T14:36:40.068Z] CLI Version:   8.12.0
+[debug] [2020-11-09T14:36:40.068Z] Platform:      win32
+[debug] [2020-11-09T14:36:40.068Z] Node Version:  v12.13.1
+[debug] [2020-11-09T14:36:40.071Z] Time:          Mon Nov 09 2020 23:36:40 GMT+0900 (GMT+09:00)
+[debug] [2020-11-09T14:36:40.072Z] ----------------------------------------------------------------------
+[debug] [2020-11-09T14:36:40.072Z] 
+[debug] [2020-11-09T14:36:40.084Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-11-09T14:36:40.086Z] > authorizing via signed-in user
+[debug] [2020-11-09T14:36:40.086Z] [iam] checking project misoten-a6e52 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2020-11-09T14:36:40.089Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/misoten-a6e52:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2020-11-09T14:36:40.897Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 09 Nov 2020 14:36:43 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=666","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-11-09T14:36:40.899Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/misoten-a6e52/serviceAccounts/misoten-a6e52@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2020-11-09T14:36:42.654Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 09 Nov 2020 14:36:44 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] 
+[info] === Deploying to 'misoten-a6e52'...
+[info] 
+[info] i  deploying functions 
+[debug] [2020-11-09T14:36:46.256Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "algoliasearch": "^4.6.0",
+    "firebase-admin": "^8.10.0",
+    "firebase-functions": "^3.6.1"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2020-11-09T14:36:48.619Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/misoten-a6e52/services/cloudfunctions.googleapis.com  
+ 
+[debug] [2020-11-09T14:36:48.620Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/misoten-a6e52/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2020-11-09T14:36:48.620Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/misoten-a6e52/services/cloudbuild.googleapis.com  
+ 
