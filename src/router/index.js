@@ -16,6 +16,7 @@ import GroupRoom from '../views/group/GroupRoom.vue'
 import NotFound from '../views/NotFound.vue'
 import Post from '../views/Post.vue'
 import Video from '../views/Video.vue'
+import VideoRoom from '../views/video/VideoRoom.vue'
 // views user page
 import Coach from '../views/user/Coach.vue'
 import CompleteSignup from '../views/CompleteSignup.vue'
@@ -89,6 +90,12 @@ const routes = [
     name: 'Video',
     component: Video
     , meta: { pageHierarchy: 20, menuOrder: 30, prevPageName: 'Group', nextPageName: 'Calendar' }
+  },
+  {
+    path: '/video/room/:id',
+    name: 'VideoRoom',
+    component: VideoRoom
+    , meta: { pageHierarchy: 25, menuOrder: 30, prevPageName: 'Group', nextPageName: 'Calendar' }
   },
   {
     path: '/calendar',

@@ -34,6 +34,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    noSelected: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -44,10 +48,12 @@ export default {
   computed: {},
   methods: {
     onChange(event) {
-      // console.log("event:", event);
-      // console.log("event.target.value:", event.target.value);
-      // console.log("event.target.nextElementSibling :", event.target.nextElementSibling );
-      this.selectedLabel.innerHTML = event.target.nextElementSibling.innerHTML;
+      // console.log("event.target.nextElementSibling :", event.target.nextElementSibling )
+      console.log("this.noSelected:", this.noSelected);
+      if (!this.noSelected) {
+        this.selectedLabel.innerHTML =
+          event.target.nextElementSibling.innerHTML;
+      }
       this.optionsContainer.classList.remove("active");
       this.$emit("input", event.target.value);
     },
@@ -63,16 +69,20 @@ export default {
     addEventToOptions() {
       this.selectedLabel = this.$el.querySelector(".selected .label");
       this.optionsContainer = this.$el.querySelector(".options-container");
-      const options = this.$el.querySelectorAll(".option");
+      // console.log('this.selectedLabel:', this.selectedLabel);
+      // console.log('this.optionsContainer:', this.optionsContainer);
+      // const options = this.$el.querySelectorAll(".option");
       // console.log("options:", options);
-      options.forEach((option) => {
-        option.addEventListener("click", () => {
-          this.selectedLabel.innerHTML = option.querySelector(
-            "label"
-          ).innerHTML;
-          this.optionsContainer.classList.remove("active");
-        });
-      });
+      // options.forEach((option) => {
+      //   option.addEventListener("click", () => {
+      //     if (!this.noSelected) {
+      //       this.selectedLabel.innerHTML = option.querySelector(
+      //         "label"
+      //       ).innerHTML;
+      //     }
+      //     this.optionsContainer.classList.remove("active");
+      //   });
+      // });
     },
   },
   mounted() {

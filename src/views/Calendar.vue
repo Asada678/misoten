@@ -1,23 +1,21 @@
 <template>
   <div>
     <p>This is a Calendar page!</p>
-    <!-- <form @submit="onSubmit">
-      <input type="file" name="" id="" @change="onChange" />
-      <input type="text" name="username" placeholder="NAME" />
-      <input type="submit" name="" value="submit" />
-    </form>
-    <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="200" height="150">
-
-    <div v-for="user in users" :key="user.name">
-      <p>{{ user.name }}</p>
-      <img :src="`${user.icon}`" alt="" width="300" height="200">
-    </div> -->
-
+    <m-select
+      :value="year"
+      class="w-4"
+      label="既存タグ"
+      name="tag"
+      no-selected
+      :options="groupTags"
+      @input="onInput"
+    >
+    </m-select>
   </div>
 </template>
 
 <script>
-import { db, storage } from "@/firebase/firebase";
+// import { db, storage } from "@/firebase/firebase";
 export default {
   components: {},
   props: {},
@@ -25,40 +23,20 @@ export default {
     return {
       url: null,
       year: null,
+      groupTags: [
+        { value: "aaaa", text: "aaaa" },
+        { value: "aa2", text: "aa2" },
+        { value: "aa3a", text: "aa3a" },
+        { value: "aa2222aa", text: "aa2222aa" },
+      ],
     };
   },
   computed: {},
   methods: {
-    onChange(event) {
-      this.file = event.target.files[0];
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        document.querySelector("#preview").src = fileReader.result;
-      };
-      fileReader.readAsDataURL(this.file);
-    },
-    async onSubmit(event) {
-      event.preventDefault();
-      const username = event.target.username.value;
-      if (!username) return;
-      const storageRef = storage.ref();
-      const fileRef = storageRef.child(this.file.name);
-      await fileRef.put(this.file).then();
-      this.url = await fileRef.getDownloadURL();
-      await db.collection("users").doc(username).set({
-        name: username,
-        icon: this.url,
-      });
+    onInput(event) {
+      console.log('event:', event);
     },
     fetchUsers() {
-      db.collection("users").onSnapshot((snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === "added") {
-            this.users = [change.doc.data(), ...this.users];
-            // change.doc.data()
-          }
-        });
-      });
     },
   },
   created() {

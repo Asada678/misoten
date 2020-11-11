@@ -78,15 +78,15 @@ export default {
       await fileRef.put(this.blob).then();
       const url = await fileRef.getDownloadURL();
 
-      const updateData = { userIcon: url };
+      const updatedData = { userIcon: url };
       await db
         .collection("users")
         .doc(this.$store.getters.user.uid)
-        .update(updateData)
+        .update(updatedData)
         .then((result) => {
           console.log("result:", result);
           this.dialog = false;
-          this.$store.commit("updateUser", updateData);
+          this.$store.commit("updateUser", updatedData);
           const snackbar = {
             text: "アイコンを設定しました。",
             color: "green",

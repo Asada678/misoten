@@ -9,13 +9,13 @@
       <i class="fas fa-bars" @click="groupConfigDialog = true"></i>
     </header>
 
-    <div class="messages">
+    <transition-group tag="div" name="selected-tag" class="messages">
       <group-room-message
         v-for="message in messages"
         :key="message.id"
         :message="message"
       ></group-room-message>
-    </div>
+    </transition-group>
 
     <div class="message-form">
       <m-form-group class="flex">
@@ -120,10 +120,10 @@
           <m-form-group>
             <m-select
               :value="selectBoxTag"
-              class="w-4"
-              label="既存タグ"
+              label="既存タグから選択"
               name="tag"
               search
+              no-selected
               :options="groupTags"
               @input="onInput"
             >
@@ -330,8 +330,6 @@ export default {
       this.lastMessage = snapshot.docs[snapshot.docs.length - 1];
       // console.log('this.lastMessage:', this.lastMessage);
       snapshot.docChanges().forEach((change) => {
-        // console.log("change:", change);
-        // console.log("index:", index);
         // const fromUser = change.doc.data().fromUser;
         if (change.type === "added") {
           const message = {

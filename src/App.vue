@@ -215,6 +215,7 @@ i {
   cursor: pointer;
 }
 a {
+  color: $black;
   text-decoration: none;
 }
 body {

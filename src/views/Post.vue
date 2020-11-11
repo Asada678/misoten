@@ -59,16 +59,7 @@
           @change="onFileChange"
           @unselect="file = null"
         ></m-drop-zone>
-        <!-- <input
-          type="file"
-          name=""
-          id=""
-          @change="onFileChange"
-          class="input-file"
-        /> -->
-        <!-- <m-button class="grey" @click="file = null">選択なし</m-button> -->
       </m-form-group>
-      <!-- <i class="fas fa-image"></i> -->
     </m-dialog>
     <transition-group tag="div" name="post-content">
       <PostContent
@@ -232,14 +223,11 @@ export default {
       this.lastPost = snapshot.docs[snapshot.docs.length - 1];
       // console.log('this.lastPost:', this.lastPost);
       snapshot.docChanges().forEach((change, index) => {
-        // console.log("index:", index);
-        const fromUser = change.doc.data().fromUser;
         if (change.type === "added") {
           const post = {
             ...change.doc.data(),
             id: change.doc.id,
             snapshotIndex: index,
-            fromUser,
           };
           // 日時をフォーマット通りに変換
           try {

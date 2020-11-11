@@ -30,3 +30,11 @@ exports.onGroupCreated = functions.firestore.document('groups/{groupId}').onCrea
 
   return index.saveObject(group);
 });
+exports.onUserCreated = functions.firestore.document('users/{userId}').onCreate((snap, context) => {
+  const user = snap.data();
+  user.objectID = `users-${context.params.userId}-${Date.now()}`;
+  user.documentId = context.params.userId;
+  user.type = 'user';
+
+  return index.saveObject(user);
+});
