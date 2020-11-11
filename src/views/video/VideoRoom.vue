@@ -186,6 +186,7 @@ export default {
       // });
     },
     async hangUp() {
+      this.isStreaming = false;
       const tracks = document
         .querySelector("#local-video")
         .srcObject.getTracks();
