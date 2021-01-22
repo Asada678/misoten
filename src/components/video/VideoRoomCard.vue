@@ -33,10 +33,10 @@ export default {
 <style lang="scss" scoped>
 .m-video-card {
   margin-bottom: 10px;
-  box-shadow: 0px 5px 10px rgba($black, 0.3), 0px 0px 30px rgba($black, 0.3);
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
+  @extend .bs-b-8;
   a {
     display: inline-block;
     width: 100%;

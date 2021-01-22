@@ -1,0 +1,140 @@
+Date : 2021-01-20 19:27:32
+Directory : c:\Users\ohs90430\Documents\GitHub\misoten\src
+Total : 92 files,  15992 codes, 1235 comments, 1027 blanks, all 18254 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Vue        |         77 |     14,039 |      1,095 |        971 |     16,105 |
+| JavaScript |         13 |      1,804 |        115 |         43 |      1,962 |
+| SCSS       |          1 |        146 |         25 |         13 |        184 |
+| CSS        |          1 |          3 |          0 |          0 |          3 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                              | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                 |         92 |     15,992 |      1,235 |      1,027 |     18,254 |
+| algolia                                                                                           |          1 |          7 |          0 |          2 |          9 |
+| assets                                                                                            |          5 |      1,334 |         59 |          7 |      1,400 |
+| components                                                                                        |         46 |      6,609 |        404 |        526 |      7,539 |
+| components\achievement                                                                            |          2 |        169 |         14 |         12 |        195 |
+| components\app                                                                                    |          8 |      2,160 |        142 |        129 |      2,431 |
+| components\common                                                                                 |         25 |      3,048 |        184 |        273 |      3,505 |
+| components\group                                                                                  |          3 |        226 |          8 |         31 |        265 |
+| components\my-profile                                                                             |          2 |        199 |         18 |         22 |        239 |
+| components\post                                                                                   |          4 |        717 |         38 |         48 |        803 |
+| components\video                                                                                  |          1 |         64 |          0 |          6 |         70 |
+| firebase                                                                                          |          1 |         17 |          3 |          1 |         21 |
+| libs                                                                                              |          3 |         52 |          3 |          3 |         58 |
+| router                                                                                            |          1 |        182 |         45 |         17 |        244 |
+| scss                                                                                              |          1 |        146 |         25 |         13 |        184 |
+| store                                                                                             |          1 |        116 |          3 |          3 |        122 |
+| views                                                                                             |         29 |      7,022 |        648 |        418 |      8,088 |
+| views\auth                                                                                        |          3 |        662 |         59 |         38 |        759 |
+| views\coach                                                                                       |          8 |      1,996 |        155 |        106 |      2,257 |
+| views\group                                                                                       |          1 |        502 |         21 |         18 |        541 |
+| views\user                                                                                        |          5 |        994 |         66 |         66 |      1,126 |
+| views\video                                                                                       |          1 |        549 |         54 |         29 |        632 |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                          | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\App.vue                                            | Vue        |        380 |         43 |         20 |        443 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\NewRouterView.vue                                  | Vue        |         28 |          0 |          7 |         35 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\algolia\algolia.js                                 | JavaScript |          7 |          0 |          2 |          9 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\assets\tailwind.css                                | CSS        |          3 |          0 |          0 |          3 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\assets\workouts-diet-with-tool.js                  | JavaScript |        162 |         26 |          2 |        190 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\assets\workouts-diet-without-tool.js               | JavaScript |        107 |         20 |          2 |        129 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\assets\workouts-training-with-tool.js              | JavaScript |        567 |          0 |          1 |        568 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\assets\workouts-training-without-tool.js           | JavaScript |        495 |         13 |          2 |        510 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\NewFile.vue                             | Vue        |         26 |          0 |          5 |         31 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\achievement\LineChart.vue               | Vue        |         34 |          3 |          4 |         41 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\achievement\WorkoutRecords.vue          | Vue        |        135 |         11 |          8 |        154 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\CreateGroupDialog.vue               | Vue        |        145 |          1 |          8 |        154 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\CreatePostDialog.vue                | Vue        |        627 |         39 |         19 |        685 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\CreateVideoRoomDialog.vue           | Vue        |         92 |          1 |          5 |         98 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\MainMenu.vue                        | Vue        |        592 |         57 |         47 |        696 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\PlanDialog.vue                      | Vue        |         54 |          1 |         11 |         66 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\SearchContainer.vue                 | Vue        |        203 |          8 |         13 |        224 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\Snackbar.vue                        | Vue        |        111 |          1 |         10 |        122 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\app\UserMenu.vue                        | Vue        |        336 |         34 |         16 |        386 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Button.vue                       | Vue        |        177 |          3 |         12 |        192 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\CheckChipBox.vue                 | Vue        |         76 |         10 |          7 |         93 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Chip.vue                         | Vue        |        107 |          1 |          8 |        116 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Datepicker.vue                   | Vue        |        148 |          4 |         10 |        162 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Dialog.vue                       | Vue        |        240 |         26 |         23 |        289 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\DropZone.vue                     | Vue        |        190 |         10 |         19 |        219 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\ErrorMessage.vue                 | Vue        |         37 |          0 |          5 |         42 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\FixedBar.vue                     | Vue        |        161 |          8 |         17 |        186 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\FloatButton.vue                  | Vue        |        101 |          2 |          9 |        112 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\FormGroup.vue                    | Vue        |         42 |          2 |          8 |         52 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Header.vue                       | Vue        |         72 |          4 |          8 |         84 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\InputIcon.vue                    | Vue        |         96 |          5 |          8 |        109 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\LogoutDialog.vue                 | Vue        |         54 |          3 |          5 |         62 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\OfenUsedSample-FrormFirebase.vue | Vue        |        172 |         20 |          8 |        200 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\RadioButton.vue                  | Vue        |        152 |          6 |         13 |        171 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\RadioChipButton.vue              | Vue        |         81 |          5 |          6 |         92 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Range.vue                        | Vue        |        233 |         13 |         19 |        265 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\SelectBox.vue                    | Vue        |        224 |          9 |         18 |        251 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Tab.vue                          | Vue        |        100 |         13 |         18 |        131 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\TabContent.vue                   | Vue        |         45 |          6 |          7 |         58 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\TabContents.vue                  | Vue        |         44 |          2 |          6 |         52 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Tabs.vue                         | Vue        |         74 |         15 |          9 |         98 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\TextForm.vue                     | Vue        |        187 |         10 |         13 |        210 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\Textarea.vue                     | Vue        |        143 |          5 |         10 |        158 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\common\UserCard.vue                     | Vue        |         92 |          2 |          7 |        101 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\group\GroupCard.vue                     | Vue        |         76 |          4 |         10 |         90 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\group\GroupRoomMessage.vue              | Vue        |         74 |          0 |         11 |         85 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\group\SearchResultCard.vue              | Vue        |         76 |          4 |         10 |         90 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\my-profile\Color.vue                    | Vue        |        149 |         18 |         15 |        182 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\my-profile\Title.vue                    | Vue        |         50 |          0 |          7 |         57 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\post\InputWeightDialog.vue              | Vue        |        191 |          2 |          9 |        202 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\post\Options.vue                        | Vue        |        100 |          7 |         11 |        118 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\post\PostContent.vue                    | Vue        |        312 |         23 |         17 |        352 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\post\ReplyForm.vue                      | Vue        |        114 |          6 |         11 |        131 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\components\video\VideoRoomCard.vue                 | Vue        |         64 |          0 |          6 |         70 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\firebase\firebase.js                               | JavaScript |         17 |          3 |          1 |         21 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\libs\bodyfixer.js                                  | JavaScript |         15 |          3 |          2 |         20 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\libs\scroll.js                                     | JavaScript |         35 |          0 |          0 |         35 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\libs\sleep.js                                      | JavaScript |          2 |          0 |          1 |          3 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\main.js                                            | JavaScript |         70 |          1 |          7 |         78 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\registerServiceWorker.js                           | JavaScript |         29 |          1 |          3 |         33 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\router\index.js                                    | JavaScript |        182 |         45 |         17 |        244 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\scss\_variables.scss                               | SCSS       |        146 |         25 |         13 |        184 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\store\index.js                                     | JavaScript |        116 |          3 |          3 |        122 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\Achievement.vue                              | Vue        |        756 |         75 |         25 |        856 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\Auth.vue                                     | Vue        |        170 |         16 |         16 |        202 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\Coach.vue                                    | Vue        |        181 |         15 |         17 |        213 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\CompleteSignup.vue                           | Vue        |         44 |          5 |          7 |         56 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\FirstAccess.vue                              | Vue        |         44 |          5 |          6 |         55 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\Group.vue                                    | Vue        |         95 |         50 |          7 |        152 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\NotFound.vue                                 | Vue        |         59 |          0 |          8 |         67 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\Post.vue                                     | Vue        |        629 |        119 |         44 |        792 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\User.vue                                     | Vue        |        105 |          4 |          8 |        117 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\Video copy.vue                               | Vue        |        143 |          2 |         13 |        158 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\Video.vue                                    | Vue        |         93 |          2 |         10 |        105 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\auth\Login.vue                               | Vue        |        265 |         15 |         21 |        301 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\auth\LoginOld.vue                            | Vue        |        101 |         11 |          8 |        120 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\auth\Signup.vue                              | Vue        |        296 |         33 |          9 |        338 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\CoachAppears.vue                       | Vue        |         43 |          0 |          6 |         49 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\CoachHome.vue                          | Vue        |        113 |          9 |         10 |        132 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\CompleteWorkout.vue                    | Vue        |         52 |          0 |          6 |         58 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\MenuList.vue                           | Vue        |        327 |          5 |         12 |        344 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\PlanDetail.vue                         | Vue        |        224 |         63 |         13 |        300 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\SelectPlan.vue                         | Vue        |        127 |          1 |         11 |        139 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\SetTarget.vue                          | Vue        |        571 |         29 |         22 |        622 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\coach\Workout.vue                            | Vue        |        539 |         48 |         26 |        613 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\group\GroupRoom.vue                          | Vue        |        502 |         21 |         18 |        541 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\user\Config.vue                              | Vue        |         26 |          0 |          6 |         32 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\user\Language.vue                            | Vue        |         26 |          0 |          6 |         32 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\user\Profile.vue                             | Vue        |        420 |         33 |         24 |        477 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\user\SetIcon.vue                             | Vue        |        130 |          8 |          7 |        145 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\user\SetTarget copy.vue                      | Vue        |        392 |         25 |         23 |        440 |
+| c:\Users\ohs90430\Documents\GitHub\misoten\src\views\video\VideoRoom.vue                          | Vue        |        549 |         54 |         29 |        632 |
+| Total                                                                                             |            |     15,992 |      1,235 |      1,027 |     18,254 |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

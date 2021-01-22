@@ -23,11 +23,11 @@ export default {
   display: flex;
   flex-direction: column;
   // justify-content: center;
-  align-items: center;
+  // align-items: center;
   width: 100%;
   min-height: 450px;
   // min-height: 100vh;
-  padding: 20px;
+  // padding: 20px;
   opacity: 0;
   // background-color: rgba($black, .8);
   // overflow-y: auto;

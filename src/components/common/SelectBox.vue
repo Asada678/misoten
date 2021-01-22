@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       word: null,
+      optionsEl: null,
       optionsClone: [],
     };
   },
@@ -49,7 +50,7 @@ export default {
   methods: {
     onChange(event) {
       // console.log("event.target.nextElementSibling :", event.target.nextElementSibling )
-      console.log("this.noSelected:", this.noSelected);
+      // console.log("this.noSelected:", this.noSelected);
       if (!this.noSelected) {
         this.selectedLabel.innerHTML =
           event.target.nextElementSibling.innerHTML;
@@ -71,24 +72,41 @@ export default {
       this.optionsContainer = this.$el.querySelector(".options-container");
       // console.log('this.selectedLabel:', this.selectedLabel);
       // console.log('this.optionsContainer:', this.optionsContainer);
-      // const options = this.$el.querySelectorAll(".option");
+      this.optionsEl = this.$el.querySelectorAll(".option");
       // console.log("options:", options);
-      // options.forEach((option) => {
-      //   option.addEventListener("click", () => {
-      //     if (!this.noSelected) {
-      //       this.selectedLabel.innerHTML = option.querySelector(
-      //         "label"
-      //       ).innerHTML;
-      //     }
-      //     this.optionsContainer.classList.remove("active");
-      //   });
-      // });
+      this.optionsEl.forEach((option) => {
+        option.addEventListener(this.$store.getters.eventType, () => {
+          if (!this.noSelected) {
+            this.selectedLabel.innerHTML = option.querySelector(
+              "label"
+            ).innerHTML;
+          }
+          this.optionsContainer.classList.remove("active");
+        });
+      });
     },
   },
   mounted() {
     this.addEventToOptions();
     // console.log("this.options:", this.options);
     this.optionsClone = this.options;
+  },
+  destroyed() {
+    this.optionsEl.forEach((option) => {
+      option.removeEventListener(this.$store.getters.eventType, () => {
+        if (!this.noSelected) {
+          this.selectedLabel.innerHTML = option.querySelector(
+            "label"
+          ).innerHTML;
+        }
+        this.optionsContainer.classList.remove("active");
+      });
+    });
+  },
+  watch: {
+    options() {
+      this.optionsClone = this.options;
+    },
   },
 };
 </script>
@@ -104,7 +122,7 @@ export default {
 
   &.disabled {
     .selected {
-      background-color: rgba($color: $blue, $alpha: 0.4);
+      background-color: rgba($color: $orange, $alpha: 0.4);
       pointer-events: none;
     }
   }
@@ -113,12 +131,12 @@ export default {
     position: relative;
     padding: 10px 20px;
     border-radius: 8px;
-    background-color: $blue;
+    background-color: rgba($orange, 0.85);
     color: $white;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    @extend .box-shadow-2;
+    @extend .bs-b-8;
 
     i {
       position: absolute;
@@ -132,13 +150,13 @@ export default {
   .search-box {
     position: absolute;
     z-index: 200;
-    top: 43px;
-    left: 0;
+    top: 46px;
+    left: 10px;
     width: 90%;
     // height: 50px;
     padding: 5px;
     opacity: 0;
-    background-color: rgba($color: $white, $alpha: 1);
+    // background-color: rgba($color: $white, $alpha: 1);
     pointer-events: none;
     transition: all 0.4s;
   }
@@ -148,15 +166,15 @@ export default {
     z-index: 100;
     top: 100%;
     // bottom: 0;
-    left: 0;
-    width: 100%;
+    left: 10px;
+    width: calc(100% - 20px);
     max-height: 0;
     border-radius: 8px;
-    color: $blue;
     opacity: 0;
     overflow-y: hidden;
     background-color: rgba($color: $white, $alpha: 0.9);
     transition: all 0.4s;
+    @extend .bs-b-4;
 
     &.active {
       max-height: 400px;
@@ -177,7 +195,8 @@ export default {
     }
 
     .option {
-      background-color: rgba($color: $white, $alpha: 0.9);
+      background-color: rgba($color: $grey, $alpha: 0.3);
+      color: rgba($orange, 0.9);
       cursor: pointer;
 
       label {
@@ -186,8 +205,9 @@ export default {
         height: 100%;
         padding: 10px 20px;
         cursor: pointer;
+        transition: .2s;
         &:hover {
-          background-color: rgba($blue, 0.4);
+          background-color: rgba($orange, 0.1);
         }
       }
       input[type="radio"] {

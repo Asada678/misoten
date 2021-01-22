@@ -67,6 +67,13 @@ export default {
 </script>
 
 <style lang="scss">
+.black {
+  .m-datepicker {
+    input {
+      color: $white;
+    }
+  }
+}
 .m-datepicker {
   position: relative;
   padding: 0;
@@ -85,27 +92,30 @@ export default {
   }
 
   input[type="text"] {
-    font-size: 20px;
+    font-size: 16px;
     font-family: inherit;
     width: 100%;
     box-sizing: border-box;
     letter-spacing: 1px;
     outline: none;
-    padding: 4px 0;
+    padding: 4px;
     border: 0;
+    border-radius: 2px;
     border-bottom: 1px solid #aaaaaa;
     background-color: transparent;
-    transition: .3s;
+    transition: 0.3s;
+    @extend .bs-b-2;
 
-    &:focus, &:hover {
-      @extend .box-shadow-2;
+    &:focus,
+    &:hover {
+      @extend .bs-b-8;
     }
 
     & ~ label {
       position: absolute;
       z-index: -1;
       top: 50%;
-      left: 0;
+      left: 4px;
       transform: translateY(-50%);
       width: 100%;
       transition: 0.3s;
@@ -117,10 +127,10 @@ export default {
       font-size: 12px;
       top: -10px;
       transition: 0.3s;
-      font-weight: 600;
+      font-weight: 700;
     }
     &:focus ~ label {
-      color: $blue;
+      color: $orange;
     }
     & ~ .focus-line {
       position: absolute;
@@ -129,7 +139,7 @@ export default {
       width: 0;
       height: 2px;
       transition: 0.4s;
-      background-color: $blue;
+      background-color: $orange;
     }
     &:focus ~ .focus-line {
       left: 0;

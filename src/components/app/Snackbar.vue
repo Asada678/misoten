@@ -24,6 +24,12 @@ export default {
     },
   },
   created() {},
+  watch: {
+    $route() {
+      // console.log('watch route:', );
+      this.$store.commit("closeSnackbar");
+    }
+  }
 };
 </script>
 
@@ -50,7 +56,7 @@ export default {
   visibility: hidden;
   transform: translateY(-50px);
   transition: all 0.3s;
-  @extend .box-shadow-1;
+  @extend .bs-b-8;
 
   &.appear {
     opacity: 1;
@@ -58,9 +64,17 @@ export default {
     transform: translateY(0);
   }
 
+  &.orange {
+    border: 1px solid $orange;
+    background-color: rgba($orange, 0.85);
+  }
   &.red {
     border: 1px solid $red;
     background-color: rgba($red, 0.85);
+  }
+  &.pink {
+    border: 1px solid $pink;
+    background-color: rgba($pink, 0.85);
   }
   &.blue {
     border: 1px solid $blue;
@@ -69,6 +83,15 @@ export default {
   &.green {
     border: 1px solid $green;
     background-color: rgba($green, 0.85);
+  }
+  &.white {
+    border: 1px solid $white;
+    background-color: rgba($white, 0.85);
+    color: $black;
+
+    i {
+      color: $charcoal;
+    }
   }
   &.black {
     border: 1px solid $black;
@@ -81,6 +104,7 @@ export default {
     right: 16px;
     transform: translateY(-50%);
     font-size: 20px;
+    color: rgba($white, 0.9);
   }
 }
 

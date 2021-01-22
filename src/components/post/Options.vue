@@ -52,15 +52,16 @@ export default {
   // top: $userMenuHeight;
   // right: 30px;
   bottom: 16px;
-  right: 0;
+  right: 4px;
   width: 120px;
   // background-color: rgba($orange, 0.8);
   transform: scale(0);
   transform-origin: bottom right;
   opacity: 0;
   visibility: hidden;
+  border-radius: 2px;
   transition: opacity 0.5s, visibility .5s, transform 0.3s;
-  // transition: all .3s;
+  @extend .bs-b-4;  // transition: all .3s;
 
   &.open {
     opacity: 1;

@@ -32,13 +32,13 @@ export default {
   display: flex;
   width: 100%;
   max-height: 200px;
-  margin: 5px 0;
+  margin: 10px 0;
   padding: 10px;
   border-radius: 2px;
   background-color: rgba($orange, 0.2);
   // background-color: rgba($black, 0.2);
   color: $black;
-  @extend .box-shadow-2;
+  @extend .bs-b-8;
 
   a {
     // position: absolute;

@@ -16,22 +16,44 @@ export default {
   computed: {},
   methods: {
     onClickTab(event) {
-      const targetTab = event.target;
+      // console.log('event:', event);
+      const targetTab = event
+        ? event.target
+        : this.$el.parentNode.querySelector(".m-tab.active");
+      // if(!(this.$el.classList.contains('active') && targetTab.classList.contains('active'))) return;
+      // console.log("targetTab:", targetTab);
 
-      const targetTabContent = document.querySelector(
-        targetTab.dataset.tabTarget
+      if (!targetTab) return;
+
+      const tabKey = this.$el.parentNode.dataset.tabKey;
+      // console.log("tabKey:", tabKey);
+
+      const targetTabContents = document.querySelector(
+        `[data-tab-key="${tabKey}"].m-tab-contents`
       );
-      const activeTab = document.querySelector(".m-tab.active");
-      const activeTabContent = document.querySelector(".m-tab-content.active");
+      // console.log("targetTabContents:", targetTabContents);
 
-      const resultTabs = [].slice.call(document.querySelectorAll(".m-tab"));
+      const targetTabContent = targetTabContents.querySelector(
+        `${targetTab.dataset.tabTarget}.m-tab-content`
+      );
+      // console.log("targetTabContent:", targetTabContent);
+      const activeTab = this.$el.parentNode.querySelector(".m-tab.active");
+      const activeTabContent = targetTabContents.querySelector(
+        ".m-tab-content.active"
+      );
+      // console.log("activeTab:", activeTab);
+      // console.log("activeTabContent:", activeTabContent);
+
+      const resultTabs = [].slice.call(
+        this.$el.parentNode.querySelectorAll(".m-tab")
+      );
       const index = resultTabs.indexOf(targetTab);
       // console.log("index:", index);
 
       activeTab.classList.remove("active");
       targetTab.classList.add("active");
 
-      document.querySelector(
+      targetTabContents.querySelector(
         ".m-tab-contents-slide"
       ).style.transform = `translateX(-${index * 100}%)`;
 
@@ -39,20 +61,43 @@ export default {
       targetTabContent.classList.add("active");
     },
   },
+  created() {},
+  mounted() {
+    // console.log('this.$el:', this.$el);
+    // console.log("tab mounted:");
+    this.onClickTab();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .m-tab {
+  position: relative;
   display: flex;
+  display: inline-block;
   justify-content: center;
   align-items: center;
-  padding: 15px;
-  background-color: rgba($white, 0.9);
+  padding: 5px;
   border-left: 1px solid rgba($grey, 0.9);
   // border-bottom: 1px solid rgba($cGrey, 0.9);
+  background-color: rgba($white, 0.8);
+  color: rgba($black, 0.9);
+  // font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
+  text-align: center;
   transition: 0.5s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($white, 0.8);
+  }
 
   &:first-child {
     border-left: none;
@@ -62,12 +107,12 @@ export default {
     background-color: rgba($grey, 0.9);
   }
   &.active {
-    background-color: rgba($indigo, 0.6);
+    background-color: rgba($orange, 1);
     color: $white;
-    box-shadow: -1px -1px 5px rgba($color: $white, $alpha: 0.2);
+    box-shadow: -1px -1px 5px rgba($white, 0.2);
 
     &:hover {
-      background-color: rgba($indigo, 0.7);
+      background-color: rgba($orange, 0.9);
     }
   }
 }

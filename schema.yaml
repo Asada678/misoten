@@ -6,6 +6,27 @@ users: # [rc]
   groupCount: Int # 作成できるグループ数を制限？  
   username: String(20)
   userIcon: String
+  postCounts: Int
+  latestWeight: Number
+  target: Object
+    {
+      startAt: Timestamp,
+      purpose: String,
+      purposeLabel: String,
+      level: String,
+      levelLabel: String,
+      periodIndex: Number,
+      period: String,
+      periodValue: Number,
+      minutesPerDayIndex: Number,
+      minutesPerDay: Number,
+      minutesPerDayValue: Number,
+      startWeight: Number,
+      targetWeight: Number,
+      selectedParts: Array,
+      hasTools: String,
+      selectedTools: Array
+    }
   createdAt: Timestamp
   updatedAt: Timestamp
 
@@ -15,6 +36,11 @@ users: # [rc]
     unreadMessageCount: Int
     latestReadMessageId: String or messages ref
     updatedAt: Timestamp
+
+  favoritePosts: # [sc]
+    documentId: postId
+    favoritePostRef: post ref
+    createdAt: Timestamp
 
 groups: # [rc]
   documentId: auto
@@ -69,3 +95,9 @@ menus: # [rc]
   trainingName: String
   createdAt: Timestamp
   updatedAt: Timestamp
+
+rooms: # [rc]
+  documentId: auto
+  createUserId: userId
+  createUserName: userName
+  createdAt: Timestamp

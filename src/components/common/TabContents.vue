@@ -1,5 +1,5 @@
 <template>
-  <div class="m-tab-contents">
+  <div :data-tab-key="tabKey" class="m-tab-contents">
     <div class="m-tab-contents-slide">
       <slot></slot>
     </div>
@@ -9,7 +9,9 @@
 <script>
 export default {
   components: {},
-  props: {},
+  props: {
+    tabKey: String
+  },
   data() {
     return {};
   },
@@ -25,10 +27,14 @@ export default {
   // background-color: rgba($white, 0.9);
   overflow-x: hidden;
   overflow-y: auto;
-  @extend .box-shadow-1;
+  // @extend .bs-b-8;
 
   &-slide {
     position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: translateX(0%);
     transition: 0.6s;
   }
 }

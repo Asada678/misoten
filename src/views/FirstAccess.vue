@@ -33,10 +33,12 @@ export default {
 
 <style lang="scss" scoped>
 .first-access {
-  @extend .fixed-page;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 1000px;
+  min-height: 100vh;
+  margin: 0 auto;
 }
 
 @media (min-width: 480px) {

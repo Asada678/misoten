@@ -7,6 +7,13 @@ export default new Vuex.Store({
   state: {
     user: {},
     snackbar: {},
+    snackbarTimeout: null,
+    eventType: null,
+    groupDialog: false,
+    postDialog: false,
+    videoRoomDialog: false,
+    planDialog: false,
+    completeMenu: [],
   },
   mutations: {
     setUser(state, user) {
@@ -16,16 +23,17 @@ export default new Vuex.Store({
       state.user = Object.assign(state.user, options);
     },
     setSnackbar(state, snackbar) {
+      clearTimeout(state.snackbarTimeout);
       snackbar = {
         ...snackbar,
         appear: true
       }
       // 0.1秒後にsnackbar表示
-      setTimeout(() => {
+      state.snackbarTimeout = setTimeout(() => {
         state.snackbar = snackbar;
       }, 100);
       // 5秒後にsnackbar非表示
-      setTimeout(() => {
+      state.snackbarTimeout = setTimeout(() => {
         state.snackbar = {
           text: '',
           appear: false,
@@ -41,8 +49,23 @@ export default new Vuex.Store({
       };
       state.snackbar = snackbar;
     },
+    setEventType(state, eventType) {
+      state.eventType = eventType;
+    },
+    setGroupDialog(state, groupDialog) {
+      state.groupDialog = groupDialog;
+    },
+    setPostDialog(state, postDialog) {
+      state.postDialog = postDialog;
+    },
+    setVideoRoomDialog(state, videoRoomDialog) {
+      state.videoRoomDialog = videoRoomDialog;
+    },
+    setPlanDialog(state, planDialog) {
+      state.planDialog = planDialog;
+    },
     isAuthenticated(state) {
-      console.log('is authenticated:',);
+      // console.log('is authenticated:',);
       if (!state.user.username) {
         console.log('this:', this);
         const snackbar = {
@@ -60,6 +83,9 @@ export default new Vuex.Store({
         }, 5000);
         return false;
       }
+    },
+    setCompleteMenu(state, completeMenu) {
+      state.completeMenu = completeMenu;
     }
   },
   getters: {
@@ -68,6 +94,24 @@ export default new Vuex.Store({
     },
     snackbar(state) {
       return state.snackbar;
+    },
+    eventType(state) {
+      return state.eventType;
+    },
+    groupDialog(state) {
+      return state.groupDialog;
+    },
+    postDialog(state) {
+      return state.postDialog;
+    },
+    videoRoomDialog(state) {
+      return state.videoRoomDialog;
+    },
+    planDialog(state) {
+      return state.planDialog;
+    },
+    completeMenu(state) {
+      return state.completeMenu;
     },
   },
   actions: {

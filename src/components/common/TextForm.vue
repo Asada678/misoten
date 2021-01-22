@@ -5,6 +5,9 @@
       :type="type ? type : 'text'"
       :class="{ 'is-input': inputText }"
       :autocomplete="autocomplete"
+      :autofocus="true"
+      :inputmode="numeric ? 'numeric' : ''"
+      :pattern="numeric ? '\\d*' : ''"
       @input="onInput"
       @blur="onBlur"
     />
@@ -19,13 +22,21 @@ export default {
   components: {},
   props: {
     value: {
-      type: String,
+      // type: String,
       // default: "",
     },
     icon: String,
     label: String,
     type: String,
     autocomplete: {
+      type: Boolean,
+      default: false,
+    },
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
+    numeric: {
       type: Boolean,
       default: false,
     },
@@ -37,6 +48,9 @@ export default {
   },
   computed: {
     inputText() {
+      if(this.value === '0' || this.value === 0) {
+        return true;
+      }
       return this.value;
     },
     // errorMessage() {
@@ -49,16 +63,26 @@ export default {
       this.$emit("blur");
     },
     onInput(event) {
+      // console.log('event.target.value:', event.target.value);
       this.$emit("input", event.target.value);
     },
   },
   mounted() {
     // console.log('required:', required);
   },
+  watch: {
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+.black {
+  .m-form {
+    input {
+      color: $white;
+    }
+  }
+}
 .m-form {
   position: relative;
   display: block;
@@ -76,8 +100,9 @@ export default {
 
     input[type="text"],
     input[type="email"],
+    input[type="number"],
     input[type="password"] {
-      @extend .box-shadow-2;
+      @extend .bs-b-4;
       & ~ label {
         top: -10px;
         font-size: 12px;
@@ -104,8 +129,9 @@ export default {
 
   input[type="text"],
   input[type="email"],
+  input[type="number"],
   input[type="password"] {
-    font-size: 20px;
+    font-size: 16px;
     font-family: inherit;
     width: 100%;
     box-sizing: border-box;
@@ -113,25 +139,27 @@ export default {
     outline: none;
     padding: 4px;
     border: 0;
+    border-radius: 2px;
     border-bottom: 1px solid #aaaaaa;
     background-color: transparent;
     transition: 0.3s;
+      @extend .bs-b-2;
 
     &:focus,
     &:hover {
-      @extend .box-shadow-2;
+      @extend .bs-b-8;
     }
 
     & ~ label {
       position: absolute;
       z-index: -1;
       top: 50%;
-      left: 0;
+      left: 4px;
       transform: translateY(-50%);
       width: 100%;
       transition: 0.3s;
       letter-spacing: 0.5px;
-      color: #aaaaaa;
+      color: $grey;
       text-align: left;
       transition: 0.3s;
     }
@@ -143,7 +171,7 @@ export default {
       font-weight: 600;
     }
     &:focus ~ label, &:focus ~ i {
-      color: $blue;
+      color: $orange;
     }
     & ~ .focus-line {
       position: absolute;
@@ -152,7 +180,7 @@ export default {
       width: 0;
       height: 2px;
       transition: 0.4s;
-      background-color: $blue;
+      background-color: $orange;
     }
     &:focus ~ .focus-line {
       left: 0;

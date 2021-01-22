@@ -1,58 +1,161 @@
 $red: #e53935;
-$pink: #ff4081;
+$pink: #ffa5b0;
 $orange: #ffa931;
 $lightOrange: #f8e7cf;
-$blue: #64b5f6;
+$blue: #035aa6;
 $indigo: #3949ab;
+$purple: #a37eba;
 $green: #66bb6a;
 $white: #f6f6f6;
 $grey: #b0bec5;
-$black: #353535;
+$grey: rgb(209, 213, 219);
+$charcoal: #808080;
+$black: #232323;
+
+// auth
+$yellow: #ffc000;
+$authOrange: #f9813a;
+$black-1: #39313d;
+$black-2: #a4a6a6;
+$black-3: #5e5454;
 
 $userMenuHeight: 40px;
 $mobileMainMenuHeight: 50px;
 $mainMenuWidth: 250px;
-$containerWidth: 1050px;
+$appMaxWidth: 1100px;
 
 $defaultFloatButtonSize: 50px;
 
-.container-padding {
-  padding: 100px 30px;
-}
-
-.box-shadow-1 {
-  box-shadow: 0 -1px 5px 0px rgba($black, 0.2),
-    0px 4px 10px 0px rgba($black, 0.2);
-}
-.box-shadow-2 {
-  box-shadow: 0px 2px 5px 1px rgba($black, 0.3);
-}
-
-.fixed-page {
-  position: relative;
-  z-index: 2000;
-  // top: -40px;
-  top: 0;
-  left: 0;
-  width: 100%;
+.fit-img {
+  width: 70%;
+  max-width: 600px;
   height: 100%;
-  min-height: 100vh;
-  padding: 0px 10px 200px;
-  text-align: center;
-  // overflow-y: auto;
+  max-height: 35vh;
+  min-height: 200px;
+  object-fit: contain;
 }
 
-
+.bs-b-2 {
+  box-shadow: 0 1px 1px rgba($black, 0.1), 0 2px 2px rgba($black, 0.1),
+    0 0px 2px rgba($black, 0.1);
+}
+.bs-b-2-w {
+  box-shadow: 0 1px 1px rgba($grey, 0.1), 0 2px 2px rgba($grey, 0.1),
+    0 0px 2px rgba($grey, 0.1);
+}
+.bs-b-4 {
+  box-shadow: 0 1px 1px rgba($black, 0.1), 0 2px 2px rgba($black, 0.1),
+    0 4px 4px rgba($black, 0.1), 0 0px 4px rgba($black, 0.1);
+}
+.bs-b-4-w {
+  box-shadow: 0 1px 1px rgba($grey, 0.1), 0 2px 2px rgba($grey, 0.1),
+    0 4px 4px rgba($grey, 0.1), 0 0px 4px rgba($grey, 0.1);
+}
+.bs-b-8 {
+  box-shadow: 0 1px 1px rgba($black, 0.1), 0 2px 2px rgba($black, 0.1),
+    0 4px 4px rgba($black, 0.1), 0 0px 4px rgba($black, 0.1),
+    0 0px 6px rgba($black, 0.1), 0 0px 8px rgba($black, 0.1);
+}
+.bs-b-16 {
+  box-shadow: 0 1px 1px rgba($black, 0.1), 0 2px 2px rgba($black, 0.1),
+    0 4px 4px rgba($black, 0.1), 0 8px 8px rgba($black, 0.1),
+    0 16px 16px rgba($black, 0.1), 0 0px 4px rgba($black, 0.1),
+    0 0px 6px rgba($black, 0.1), 0 0px 8px rgba($black, 0.1),
+    0 0px 16px rgba($black, 0.1);
+}
+.bs-t-2 {
+  box-shadow: 0 -1px 1px rgba($black, 0.1), 0 -2px 2px rgba($black, 0.1),
+    0 0px 2px rgba($black, 0.1);
+}
+.bs-t-4 {
+  box-shadow: 0 -1px 1px rgba($black, 0.1), 0 -2px 2px rgba($black, 0.1),
+    0 -4px 4px rgba($black, 0.1), 0 0px 4px rgba($black, 0.1);
+}
+.bs-t-8 {
+  box-shadow: 0 -1px 1px rgba($black, 0.1), 0 -2px 2px rgba($black, 0.1),
+    0 -4px 4px rgba($black, 0.1), 0 0px 4px rgba($black, 0.1),
+    0 0px 6px rgba($black, 0.1), 0 0px 8px rgba($black, 0.1);
+}
 .flex {
-  display: flex;
-}
-// .blue {
-//   background-color: royalblue;
+  // display: flex;
 
-//   &-l {
-//     background-color: rgba(royalblue, 0.7);
-//   }
+  &.wrap {
+    flex-wrap: wrap;
+  }
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.grid-5 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+// .router-view-padding,
+// .post,
+// .group,
+// .video,
+// .achievement,
+// // .set-icon,
+// // .set-target,
+// .sign-up,
+// // .video-room,
+// // .profile,
+// .group-room {
+//   padding: ($userMenuHeight + 20px) 10px 80vh;
 // }
+
+.tippy-box[data-theme~="0"] {
+  background-color: rgba($purple, 0.9);
+  &[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: rgba($purple, 0.9);
+  }
+}
+.tippy-box[data-theme~="1"] {
+  background-color: rgba($orange, 0.9);
+  &[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: rgba($orange, 0.9);
+  }
+}
+.tippy-box[data-theme~="2"] {
+  background-color: rgba($pink, 0.9);
+  &[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: rgba($pink, 0.9);
+  }
+}
+.tippy-box[data-theme~="3"] {
+  background-color: rgba($red, 0.9);
+  &[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: rgba($red, 0.9);
+  }
+}
+.tippy-box[data-theme~="4"] {
+  background-color: rgba($green, 0.9);
+  &[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: rgba($green, 0.9);
+  }
+}
+.tippy-box[data-theme~="5"] {
+  background-color: rgba($indigo, 0.9);
+  &[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: rgba($indigo, 0.9);
+  }
+}
+.tippy-box[data-theme~="6"] {
+  background-color: rgba($blue, 0.9);
+  &[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: rgba($blue, 0.9);
+  }
+}
 
 @media (min-width: 480px) {
 }
@@ -64,6 +167,16 @@ $defaultFloatButtonSize: 50px;
   .fixed-page {
     left: -#{$mainMenuWidth / 2};
   }
+  //   .post,
+  //   .group,
+  //   .video,
+  //   .achievement,
+  //   // .set-icon,
+  //   .group-room
+  //   // .video-room,
+  //  {
+  //     padding: ($userMenuHeight + 20px) 10px 80vh ($mainMenuWidth + 10px);
+  //   }
 }
 
 @media (min-width: 1200px) {

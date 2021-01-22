@@ -1,19 +1,11 @@
 <template>
   <header class="header">
     <transition name="fade">
-      <i
-        v-if="prev"
-        class="fas fa-chevron-left prev"
-        @click="toPrev"
-      ></i>
+      <i v-if="prev" class="fas fa-chevron-left prev" @click="toPrev"></i>
     </transition>
     <slot></slot>
     <transition name="fade">
-      <i
-        v-if="next"
-        class="fas fa-chevron-right next"
-        @click="toNext"
-      ></i>
+      <i v-if="next" class="fas fa-chevron-right next" @click="toNext"></i>
     </transition>
   </header>
 </template>
@@ -22,8 +14,8 @@
 export default {
   components: {},
   props: {
-    prev: {type: Boolean, default: false},
-    next: {type: Boolean, default: false},
+    prev: { type: Boolean, default: false },
+    next: { type: Boolean, default: false },
   },
   data() {
     return {};
@@ -31,7 +23,7 @@ export default {
   computed: {},
   methods: {
     toPrev() {
-        this.$router.go(-1);
+      this.$router.go(-1);
     },
     toNext() {},
   },
@@ -50,32 +42,33 @@ export default {
   align-items: center;
   width: 100%;
   max-width: 1050px;
-  height: 60px;
+  height: 40px;
   margin: 0 auto;
   padding: 0 10px;
-  background-color: rgba($blue, 0.9);
+  background-color: $orange;
   color: $white;
 
   i {
-      position: absolute;
-      font-size: 30px;
+    position: absolute;
+    font-size: 30px;
+    color: $black;
 
-      &.prev {
-        left: 10px;
-      }
-      &.next {
-        right: 10px;
-      }
+    &.prev {
+      left: 10px;
     }
+    &.next {
+      right: 10px;
+    }
+  }
 
   span {
-      // position: absolute;
-      // left: 50%;
-      // transform: translateX(-50%);
-      width: 100%;
-      font-size: 30px;
-      font-weight: 700;
-    }
+    // position: absolute;
+    // left: 50%;
+    // transform: translateX(-50%);
+    width: 100%;
+    font-size: 30px;
+    font-weight: 700;
+  }
 }
 @media (min-width: 480px) {
 }

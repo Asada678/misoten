@@ -1,7 +1,7 @@
 <template>
   <div class="group-room">
-    <header class="room-header">
-      <i class="fas fa-chevron-left prev" @click="$router.go(-1)"></i>
+    <header class="group-room-header">
+      <i class="fas fa-chevron-left prev" @click="$router.push({name: 'Group'})"></i>
       <div class="icon-and-name">
         <img :src="groupInfo.groupIcon" alt="" />
         <h2>{{ groupInfo.groupName }}</h2>
@@ -41,19 +41,19 @@
       </m-form-group>
     </div>
     <m-dialog
-      class="p-0"
+      class="p-none"
       :dialog="groupConfigDialog"
       header-text="グループ設定"
       button-text="設定"
       @action="updateConfig"
       @close="groupConfigDialog = false"
     >
-      <m-tabs>
+      <m-tabs class="absolute z-10" tab-key="groom-room">
         <m-tab v-for="tab in tabs" :key="tab.target" :target="tab.target">{{
           tab.text
         }}</m-tab>
       </m-tabs>
-      <m-tab-contents>
+      <m-tab-contents class="pt-16 px-3" tab-key="groom-room">
         <!-- 1.icon -->
         <m-tab-content class="active" id="icon">
           <div v-if="groupInfo.groupIcon" class="flex">
@@ -82,8 +82,10 @@
               class="selected-tags"
             >
               <m-chip
-                v-for="(tag, index) in selectedTags"
-                :key="index"
+                v-for="tag in selectedTags"
+                :key="tag"
+                shadow
+                removable
                 @remove="removeTag(index)"
                 >{{ tag }}</m-chip
               >
@@ -463,8 +465,9 @@ export default {
 .group-room {
   position: relative;
   width: 100%;
+  padding-top: $mobileMainMenuHeight;
 
-  .room-header {
+  &-header {
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -484,6 +487,7 @@ export default {
     }
 
     i {
+      color: $white;
       font-size: 20px;
     }
   }
@@ -500,14 +504,13 @@ export default {
     width: 100%;
     padding: 20px 10px 0 10px;
     background-color: rgba($white, 1);
-    @extend .box-shadow-1;
+    @extend .bs-b-8;
 
     input {
       // background-color: $white;
     }
   }
 }
-
 .selected-tag-enter-active {
   transition: all 0.5s ease-out;
 }

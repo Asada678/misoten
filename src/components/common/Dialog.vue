@@ -1,19 +1,23 @@
 <template>
   <div class="dialog-container" :class="{ 'dialog-open': dialog }">
-    <div class="dialog">
+    <div
+      class="dialog"
+      :class="{ 'footer-none': !footer, 'height-fix': heightFix }"
+    >
       <div class="dialog__header" :class="color">
         <p>{{ headerText }}</p>
         <i class="fas fa-times" @click="closeDialog"></i>
       </div>
-      <div class="dialog__content">
+      <div class="dialog__content" :class="{ 'footer-none': !footer }">
         <slot></slot>
       </div>
       <div v-if="footer" class="dialog__footer">
-        <m-button class="grey w-25" @click="closeDialog">キャンセル</m-button>
+        <!-- <m-button class="grey w-25" @click="closeDialog">キャンセル</m-button> -->
         <m-button
-          class="w-25"
+          class="w-100"
           :class="color"
           :disabled="disabled"
+          :loading="loading"
           @click="doAction"
           >{{ buttonText }}</m-button
         >
@@ -23,22 +27,28 @@
 </template>
 
 <script>
+import bf from "@/libs/bodyfixer";
 export default {
   components: {},
   props: {
     dialog: Boolean,
+    loading: Boolean,
     color: String,
     headerText: String,
     buttonText: { type: String, default: "OK" },
     footer: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
+    heightFix: { type: Boolean, default: false },
+    height: Number
   },
   data() {
     return {
       dialogContainer: null,
     };
   },
-  computed: {},
+  computed: {
+    
+  },
   methods: {
     closeDialog() {
       // this.dialogContainer.classList.remove("dialog-open");
@@ -48,17 +58,47 @@ export default {
       // this.closeDialog();
       this.$emit("action");
     },
-  },
-  mounted() {
-    this.$el.addEventListener("click", (event) => {
+    onClickDialogContainer(event) {
       event.stopPropagation();
       // console.log("event.target:", event.target);
       if (event.target.classList.contains("dialog-container")) {
         this.$emit("close");
       }
-    });
+    },
   },
-  watch: {},
+  mounted() {
+    this.$el.addEventListener(
+      this.$store.getters.eventType,
+      this.onClickDialogContainer
+    );
+    // console.log("this.heightFix:", this.heightFix);
+
+// console.log('this.height:', this.height);
+    if(this.height) {
+      const dialog = this.$el.querySelector('.dialog');
+      dialog.style.height = `${this.height}px`;
+
+    }
+  },
+  destroyed() {
+    this.$el.removeEventListener(
+      this.$store.getters.eventType,
+      this.onClickDialogContainer
+    );
+  },
+  watch: {
+    dialog() {
+      // console.log("m dialog bf:");
+      // if (
+      //   this.$store.getters.postDialog ||
+      //   this.$store.getters.groupDialog ||
+      //   this.$store.getters.videoRoomDialog
+      // ) {
+      //   return;
+      // }
+      bf(this.dialog);
+    },
+  },
 };
 </script>
 
@@ -70,6 +110,25 @@ export default {
     visibility: visible;
     transform: translate(-50%, -50%) scaleY(1);
     transition: opacity 0.6s, visibility 0.6s, transform 0.4s;
+  }
+}
+.black {
+  .dialog {
+    color: $white;
+    background-color: rgba($black, 1);
+  }
+  .dialog__header {
+    // color: $white;
+
+    i {
+      color: $white;
+    }
+  }
+}
+
+.coach-appear {
+  .dialog {
+    background-color: #383638;
   }
 }
 .dialog-container {
@@ -87,7 +146,7 @@ export default {
     background-color 0.5s;
 
   &.dialog-open {
-    z-index: 1300;
+    z-index: 1600;
     background-color: rgba(20, 20, 20, 0.4);
     opacity: 1;
     visibility: visible;
@@ -106,29 +165,39 @@ export default {
   max-width: 600px;
   max-height: calc(100% - 85px);
   margin: auto;
-  padding-bottom: 75px;
-  background-color: rgba($color: $white, $alpha: 1);
+  padding-bottom: 66px; // dialog__footerの高さ
+  background-color: rgba($white, 1);  
+  color: rgba($black, 0.9);
   transform: translate(-50%, -50%) scaleY(0);
-  border-radius: 2px;
+  border-radius: 8px;
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
   transition: opacity 0.6s, visibility 0.6s, transform 0.4s;
+  @extend .bs-b-16;
+
+  &.footer-none {
+    padding-bottom: 0;
+  }
+  &.height-fix {
+    height: calc(100% - 85px);
+  }
 
   &__header {
     position: relative;
     top: 0;
     left: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
     width: 100%;
     // height: 40px;
     padding: 5px 20px;
     background-color: rgba($color: $orange, $alpha: 0.9);
+    @extend .bs-b-2;
 
     &.red {
-      color: $white;
+      // color: $white;
       background-color: rgba($color: $red, $alpha: 0.9);
     }
     &.blue {
@@ -143,11 +212,18 @@ export default {
     }
 
     p {
+      font-size: 20px;
       font-weight: 700;
+      text-align: center;
     }
 
     i {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
       font-size: 24px;
+      color: $black;
     }
   }
 
@@ -159,12 +235,17 @@ export default {
     align-items: center;
     width: 100%;
     max-height: calc(100% - 40px);
-    padding: 20px;
+    padding: 30px 15px;
     overflow-y: auto;
     text-align: center;
 
+    &.footer-none {
+      max-height: 100%;
+      // padding: 0;
+    }
+
     p {
-      font-size: 20px;
+      // font-size: 20px;
       font-weight: 700;
     }
   }
@@ -183,11 +264,12 @@ export default {
     min-height: 60px;
     padding: 5px 20px;
     // background-color: rgba($color: $orange, $alpha: 0.2);
-    background-color: $lightOrange;
+    // background-color: $lightOrange;
+    @extend .bs-t-2;
   }
 }
 
-.p-0 {
+.p-none {
   .dialog__content {
     padding: 0;
   }

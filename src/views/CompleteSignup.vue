@@ -34,10 +34,12 @@ export default {
 
 <style lang="scss" scoped>
 .complete-user-register {
-  @extend .fixed-page;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 1000px;
+  min-height: 100vh;
+  margin: 0 auto;
 }
 
 @media (min-width: 480px) {

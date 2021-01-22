@@ -29,12 +29,12 @@
     >
     </m-select>
     <!-- 3.tabs tab-contents -->
-    <m-tabs>
+    <m-tabs tab-key="sample">
       <m-tab v-for="tab in tabs" :key="tab.target" :target="tab.target">{{
         tab.text
       }}</m-tab>
     </m-tabs>
-    <m-tab-contents>
+    <m-tab-contents tab-key="sample">
       <m-tab-content class="active" id=""> </m-tab-content>
       <m-tab-content id=""> </m-tab-content>
       <m-tab-content id=""> </m-tab-content>
@@ -43,9 +43,10 @@
     <m-dialog
       :dialog="dialog"
       :disabled="$v.$invalid"
+      :loading="loading"
       header-text=""
       button-text=""
-      @action="postTodayWorkout"
+      @action="action"
       @close="dialog = false"
     ></m-dialog>
   </div>
@@ -54,6 +55,7 @@
 <script>
 import { required, maxLength } from "vuelidate/lib/validators";
 // import { db, storage } from "@/firebase/firebase";
+// import bf from "@/libs/bodyfixer";
 export default {
   data() {
     return {
@@ -63,7 +65,7 @@ export default {
         { text: "タグ", target: "tag" },
         { text: "詳細", target: "detail" },
       ],
-    }
+    };
   },
   validations: {
     sample: { required, maxLength: maxLength(10) },
@@ -171,10 +173,13 @@ export default {
     // snackbarの設定
     setSnackbar() {
       const snackbar = {
-        text: "アイコンを設定しました。",
+        text: "",
         color: "green",
       };
       this.$store.commit("setSnackbar", snackbar);
+    },
+    updateUser() {
+      this.$store.commit("updateUser", updatedData);
     },
   },
 };

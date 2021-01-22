@@ -37,28 +37,36 @@ export default {
   },
   mounted() {
     // console.log('this.value:', this.value);
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.black {
+  .m-textarea {
+    textarea {
+      color: $white;
+    }
+  }
+}
 .m-textarea {
   position: relative;
   // margin: 20px 0;
   padding: 0;
   display: block;
   width: 100%;
+  height: 150px;
   // transform: translate3d(0, 0, -1000px);
   // opacity: 0;
   // transition: transform 0.3s, opacity 0.4s;
+  color: $black;
 
   &.error {
-    
     textarea {
-    border: 2px solid rgba($red, 0.6);
-    border-radius: 5px;
-    background-color: rgba($red, 0.2);
-      @extend .box-shadow-2;
+      border: 2px solid rgba($red, 0.6);
+      border-radius: 5px;
+      background-color: rgba($red, 0.2);
+      @extend .bs-b-4;
       & ~ label {
         top: -18px;
         font-size: 12px;
@@ -76,29 +84,33 @@ export default {
   }
 
   textarea {
-    font-size: 20px;
+    font-size: 16px;
     font-family: inherit;
     width: 100%;
     height: 150px;
     box-sizing: border-box;
     letter-spacing: 1px;
     outline: none;
-    padding: 4px 0;
+    padding: 4px;
     border: 0;
+    border-radius: 2px;
     border-bottom: 1px solid #aaaaaa;
     background-color: transparent;
     resize: none;
-    transition: .3s;
+    transition: 0.3s;
 
-    &:focus, &:hover {
-      @extend .box-shadow-2;
+    @extend .bs-b-2;
+
+    &:focus,
+    &:hover {
+      @extend .bs-b-8;
     }
 
     & ~ label {
       position: absolute;
       z-index: -1;
       top: 4px;
-      left: 0;
+      left: 4px;
       width: 100%;
       transition: 0.3s;
       letter-spacing: 0.5px;
@@ -109,23 +121,23 @@ export default {
     &.is-input ~ label {
       top: -18px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       transition: 0.3s;
     }
     &:focus ~ label {
-      color: $blue;
+      color: $orange;
     }
     & ~ .focus-line {
       position: absolute;
-      bottom: 5px;
+      bottom: 0px;
       left: 50%;
       width: 0;
       height: 2px;
       transition: 0.4s;
-      background-color: $blue;
+      background-color: $orange;
     }
     &:focus ~ .focus-line {
-      bottom: 5px;
+      bottom: 0px;
       left: 0;
       width: 100%;
       transition: width 0.4s, left 0.4s;

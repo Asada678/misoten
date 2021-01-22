@@ -7,16 +7,16 @@ export default {
   components: {},
   props: {},
   data() {
-    return {}
+    return {};
   },
   computed: {},
   methods: {},
-}
+  created() {},
+  mounted() {},
+};
 </script>
 
 <style lang="scss" scoped>
-
-
 @media (min-width: 480px) {
 }
 

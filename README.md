@@ -1,4 +1,4 @@
-# misoten
+# misoten-dev
 
 ## Project setup
 ```

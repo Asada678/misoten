@@ -1,13 +1,31 @@
 <template>
-  <div class="user-menu-container">
-    <nav class="user-menu">
-      <div class="user-menu-inner">
-       <m-form class="w-50 bg-white" icon="search"></m-form>
+  <!-- <div class="user-menu-container"> -->
+  <nav class="user-menu">
+    <div class="user-menu-inner">
+      <div class="head">
+        <i class="fas fa-search" @click="toggleSeachContainer"></i>
+        <!-- <m-form class="w-50 bg-white" icon="search"></m-form> -->
         <!-- <i v-if="backBtn" class="fas fa-chevron-left" @click="back"></i> -->
-        <img class="user-icon" :src="userIcon" alt="" @click="toggleMenu" />
+        <img class="logo" src="/img/logo.png" alt="logo" />
+        <router-link v-if="userIcon" :to="{ name: 'MyProfile' }">
+          <img class="user-icon" :src="userIcon" alt="" />
+        </router-link>
+        <router-link v-else :to="{ name: 'Login' }" exact>
+          <i class="fas fa-sign-in-alt"></i>
+        </router-link>
       </div>
-    </nav>
-    <div class="list-container">
+      <div class="user-icons">
+        <router-link
+          v-for="user in users"
+          :key="user.id"
+          :to="userIconLink(user.uid)"
+        >
+          <img :src="user.userIcon" alt="" class="user-icon" />
+        </router-link>
+      </div>
+    </div>
+  </nav>
+  <!-- <div class="list-container">
       <div class="list-container-inner">
         <ul class="user-menu-list">
           <li v-for="link in commonLinks" :key="link.to">
@@ -22,8 +40,8 @@
           </li>
           <li v-if="!user.username">
             <router-link to="/login" exact>
-            <i class="fas fa-sign-in-alt"></i>
-            <span>ログイン</span>
+              <i class="fas fa-sign-in-alt"></i>
+              <span>ログイン</span>
             </router-link>
           </li>
           <li v-if="!user.username">
@@ -44,31 +62,39 @@
     >
       <p v-if="user.username">ログアウトしますか？</p>
       <div v-else>
-        <Login  />
+        <Login />
       </div>
-    </m-dialog>
-  </div>
+    </m-dialog> -->
+  <!-- </div> -->
 </template>
 
 <script>
-import firebase from 'firebase'
-import Login from "@/views/auth/Login";
+import firebase from "firebase";
+// import Login from "@/views/auth/Login";
+import so from "@/libs/scroll";
+import { db } from "@/firebase/firebase";
 export default {
   components: {
-    Login,
+    // Login,
   },
   props: {},
   data() {
     return {
       dialog: false,
+      height: 40,
+      offset: 0,
+      lastPosition: 0,
+      ticking: false,
+      users: [],
       commonLinks: [
         { text: "プロフィール", icon: "id-card", to: "/profile" },
         { text: "アイコン設定", icon: "portrait", to: "/set-icon" },
         { text: "目標設定", icon: "signal", to: "/set-target" },
         { text: "AIコーチ", icon: "user-graduate", to: "/coach" },
         { text: "称号", icon: "trophy", to: "/title" },
-        { text: "設定", icon: "cog", to: "/config" },
-        { text: "言語", icon: "globe", to: "/language" },
+        { text: "カラー", icon: "palette", to: "/color" },
+        // { text: "設定", icon: "cog", to: "/config" },
+        // { text: "言語", icon: "globe", to: "/language" },
       ],
       authLinks: [
         { text: "ログアウト", icon: "sign-out-alt", to: "/language" },
@@ -88,11 +114,19 @@ export default {
       return this.$store.getters.user;
     },
     userIcon() {
-      return this.user.userIcon ? this.user.userIcon : '/img/kuma.png';
+      if (this.user.username) {
+        return this.user.userIcon ? this.user.userIcon : "/img/kuma.png";
+      } else {
+        return false;
+      }
     },
-
   },
   methods: {
+    userIconLink(userId) {
+      return userId === this.$store.getters.user.uid
+        ? { name: "MyProfile" }
+        : { name: "FriendProfile", params: { id: userId } };
+    },
     back() {
       // while(this.$route.path.includes('/user')) {
       //   this.$router.go(-1);
@@ -102,132 +136,221 @@ export default {
       const userMenuList = document.querySelector(".user-menu-list");
       userMenuList.classList.toggle("user-menu-open");
     },
+    toggleSeachContainer() {
+      // const searchContainer = document.querySelector(".search-container");
+      // searchContainer.classList.toggle("active");
+      this.$emit("toggle");
+    },
     logout() {
       console.log("this.user.username:", this.user.username);
       if (this.user.username) {
         firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.push({ name: "Login" });
-        });
+          .auth()
+          .signOut()
+          .then(() => {
+            this.$router.push({ name: "Login" });
+          });
         // logout 処理
       } else {
         // login 処理
       }
     },
+    userMenuAnimation(el, value) {
+      // console.log("el, value:", el, value);
+      // const userMenu = this.$el.querySelector(".user-menu");
+      if (value) {
+        this.$el.classList.remove("active");
+        this.$el.classList.remove("stretch");
+      } else {
+        this.$el.classList.add("active");
+      }
+    },
+    onScroll(el) {
+      // console.log('this.lastPosition:', this.lastPosition);
+      // console.log('this.offset:', this.offset);
+      if (this.lastPosition > this.height) {
+        if (this.lastPosition >= this.offset) {
+          el.classList.remove("stretch");
+        } else {
+          // if(!document.querySelector('body').classList.contains('fixed')) return;
+          el.classList.add("stretch");
+        }
+        this.offset = this.lastPosition;
+      }
+    },
+    fetchUsers() {
+      db.collection("users")
+        // .where("deleteFlg", "==", false)
+        .orderBy("createdAt", "desc")
+        // .limit(10)
+        // .startAfter(this.lastPost)
+        .get()
+        .then((snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+              const user = {
+                ...change.doc.data(),
+                uid: change.doc.id,
+              };
+
+              this.users = [user, ...this.users];
+            }
+          });
+        });
+    },
   },
-  mounted() {},
+  created() {
+    this.fetchUsers();
+  },
+  mounted() {
+    new so("#observer", this.userMenuAnimation, { once: false });
+
+    window.addEventListener("scroll", () => {
+      this.lastPosition = window.scrollY;
+      // console.log('this.lastPosition:', this.lastPosition);
+      if (!this.ticking) {
+        window.requestAnimationFrame(() => {
+          this.onScroll(this.$el);
+          this.ticking = false;
+        });
+        this.ticking = true;
+      }
+    });
+  },
   watch: {},
 };
 </script>
 
 <style lang="scss" scoped>
 .user-menu {
+  // stickyだとstretchが上手く効かない。
   position: fixed;
   z-index: 1200;
   top: 0;
+  display: flex;
+  justify-content: center;
   width: 100%;
+  max-width: $appMaxWidth;
   height: $userMenuHeight;
-  background-color: rgba($orange, 1);
+  backdrop-filter: blur(1px);
+  transition: 0.5s;
 
-  &-inner {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    max-width: $containerWidth;
-    margin: 0 auto;
-    padding: 0 10px;
-
-    .user-icon {
-      position: absolute;
-      // top: 50%;
-      right: 10px;
-      // transform: translateY(-50%);
-      width: $userMenuHeight * 0.9;
-      height: $userMenuHeight * 0.9;
-      border-radius: 50%;
-      cursor: pointer;
+  &.active {
+    .user-menu-inner {
+      @extend .bs-b-4;
     }
-  }
-}
-.list-container {
-  position: fixed;
-  z-index: 1100;
-  width: 100%;
+    &.stretch {
+      .user-menu-inner {
+        height: $userMenuHeight * 2 + 30px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        // height: 80px;
+      }
 
-  &-inner {
-    position: relative;
-    width: 100%;
-    max-width: $containerWidth;
-    margin: 0 auto;
-  }
-}
-
-.user-menu-list {
-  position: absolute;
-  z-index: 1000;
-  top: $userMenuHeight;
-  right: 0;
-  width: 200px;
-  opacity: 0;
-  visibility: hidden;
-  // background-color: rgba($orange, 0.8);
-  transform: translateY(-100%);
-  transition: all 0.3s;
-  @extend .box-shadow-2;
-
-  &.user-menu-open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  li {
-    position: relative;
-    height: 50px;
-    width: 100%;
-    line-height: 30px;
-    list-style: none;
-    // margin: 10px 0;
-    border-bottom: 1px solid $orange;
-    background-color: rgba(grey, 0.9);
-    overflow: hidden;
-    cursor: pointer;
-
-    a {
-      position: relative;
-      display: block;
-      width: 100%;
-      height: 100%;
-      text-decoration: none;
-
-      &.router-link-active {
-        background-color: rgba($orange, 0.3);
-        font-weight: 600;
+      .user-icons {
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        transition: 0.5s;
       }
     }
+  }
+
+  &-inner {
+    position: relative;
+    width: 100%;
+    max-width: $appMaxWidth;
+    height: $userMenuHeight;
+    background-color: rgba($white, 0.9);
+    transition: 0.5s;
+
     i {
-      position: absolute;
-      top: 50%;
-      left: 20px;
-      width: 30px;
-      color: $white;
-      font-size: 20px;
-      text-align: center;
-      transform: translateY(-50%);
+      // color: rgba($white, 0.9);
+      font-size: 24px;
     }
 
-    span {
-      position: absolute;
-      top: 50%;
-      left: 70px;
-      color: $white;
-      transform: translateY(-50%);
-      font-size: 18px;
+    a {
+      display: flex;
     }
+
+    .head {
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      height: $userMenuHeight;
+      padding: 0 10px;
+    }
+  }
+  .user-icons {
+    position: absolute;
+    z-index: 5;
+    top: $userMenuHeight;
+    left: 5%;
+    transform: translateY(-100%);
+    transform-origin: left;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: $userMenuHeight + 30px;
+    opacity: 0;
+    visibility: hidden;
+    // background-color: red;
+    overflow-x: auto;
+    transition: 0s;
+
+    .user-icon {
+      // width: 100px;
+      margin: 0 20px;
+    }
+  }
+  .logo,
+  .user-icon {
+    width: $userMenuHeight * 0.9;
+    height: $userMenuHeight * 0.9;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+.blue {
+  .user-menu-inner {
+    color: $white;
+    background-color: rgba($blue, 0.9);
+  }
+}
+.pink {
+  .user-menu-inner {
+    color: $white;
+    background-color: rgba($pink, 0.9);
+  }
+}
+.green {
+  .user-menu-inner {
+    color: $white;
+    background-color: rgba($green, 0.9);
+  }
+}
+.orange {
+  .user-menu-inner {
+    color: $white;
+    background-color: rgba($orange, 0.9);
+  }
+}
+.white {
+  .user-menu-inner {
+    // background-color: rgba($white, .9);
+  }
+}
+.black {
+  .user-menu-inner {
+    color: $white;
+    background-color: rgba($black, 0.9);
   }
 }
 
@@ -238,9 +361,17 @@ export default {
 }
 
 @media (min-width: 768px) {
-  .user-menu {
-    box-shadow: 0px 2px 5px 1px rgba($black, 0.3);
+  .user-menu-inner {
+    position: absolute;
+    left: 250px;
+    width: calc(100% - 250px);
+    // left: 0;
+    // box-shadow: 0 1px 1px rgba($black, 0.1), 0 2px 2px rgba($black, 0.1),
+    //   0 4px 4px rgba($black, 0.1), 0 0px 4px rgba($black, 0.1);
   }
+  // .list-container-inner {
+  //   right: 210px;
+  // }
 }
 
 @media (min-width: 1200px) {

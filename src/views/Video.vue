@@ -1,12 +1,17 @@
 <template>
-  <div>
+  <div class="video">
+    <p>15</p>
     <video-room-card
       v-for="room in rooms"
       :key="room.id"
       :video-room="room"
-      @click="openJoinRoomDialog(room.id)"
+      @click="openJoinRoomDialog(room)"
     >
     </video-room-card>
+    
+    <p v-if="!rooms.length">
+      部屋がありません。
+    </p>
 
     <m-dialog
       :dialog="joinRoomDialog"
@@ -16,46 +21,15 @@
       @action="joinRoom"
       @close="joinRoomDialog = false"
     >
-      <p>この部屋に入りますか？</p>
+      <p>「{{ selectedRoomName }}」<br>
+        に入りますか？</p>
     </m-dialog>
-    <m-dialog
-      :dialog="createRoomDialog"
-      :disabled="$v.$invalid"
-      header-text="新規ルーム作成"
-      button-text="作成"
-      color="blue"
-      @action="createRoom"
-      @close="createRoomDialog = false"
-    >
-      <m-form-group>
-        <m-form
-          v-model="newRoomName"
-          label="newRoomName"
-          :class="{ error: $v.newRoomName.$error }"
-          @input="$v.newRoomName.$touch()"
-        ></m-form>
-        <m-error-message v-if="$v.newRoomName.$error">
-          <span v-if="!$v.newRoomName.maxLength">
-            ユーザ名は{{
-              $v.newRoomName.$params.maxLength.max
-            }}文字以下でなければいけません。
-          </span>
-          <span v-if="!$v.newRoomName.required">必須項目です。</span>
-        </m-error-message>
-      </m-form-group>
-    </m-dialog>
-    <float-button
-      class="blue"
-      icon="plus"
-      right="20"
-      @click="createRoomDialog = true"
-    />
   </div>
 </template>
 
 <script>
 import { db } from "@/firebase/firebase";
-import { required, maxLength } from "vuelidate/lib/validators";
+// import { required, maxLength } from "vuelidate/lib/validators";
 import VideoRoomCard from "@/components/video/VideoRoomCard";
 
 export default {
@@ -69,41 +43,19 @@ export default {
       createRoomDialog: false,
       newRoomName: null,
       selectedRoomId: null,
+      selectedRoomName: null,
       remoteRoomId: null,
       rooms: [],
     };
   },
-  validations: {
-    newRoomName: { required, maxLength: maxLength(10) },
-  },
+
   computed: {},
   methods: {
-    async createRoom() {
-      if (!this.$store.getters.user.uid) {
-        const snackbar = {
-          text: "ログインしてください。",
-          color: "red",
-        };
-        this.$store.commit("setSnackbar", snackbar);
-        return;
-      }
-      await db
-        .collection("rooms")
-        .add({
-          roomName: this.newRoomName,
-          createUserId: this.$store.getters.user.uid,
-          createdAt: new Date(),
-        })
-        .then((doc) => {
-          // console.log("doc:", doc);
-          this.$router.push({ name: "VideoRoom", params: { id: doc.id } });
-        });
-    },
-
-    openJoinRoomDialog(roomId) {
-      // console.log("roomId:", roomId);
+    openJoinRoomDialog(room) {
+      console.log("room:", room);
       this.joinRoomDialog = true;
-      this.selectedRoomId = roomId;
+      this.selectedRoomName = room.roomName;
+      this.selectedRoomId = room.id;
     },
     joinRoom() {
       this.$router.push({
@@ -128,11 +80,15 @@ export default {
         });
       });
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.video {
+
+}
 @media (min-width: 480px) {
 }
 
@@ -140,6 +96,8 @@ export default {
 }
 
 @media (min-width: 768px) {
+  .video {
+  }
 }
 
 @media (min-width: 1200px) {

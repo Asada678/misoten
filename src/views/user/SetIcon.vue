@@ -11,7 +11,7 @@
       <p>このアイコンを設定します。</p>
       <img :src="cropped" alt="cropped image" class="cropped"/>
     </m-dialog>
-    
+
   </div>
 </template>
 
@@ -113,19 +113,17 @@ export default {
 
 <style lang="scss" scoped>
 .set-icon {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding-top: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
 }
 .cropped {
   width: 200px;
   height: 200px;
-}
-
-.reset {
-  position: absolute;
-  top: 0;
 }
 .set-icon-enter-active {
   transition: opacity 0.5s;
